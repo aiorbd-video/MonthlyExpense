@@ -18,13 +18,11 @@
             background-size: 20px 20px;
         }
         
-        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #64748b; }
 
-        /* Animations */
         @keyframes slideIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
@@ -33,14 +31,12 @@
             animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         
-        /* Glassmorphism card effect */
         .glass-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        /* Ad Wrapper Style */
         .ad-wrapper {
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(8px);
@@ -86,7 +82,7 @@
             </div>
         </div>
 
-        <!-- AD PLACEMENT 1: Top Leaderboard Banner (728x90) -->
+        <!-- AD PLACEMENT 1 -->
         <div class="mb-8 flex justify-center w-full overflow-x-auto hide-scrollbar">
             <div class="ad-wrapper min-h-[110px] min-w-[748px]">
                 <span class="ad-label">Advertisement</span>
@@ -107,7 +103,6 @@
 
         <!-- Summary Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <!-- Balance Card -->
             <div class="bg-gradient-to-br from-teal-500 to-emerald-600 rounded-3xl p-6 text-white shadow-xl shadow-teal-500/20 relative overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
                 <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
                 <div class="absolute bottom-0 right-0 w-24 h-24 bg-black/10 rounded-tl-full"></div>
@@ -120,7 +115,6 @@
                 </div>
             </div>
             
-            <!-- Income Card -->
             <div class="glass-card rounded-3xl p-6 shadow-lg hover:shadow-xl transition-shadow border-b-4 border-b-green-500 flex justify-between items-center group">
                 <div>
                     <p class="text-gray-500 text-sm font-semibold mb-1 uppercase tracking-wider">এই মাসে মোট আয়</p>
@@ -131,7 +125,6 @@
                 </div>
             </div>
 
-            <!-- Expense Card -->
             <div class="glass-card rounded-3xl p-6 shadow-lg hover:shadow-xl transition-shadow border-b-4 border-b-rose-500 flex justify-between items-center group">
                 <div>
                     <p class="text-gray-500 text-sm font-semibold mb-1 uppercase tracking-wider">এই মাসে মোট ব্যয়</p>
@@ -177,7 +170,7 @@
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <span class="text-gray-400 font-bold">৳</span>
                                 </div>
-                                <input type="number" id="amount" required min="1" placeholder="0" class="w-full pl-8 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all">
+                                <input type="number" id="amount" required min="1" placeholder="0" class="w-full pl-8 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal-500 outline-none transition-all">
                             </div>
                         </div>
 
@@ -194,8 +187,8 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">বিবরণ <span class="text-gray-400 font-normal">(ঐচ্ছিক)</span></label>
-                            <input type="text" id="note" placeholder="কীসের হিসাব?" class="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal-500 outline-none transition-all">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">বিস্তারিত বিবরণ <span class="text-gray-400 font-normal">(কী কারণে খরচ বা আয়?)</span></label>
+                            <textarea id="note" rows="2" placeholder="যেমন: বাজারের জন্য চাল ও ডাল কেনা হলো..." class="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal-500 outline-none transition-all resize-none"></textarea>
                         </div>
 
                         <button type="submit" class="w-full bg-teal-600 text-white font-bold rounded-xl py-3 hover:bg-teal-700 active:transform active:scale-[0.98] transition-all shadow-lg shadow-teal-500/30 flex justify-center items-center gap-2">
@@ -218,7 +211,7 @@
                     </div>
                 </div>
 
-                <!-- AD PLACEMENT 2: Left Sidebar Square (300x250) -->
+                <!-- AD PLACEMENT 2 -->
                 <div class="ad-wrapper min-h-[270px]">
                     <span class="ad-label">Advertisement</span>
                     <div class="mt-4">
@@ -240,16 +233,19 @@
             <!-- Right Column: History & Ad -->
             <div class="lg:col-span-2 flex flex-col gap-8">
                 
-                <div class="glass-card rounded-3xl shadow-lg overflow-hidden flex flex-col border border-gray-100 flex-grow max-h-[650px]">
+                <div class="glass-card rounded-3xl shadow-lg overflow-hidden flex flex-col border border-gray-100 flex-grow max-h-[850px]">
                     <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-white/50">
-                        <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
-                            <i class="fa-solid fa-list-check text-teal-500"></i> ট্রানজেকশন হিস্ট্রি
-                        </h3>
-                        <span class="bg-teal-50 text-teal-600 px-3 py-1 rounded-full text-xs font-bold" id="txnCount">০ টি রেকর্ড</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                                <i class="fa-solid fa-list-check text-teal-500"></i> বিস্তারিত লগ ও ট্রানজেকশন
+                            </h3>
+                            <p class="text-sm text-gray-500 mt-1">আপনার সেভ করা সব তথ্য এখানে পাবেন</p>
+                        </div>
+                        <span class="bg-teal-50 text-teal-600 px-4 py-2 rounded-full text-sm font-bold shadow-sm" id="txnCount">০ টি রেকর্ড</span>
                     </div>
                     
-                    <div class="flex-1 overflow-y-auto p-2 bg-gray-50/30">
-                        <div id="transactionList" class="space-y-3 p-2">
+                    <div class="flex-1 overflow-y-auto p-4 bg-gray-50/50">
+                        <div id="transactionList" class="space-y-4">
                             <!-- Transactions dynamically injected -->
                         </div>
                         
@@ -267,7 +263,7 @@
                     </div>
                 </div>
 
-                <!-- AD PLACEMENT 3: Below Transaction History Square (300x250) -->
+                <!-- AD PLACEMENT 3 -->
                 <div class="flex justify-center md:justify-end">
                     <div class="ad-wrapper min-h-[270px] w-full max-w-[320px]">
                         <span class="ad-label">Advertisement</span>
@@ -385,6 +381,12 @@
             return new Intl.DateTimeFormat('bn-BD', options).format(new Date(dateString));
         }
 
+        function formatTime(isoString) {
+            if(!isoString) return '';
+            const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+            return new Intl.DateTimeFormat('bn-BD', options).format(new Date(isoString));
+        }
+
         function formatNumber(num) {
             return new Intl.NumberFormat('bn-BD').format(num);
         }
@@ -400,9 +402,15 @@
 
             if (amount <= 0 || !date) return;
 
+            const now = new Date();
             const newTxn = {
                 id: Date.now(),
-                type, amount, date, category, note
+                type, 
+                amount, 
+                date, 
+                category, 
+                note,
+                timestamp: now.toISOString() // সেভ করার সঠিক সময়
             };
 
             transactions.unshift(newTxn); 
@@ -416,7 +424,7 @@
         }
 
         function deleteTransaction(id) {
-            if(confirm('আপনি কি নিশ্চিত যে এই রেকর্ডটি মুছতে চান?')) {
+            if(confirm('আপনি কি নিশ্চিত যে এই রেকর্ডটি মুছতে চান? মুছে ফেললে আর ফেরত পাওয়া যাবে না।')) {
                 transactions = transactions.filter(t => t.id !== id);
                 saveToLocal();
                 updateUI();
@@ -427,11 +435,17 @@
         function updateUI() {
             const filterMonth = document.getElementById('monthFilter').value;
             const filteredTxns = transactions.filter(t => t.date.startsWith(filterMonth));
-            filteredTxns.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Sort by timestamp if available, else by date
+            filteredTxns.sort((a, b) => {
+                const timeA = a.timestamp ? new Date(a.timestamp).getTime() : new Date(a.date).getTime();
+                const timeB = b.timestamp ? new Date(b.timestamp).getTime() : new Date(b.date).getTime();
+                return timeB - timeA;
+            });
 
             let income = 0; let expense = 0;
-            
             let totalIncomeAll = 0; let totalExpenseAll = 0;
+            
             transactions.forEach(t => {
                 if (t.type === 'income') totalIncomeAll += t.amount;
                 else totalExpenseAll += t.amount;
@@ -474,30 +488,39 @@
                 const sign = isIncome ? '+' : '-';
                 const amtColor = isIncome ? 'text-green-600' : 'text-rose-600';
                 const catDetails = getCategoryDetails(t.category, t.type);
+                const timeStr = t.timestamp ? formatTime(t.timestamp) : '';
+                const displayNote = t.note ? t.note : '<span class="text-gray-400 italic">কোনো বিবরণ যোগ করা হয়নি</span>';
 
                 const div = document.createElement('div');
-                div.className = 'animate-slide-in flex items-center justify-between p-4 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all group';
+                div.className = 'animate-slide-in flex flex-col sm:flex-row justify-between p-5 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all gap-4';
                 div.style.animationDelay = `${index * 0.05}s`;
                 
                 div.innerHTML = `
-                    <div class="flex items-center gap-4 overflow-hidden">
-                        <div class="w-12 h-12 rounded-full ${catDetails.bg} ${catDetails.color} flex items-center justify-center text-xl shrink-0">
+                    <div class="flex items-start gap-4 flex-1">
+                        <div class="w-14 h-14 rounded-full ${catDetails.bg} ${catDetails.color} flex items-center justify-center text-2xl shrink-0 mt-1 shadow-inner">
                             <i class="fa-solid ${catDetails.icon}"></i>
                         </div>
-                        <div class="min-w-0">
-                            <h4 class="font-bold text-gray-800 truncate">${catDetails.name}</h4>
-                            <p class="text-xs text-gray-400 mt-0.5 truncate">
-                                <i class="fa-regular fa-calendar mr-1"></i>${formatDate(t.date)} 
-                                ${t.note ? `<span class="mx-1 text-gray-300">|</span> <span class="text-gray-500">${t.note}</span>` : ''}
+                        <div class="w-full">
+                            <div class="flex flex-wrap items-center gap-2 mb-1">
+                                <h4 class="font-bold text-gray-800 text-lg">${catDetails.name}</h4>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${isIncome ? 'bg-green-100 text-green-700' : 'bg-rose-100 text-rose-700'}">${isIncome ? 'আয়' : 'ব্যয়'}</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-3 font-medium">
+                                <i class="fa-regular fa-calendar-check mr-1 text-teal-400"></i> ${formatDate(t.date)} 
+                                ${timeStr ? `<span class="mx-1 text-gray-300">|</span> <i class="fa-regular fa-clock mr-1 text-teal-400"></i> ${timeStr}` : ''}
                             </p>
+                            <div class="text-sm text-gray-600 bg-gray-50/80 p-3 rounded-xl border border-gray-100 w-full whitespace-pre-wrap break-words leading-relaxed"><span class="font-semibold text-gray-700 mr-1"><i class="fa-solid fa-pen-clip text-gray-400 mr-1"></i>বিবরণ:</span>${displayNote}</div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-4 pl-4 shrink-0">
-                        <span class="font-bold ${amtColor} text-lg">
+                    
+                    <div class="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-4 shrink-0 sm:pl-6 border-t sm:border-t-0 sm:border-l border-gray-100 pt-4 sm:pt-0 mt-2 sm:mt-0">
+                        <span class="font-bold ${amtColor} text-2xl tracking-tight">
                             ${sign}৳ ${formatNumber(t.amount)}
                         </span>
-                        <button onclick="deleteTransaction(${t.id})" class="w-8 h-8 rounded-full bg-rose-50 text-rose-400 hover:bg-rose-500 hover:text-white transition-colors flex items-center justify-center opacity-0 md:group-hover:opacity-100 md:focus:opacity-100">
-                            <i class="fa-solid fa-trash-can text-sm"></i>
+                        
+                        <!-- Always visible delete button -->
+                        <button onclick="deleteTransaction(${t.id})" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-50 text-rose-500 hover:bg-rose-500 hover:text-white transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95 border border-rose-100 hover:border-transparent">
+                            <i class="fa-solid fa-trash-can"></i> মুছে ফেলুন
                         </button>
                     </div>
                 `;
