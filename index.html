@@ -1,0 +1,591 @@
+```html
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রো মাসিক হিসাব</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #f0fdfa;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        /* Animations */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide-in {
+            animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        /* Glassmorphism card effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Ad Wrapper Style */
+        .ad-wrapper {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px dashed #cbd5e1;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 10px;
+            overflow: hidden;
+        }
+        .ad-label {
+            position: absolute;
+            top: 2px;
+            right: 8px;
+            font-size: 10px;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased min-h-screen pb-10">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Header & Month Selector -->
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 bg-white/70 backdrop-blur-md p-4 rounded-2xl shadow-sm border border-teal-100">
+            <div class="flex items-center gap-4">
+                <div class="bg-teal-600 w-12 h-12 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/30">
+                    <i class="fa-solid fa-wallet text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">আমার হিসাব খাতা</h1>
+                    <p class="text-teal-600 text-sm font-medium">স্মার্ট আয়-ব্যয় ট্র্যাকার</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100">
+                <i class="fa-regular fa-calendar-days text-teal-500"></i>
+                <label for="monthFilter" class="font-medium text-gray-700 hidden sm:block">মাস নির্বাচন করুন:</label>
+                <input type="month" id="monthFilter" class="bg-transparent border-none font-semibold text-gray-800 focus:outline-none cursor-pointer">
+            </div>
+        </div>
+
+        <!-- AD PLACEMENT 1: Top Leaderboard Banner (728x90) -->
+        <div class="mb-8 flex justify-center w-full overflow-x-auto hide-scrollbar">
+            <div class="ad-wrapper min-h-[110px] min-w-[748px]">
+                <span class="ad-label">Advertisement</span>
+                <div class="mt-2">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : '1e087770c61f970569f062a26fc2dc82',
+                            'format' : 'iframe',
+                            'height' : 90,
+                            'width' : 728,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="https://momrollback.com/1e087770c61f970569f062a26fc2dc82/invoke.js"></script>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Balance Card -->
+            <div class="bg-gradient-to-br from-teal-500 to-emerald-600 rounded-3xl p-6 text-white shadow-xl shadow-teal-500/20 relative overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+                <div class="absolute bottom-0 right-0 w-24 h-24 bg-black/10 rounded-tl-full"></div>
+                <div class="relative z-10">
+                    <div class="flex justify-between items-start">
+                        <p class="text-teal-50 font-medium mb-1">বর্তমান মোট ব্যালেন্স</p>
+                        <i class="fa-solid fa-bangladeshi-taka-sign bg-white/20 p-2 rounded-lg"></i>
+                    </div>
+                    <h2 class="text-4xl font-bold mt-2 tracking-tight">৳ <span id="totalBalance">0</span></h2>
+                </div>
+            </div>
+            
+            <!-- Income Card -->
+            <div class="glass-card rounded-3xl p-6 shadow-lg hover:shadow-xl transition-shadow border-b-4 border-b-green-500 flex justify-between items-center group">
+                <div>
+                    <p class="text-gray-500 text-sm font-semibold mb-1 uppercase tracking-wider">এই মাসে মোট আয়</p>
+                    <h2 class="text-3xl font-bold text-gray-800">৳ <span id="totalIncome">0</span></h2>
+                </div>
+                <div class="w-14 h-14 rounded-2xl bg-green-50 border border-green-100 flex items-center justify-center text-green-500 text-2xl group-hover:bg-green-500 group-hover:text-white transition-colors duration-300">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                </div>
+            </div>
+
+            <!-- Expense Card -->
+            <div class="glass-card rounded-3xl p-6 shadow-lg hover:shadow-xl transition-shadow border-b-4 border-b-rose-500 flex justify-between items-center group">
+                <div>
+                    <p class="text-gray-500 text-sm font-semibold mb-1 uppercase tracking-wider">এই মাসে মোট ব্যয়</p>
+                    <h2 class="text-3xl font-bold text-gray-800">৳ <span id="totalExpense">0</span></h2>
+                </div>
+                <div class="w-14 h-14 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-500 text-2xl group-hover:bg-rose-500 group-hover:text-white transition-colors duration-300">
+                    <i class="fa-solid fa-arrow-trend-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Column: Form, Chart & Ad -->
+            <div class="lg:col-span-1 space-y-8">
+                
+                <!-- Add Transaction Form -->
+                <div class="glass-card rounded-3xl p-6 shadow-lg relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-400 to-emerald-400"></div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-plus text-teal-500"></i> নতুন এন্ট্রি
+                    </h3>
+                    
+                    <form id="transactionForm" class="space-y-5">
+                        <div class="flex gap-3 bg-gray-50 p-1.5 rounded-xl border border-gray-100">
+                            <label class="flex-1 cursor-pointer">
+                                <input type="radio" name="type" value="income" class="peer sr-only" onchange="updateCategories()">
+                                <div class="text-center py-2 rounded-lg peer-checked:bg-white peer-checked:text-green-600 peer-checked:shadow-sm transition-all font-semibold text-gray-500">
+                                    আয় (+)
+                                </div>
+                            </label>
+                            <label class="flex-1 cursor-pointer">
+                                <input type="radio" name="type" value="expense" class="peer sr-only" checked onchange="updateCategories()">
+                                <div class="text-center py-2 rounded-lg peer-checked:bg-white peer-checked:text-rose-600 peer-checked:shadow-sm transition-all font-semibold text-gray-500">
+                                    ব্যয় (-)
+                                </div>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">পরিমাণ (টাকা)</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-400 font-bold">৳</span>
+                                </div>
+                                <input type="number" id="amount" required min="1" placeholder="0" class="w-full pl-8 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">তারিখ</label>
+                                <input type="date" id="date" required class="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal-500 outline-none transition-all text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">খাত</label>
+                                <select id="category" required class="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal-500 outline-none transition-all text-sm appearance-none">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">বিবরণ <span class="text-gray-400 font-normal">(ঐচ্ছিক)</span></label>
+                            <input type="text" id="note" placeholder="কীসের হিসাব?" class="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal-500 outline-none transition-all">
+                        </div>
+
+                        <button type="submit" class="w-full bg-teal-600 text-white font-bold rounded-xl py-3 hover:bg-teal-700 active:transform active:scale-[0.98] transition-all shadow-lg shadow-teal-500/30 flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-check"></i> সেভ করুন
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Expense Chart -->
+                <div class="glass-card rounded-3xl p-6 shadow-lg">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-pie text-teal-500"></i> খরচের চার্ট
+                    </h3>
+                    <div class="relative h-56 w-full flex items-center justify-center">
+                        <canvas id="expenseChart"></canvas>
+                        <div id="noChartData" class="absolute inset-0 flex flex-col items-center justify-center text-gray-400 hidden">
+                            <i class="fa-regular fa-face-frown text-3xl mb-2 opacity-50"></i>
+                            <span class="text-sm">এই মাসে কোনো খরচ নেই</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AD PLACEMENT 2: Left Sidebar Square (300x250) -->
+                <div class="ad-wrapper min-h-[270px]">
+                    <span class="ad-label">Advertisement</span>
+                    <div class="mt-4">
+                        <script type="text/javascript">
+                            atOptions = {
+                                'key' : 'e8d156b2876798842923e2f7475b7419',
+                                'format' : 'iframe',
+                                'height' : 250,
+                                'width' : 300,
+                                'params' : {}
+                            };
+                        </script>
+                        <script type="text/javascript" src="https://momrollback.com/e8d156b2876798842923e2f7475b7419/invoke.js"></script>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: History & Ad -->
+            <div class="lg:col-span-2 flex flex-col gap-8">
+                
+                <div class="glass-card rounded-3xl shadow-lg overflow-hidden flex flex-col border border-gray-100 flex-grow max-h-[650px]">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-white/50">
+                        <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-teal-500"></i> ট্রানজেকশন হিস্ট্রি
+                        </h3>
+                        <span class="bg-teal-50 text-teal-600 px-3 py-1 rounded-full text-xs font-bold" id="txnCount">০ টি রেকর্ড</span>
+                    </div>
+                    
+                    <div class="flex-1 overflow-y-auto p-2 bg-gray-50/30">
+                        <div id="transactionList" class="space-y-3 p-2">
+                            <!-- Transactions dynamically injected -->
+                        </div>
+                        
+                        <!-- Empty State -->
+                        <div id="emptyState" class="hidden flex-col items-center justify-center text-center py-20 px-4">
+                            <div class="w-24 h-24 bg-white shadow-sm rounded-full flex items-center justify-center mb-6 relative">
+                                <i class="fa-solid fa-receipt text-4xl text-teal-300"></i>
+                                <div class="absolute -bottom-2 -right-2 bg-rose-100 w-8 h-8 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-xmark text-rose-500 text-sm"></i>
+                                </div>
+                            </div>
+                            <h4 class="text-xl font-bold text-gray-700 mb-2">খাতা একদম খালি!</h4>
+                            <p class="text-gray-500 max-w-sm">আপনি এখনও এই মাসের কোনো হিসাব যোগ করেননি। বাম পাশের ফর্ম থেকে নতুন হিসাব যোগ করুন।</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AD PLACEMENT 3: Below Transaction History Square (300x250) -->
+                <div class="flex justify-center md:justify-end">
+                    <div class="ad-wrapper min-h-[270px] w-full max-w-[320px]">
+                        <span class="ad-label">Advertisement</span>
+                        <div class="mt-4">
+                            <script type="text/javascript">
+                                atOptions = {
+                                    'key' : 'e8d156b2876798842923e2f7475b7419',
+                                    'format' : 'iframe',
+                                    'height' : 250,
+                                    'width' : 300,
+                                    'params' : {}
+                                };
+                            </script>
+                            <script type="text/javascript" src="https://momrollback.com/e8d156b2876798842923e2f7475b7419/invoke.js"></script>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 bg-gray-800 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 z-50 pointer-events-none">
+        <i class="fa-solid fa-circle-check text-green-400"></i>
+        <span id="toastMsg" class="font-medium">সফলভাবে যোগ করা হয়েছে</span>
+    </div>
+
+    <script>
+        // Data Structure for Categories
+        const bdCategories = {
+            income: [
+                { id: 'salary', name: 'বেতন', icon: 'fa-money-bill-wave', color: 'text-emerald-500', bg: 'bg-emerald-100' },
+                { id: 'business', name: 'ব্যবসা', icon: 'fa-store', color: 'text-blue-500', bg: 'bg-blue-100' },
+                { id: 'freelance', name: 'ফ্রিল্যান্সিং', icon: 'fa-laptop-code', color: 'text-indigo-500', bg: 'bg-indigo-100' },
+                { id: 'investment', name: 'বিনিয়োগ', icon: 'fa-chart-line', color: 'text-purple-500', bg: 'bg-purple-100' },
+                { id: 'other_income', name: 'অন্যান্য আয়', icon: 'fa-plus', color: 'text-teal-500', bg: 'bg-teal-100' }
+            ],
+            expense: [
+                { id: 'rent', name: 'বাড়ি ভাড়া', icon: 'fa-house-user', color: 'text-rose-500', bg: 'bg-rose-100' },
+                { id: 'grocery', name: 'বাজার/খাবার', icon: 'fa-basket-shopping', color: 'text-orange-500', bg: 'bg-orange-100' },
+                { id: 'transport', name: 'যাতায়াত', icon: 'fa-bus', color: 'text-amber-500', bg: 'bg-amber-100' },
+                { id: 'bills', name: 'ইউটিলিটি বিল', icon: 'fa-bolt', color: 'text-yellow-500', bg: 'bg-yellow-100' },
+                { id: 'education', name: 'শিক্ষা', icon: 'fa-book-open', color: 'text-cyan-500', bg: 'bg-cyan-100' },
+                { id: 'health', name: 'চিকিৎসা', icon: 'fa-stethoscope', color: 'text-red-500', bg: 'bg-red-100' },
+                { id: 'shopping', name: 'শপিং', icon: 'fa-bag-shopping', color: 'text-pink-500', bg: 'bg-pink-100' },
+                { id: 'other_expense', name: 'অন্যান্য খরচ', icon: 'fa-minus', color: 'text-gray-500', bg: 'bg-gray-100' }
+            ]
+        };
+
+        // Load data from LocalStorage OR start empty
+        let transactions = JSON.parse(localStorage.getItem('bdExpenseTrackerData')) || [];
+        let expenseChartInstance = null;
+
+        // Initialize App
+        function initApp() {
+            document.getElementById('date').valueAsDate = new Date();
+            
+            const today = new Date();
+            const currentMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+            document.getElementById('monthFilter').value = currentMonth;
+            
+            document.getElementById('transactionForm').addEventListener('submit', handleFormSubmit);
+            document.getElementById('monthFilter').addEventListener('change', updateUI);
+
+            updateCategories();
+            updateUI();
+        }
+
+        function saveToLocal() {
+            localStorage.setItem('bdExpenseTrackerData', JSON.stringify(transactions));
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const icon = toast.querySelector('i');
+            
+            document.getElementById('toastMsg').textContent = message;
+            
+            if (isError) {
+                icon.className = 'fa-solid fa-circle-exclamation text-rose-400';
+            } else {
+                icon.className = 'fa-solid fa-circle-check text-green-400';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function updateCategories() {
+            const type = document.querySelector('input[name="type"]:checked').value;
+            const categorySelect = document.getElementById('category');
+            categorySelect.innerHTML = '';
+            
+            bdCategories[type].forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.id;
+                option.textContent = cat.name;
+                categorySelect.appendChild(option);
+            });
+        }
+
+        function getCategoryDetails(id, type) {
+            return bdCategories[type].find(c => c.id === id) || { name: 'অন্যান্য', icon: 'fa-circle-dot', color: 'text-gray-500', bg: 'bg-gray-100' };
+        }
+
+        function formatDate(dateString) {
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            return new Intl.DateTimeFormat('bn-BD', options).format(new Date(dateString));
+        }
+
+        function formatNumber(num) {
+            return new Intl.NumberFormat('bn-BD').format(num);
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const type = document.querySelector('input[name="type"]:checked').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const date = document.getElementById('date').value;
+            const category = document.getElementById('category').value;
+            const note = document.getElementById('note').value;
+
+            if (amount <= 0 || !date) return;
+
+            const newTxn = {
+                id: Date.now(),
+                type, amount, date, category, note
+            };
+
+            transactions.unshift(newTxn); 
+            saveToLocal();
+            
+            document.getElementById('amount').value = '';
+            document.getElementById('note').value = '';
+            
+            updateUI();
+            showToast('হিসাব সফলভাবে যুক্ত হয়েছে!');
+        }
+
+        function deleteTransaction(id) {
+            if(confirm('আপনি কি নিশ্চিত যে এই রেকর্ডটি মুছতে চান?')) {
+                transactions = transactions.filter(t => t.id !== id);
+                saveToLocal();
+                updateUI();
+                showToast('রেকর্ডটি মুছে ফেলা হয়েছে', true);
+            }
+        }
+
+        function updateUI() {
+            const filterMonth = document.getElementById('monthFilter').value;
+            const filteredTxns = transactions.filter(t => t.date.startsWith(filterMonth));
+            filteredTxns.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            let income = 0; let expense = 0;
+            
+            let totalIncomeAll = 0; let totalExpenseAll = 0;
+            transactions.forEach(t => {
+                if (t.type === 'income') totalIncomeAll += t.amount;
+                else totalExpenseAll += t.amount;
+            });
+            const globalBalance = totalIncomeAll - totalExpenseAll;
+
+            filteredTxns.forEach(t => {
+                if (t.type === 'income') income += t.amount;
+                else expense += t.amount;
+            });
+
+            document.getElementById('totalBalance').textContent = formatNumber(globalBalance);
+            document.getElementById('totalIncome').textContent = formatNumber(income);
+            document.getElementById('totalExpense').textContent = formatNumber(expense);
+            document.getElementById('txnCount').textContent = formatNumber(filteredTxns.length) + ' টি রেকর্ড';
+            
+            renderTransactionList(filteredTxns);
+            renderChart(filteredTxns);
+        }
+
+        function renderTransactionList(txns) {
+            const listEl = document.getElementById('transactionList');
+            const emptyEl = document.getElementById('emptyState');
+            
+            listEl.innerHTML = '';
+            
+            if (txns.length === 0) {
+                listEl.classList.add('hidden');
+                emptyEl.classList.remove('hidden');
+                emptyEl.classList.add('flex');
+                return;
+            }
+            
+            listEl.classList.remove('hidden');
+            emptyEl.classList.add('hidden');
+            emptyEl.classList.remove('flex');
+
+            txns.forEach((t, index) => {
+                const isIncome = t.type === 'income';
+                const sign = isIncome ? '+' : '-';
+                const amtColor = isIncome ? 'text-green-600' : 'text-rose-600';
+                const catDetails = getCategoryDetails(t.category, t.type);
+
+                const div = document.createElement('div');
+                div.className = 'animate-slide-in flex items-center justify-between p-4 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all group';
+                div.style.animationDelay = `${index * 0.05}s`;
+                
+                div.innerHTML = `
+                    <div class="flex items-center gap-4 overflow-hidden">
+                        <div class="w-12 h-12 rounded-full ${catDetails.bg} ${catDetails.color} flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid ${catDetails.icon}"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <h4 class="font-bold text-gray-800 truncate">${catDetails.name}</h4>
+                            <p class="text-xs text-gray-400 mt-0.5 truncate">
+                                <i class="fa-regular fa-calendar mr-1"></i>${formatDate(t.date)} 
+                                ${t.note ? `<span class="mx-1 text-gray-300">|</span> <span class="text-gray-500">${t.note}</span>` : ''}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 pl-4 shrink-0">
+                        <span class="font-bold ${amtColor} text-lg">
+                            ${sign}৳ ${formatNumber(t.amount)}
+                        </span>
+                        <button onclick="deleteTransaction(${t.id})" class="w-8 h-8 rounded-full bg-rose-50 text-rose-400 hover:bg-rose-500 hover:text-white transition-colors flex items-center justify-center opacity-0 md:group-hover:opacity-100 md:focus:opacity-100">
+                            <i class="fa-solid fa-trash-can text-sm"></i>
+                        </button>
+                    </div>
+                `;
+                listEl.appendChild(div);
+            });
+        }
+
+        function renderChart(txns) {
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+            const noDataEl = document.getElementById('noChartData');
+            const canvasEl = document.getElementById('expenseChart');
+            
+            const expenses = txns.filter(t => t.type === 'expense');
+            
+            if (expenses.length === 0) {
+                if(expenseChartInstance) expenseChartInstance.destroy();
+                canvasEl.style.display = 'none';
+                noDataEl.classList.remove('hidden');
+                return;
+            }
+            
+            canvasEl.style.display = 'block';
+            noDataEl.classList.add('hidden');
+
+            const expenseMap = {};
+            const colorMap = [];
+            
+            expenses.forEach(t => {
+                const cat = getCategoryDetails(t.category, 'expense');
+                if(!expenseMap[cat.name]) {
+                    expenseMap[cat.name] = 0;
+                    const colorCodes = {
+                        'text-rose-500': '#f43f5e', 'text-orange-500': '#f97316', 
+                        'text-amber-500': '#f59e0b', 'text-yellow-500': '#eab308',
+                        'text-cyan-500': '#06b6d4', 'text-red-500': '#ef4444',
+                        'text-pink-500': '#ec4899', 'text-gray-500': '#6b7280'
+                    };
+                    colorMap.push(colorCodes[cat.color] || '#94a3b8');
+                }
+                expenseMap[cat.name] += t.amount;
+            });
+
+            if (expenseChartInstance) expenseChartInstance.destroy();
+
+            expenseChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(expenseMap),
+                    datasets: [{
+                        data: Object.values(expenseMap),
+                        backgroundColor: colorMap,
+                        borderWidth: 3,
+                        borderColor: '#ffffff',
+                        hoverOffset: 8,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: { animateScale: true, animateRotate: true },
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                font: { family: "'Hind Siliguri', sans-serif", size: 12 },
+                                usePointStyle: true, boxWidth: 8, padding: 15
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            padding: 12,
+                            titleFont: { family: "'Hind Siliguri', sans-serif" },
+                            bodyFont: { family: "'Hind Siliguri', sans-serif" },
+                            callbacks: {
+                                label: function(context) { return ` ৳ ${formatNumber(context.raw)}`; }
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
+
+
+```
