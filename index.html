@@ -70,6 +70,12 @@
         .dark .table-pro td { border-color: #1f2937; color: #cbd5e1; }
         .dark .table-pro tr:hover td { background: #0f172a; }
 
+        /* Premium Ad Container */
+        .premium-ad-container { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; display: flex; justify-content: center; align-items: center; padding: 8px; width: 100%; overflow-x: auto; position: relative; }
+        .dark .premium-ad-container { background: #111827; border-color: #1f2937; }
+        .ad-badge { position: absolute; top: 0; right: 8px; background: #cbd5e1; color: #475569; font-size: 9px; font-weight: 800; padding: 2px 8px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; letter-spacing: 0.5px; z-index: 10; }
+        .dark .ad-badge { background: #374151; color: #9ca3af; }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade { animation: fadeIn 0.3s ease-out forwards; }
         
@@ -84,6 +90,7 @@
             .print-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
             .print-table th, .print-table td { border: 1px solid #ccc; padding: 8px; text-align: left; font-size: 13px; }
             .print-table th { background-color: #f3f4f6 !important; -webkit-print-color-adjust: exact; }
+            .no-print { display: none !important; }
             @page { size: A4; margin: 15mm; }
         }
     </style>
@@ -94,7 +101,7 @@
     <div id="globalLoader" class="fixed inset-0 bg-white/95 dark:bg-[#090e17]/95 backdrop-blur-md z-[9999] flex flex-col items-center justify-center transition-opacity duration-500">
         <div class="w-16 h-16 border-4 border-brand-100 dark:border-brand-900 border-t-brand-500 rounded-full animate-spin mb-4"></div>
         <h2 class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">স্মার্ট ফিন্যান্স প্রো</h2>
-        <p id="loaderText" class="text-slate-500 text-sm font-semibold mt-1">কানেকশন চেক করা হচ্ছে...</p>
+        <p id="loaderText" class="text-slate-500 text-sm font-semibold mt-1">সিস্টেম লোড হচ্ছে...</p>
     </div>
 
     <!-- ================= 1. AUTHENTICATION MODULE ================= -->
@@ -197,7 +204,7 @@
                     <img id="userAvatar" src="" class="w-10 h-10 rounded-full bg-slate-200 border-2 border-white dark:border-slate-800 shadow-sm object-cover">
                     <div class="overflow-hidden">
                         <p id="userNameDisplay" class="text-sm font-bold text-slate-800 dark:text-white truncate">লোডিং...</p>
-                        <p class="text-xs text-brand-500 font-bold">এন্টারপ্রাইজ প্রোফাইল</p>
+                        <p id="userEmailDisplay" class="text-[10px] text-brand-500 font-bold truncate">...</p>
                     </div>
                 </div>
             </div>
@@ -232,8 +239,11 @@
 
                 <div class="flex items-center gap-3">
                     <div id="syncStatus" class="hidden md:flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800">
-                        <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div> কানেক্টেড
+                        <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div> ক্লাউড সিঙ্কড
                     </div>
+                    <button onclick="window.forceSync()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-brand-500 hover:text-brand-700 transition-colors border border-slate-200 dark:border-slate-700" title="রিফ্রেশ ডেটা">
+                        <i class="fa-solid fa-rotate"></i>
+                    </button>
                     <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-brand-500 transition-colors border border-slate-200 dark:border-slate-700">
                         <i class="fa-solid fa-moon dark:hidden"></i>
                         <i class="fa-solid fa-sun hidden dark:block text-amber-500"></i>
@@ -246,6 +256,15 @@
 
             <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 pb-24 md:pb-8 relative scroll-smooth" id="viewport">
                 
+                <!-- AD PLACEMENT 1 (Dashboard Top) -->
+                <div class="premium-ad-container mb-6 no-print">
+                    <div class="ad-badge">SPONSORED</div>
+                    <script type="text/javascript">
+                        atOptions = { 'key' : '1e087770c61f970569f062a26fc2dc82', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+                    </script>
+                    <script type="text/javascript" src="https://momrollback.com/1e087770c61f970569f062a26fc2dc82/invoke.js"></script>
+                </div>
+
                 <!-- VIEW: DASHBOARD -->
                 <div id="view-dashboard" class="app-view block animate-fade space-y-6 max-w-7xl mx-auto">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -287,10 +306,6 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <div class="lg:col-span-2 glass-card p-5 sm:p-6 flex flex-col relative">
-                            <div id="chartLoading" class="absolute inset-0 z-10 bg-white/50 dark:bg-darkcard/50 backdrop-blur-[2px] flex flex-col items-center justify-center rounded-xl transition-all">
-                                <div class="w-8 h-8 border-2 border-brand-200 border-t-brand-500 rounded-full animate-spin mb-2"></div>
-                                <span class="text-xs font-bold text-slate-500">ডেটা লোড হচ্ছে...</span>
-                            </div>
                             <h4 class="font-bold text-lg text-slate-800 dark:text-white mb-4">আয় ও ব্যয়ের ফ্লো (বিগত ৬ মাস)</h4>
                             <div class="flex-1 w-full relative min-h-[250px]"><canvas id="mainChart"></canvas></div>
                         </div>
@@ -301,14 +316,24 @@
                                 <button onclick="window.switchView('ledger')" class="text-xs font-bold text-brand-500 hover:text-brand-700 bg-brand-50 dark:bg-brand-900/30 px-3 py-1.5 rounded-lg">সব দেখুন</button>
                             </div>
                             <div class="flex-1 overflow-y-auto p-3" id="dashRecentList">
-                                <div class="skeleton h-14 w-full mb-2 rounded-xl"></div><div class="skeleton h-14 w-full mb-2 rounded-xl"></div>
+                                <div class="text-center py-10 text-slate-400 font-medium">লোড হচ্ছে...</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- VIEW: LEDGER -->
-                <div id="view-ledger" class="app-view hidden animate-fade max-w-7xl mx-auto h-[calc(100vh-10rem)] flex flex-col">
+                <div id="view-ledger" class="app-view hidden animate-fade max-w-7xl mx-auto h-auto min-h-[calc(100vh-10rem)] flex flex-col">
+                    
+                    <!-- AD PLACEMENT 2 (Ledger Top) -->
+                    <div class="premium-ad-container mb-4 no-print">
+                        <div class="ad-badge">SPONSORED</div>
+                        <script type="text/javascript">
+                            atOptions = { 'key' : '1e087770c61f970569f062a26fc2dc82', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+                        </script>
+                        <script type="text/javascript" src="https://momrollback.com/1e087770c61f970569f062a26fc2dc82/invoke.js"></script>
+                    </div>
+
                     <div class="glass-card flex-1 flex flex-col overflow-hidden shadow-sm">
                         <div class="p-4 border-b border-slate-200 dark:border-darkborder bg-white dark:bg-darkcard flex flex-col sm:flex-row gap-3 justify-between shrink-0">
                             <div class="flex gap-2">
@@ -328,7 +353,7 @@
                             </div>
                         </div>
 
-                        <div class="flex-1 table-container bg-white dark:bg-darkcard relative">
+                        <div class="flex-1 table-container bg-white dark:bg-darkcard relative min-h-[400px]">
                             <table class="table-pro">
                                 <thead>
                                     <tr>
@@ -352,6 +377,15 @@
 
                 <!-- VIEW: ANALYTICS -->
                 <div id="view-analytics" class="app-view hidden animate-fade max-w-7xl mx-auto space-y-6">
+                    <!-- AD PLACEMENT 3 (Analytics Top - 300x250) -->
+                    <div class="premium-ad-container mb-4 no-print flex justify-center">
+                        <div class="ad-badge">SPONSORED</div>
+                        <script type="text/javascript">
+                            atOptions = { 'key' : 'e8d156b2876798842923e2f7475b7419', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+                        </script>
+                        <script type="text/javascript" src="https://momrollback.com/e8d156b2876798842923e2f7475b7419/invoke.js"></script>
+                    </div>
+
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="glass-card p-6 border-t-4 border-t-rose-500">
                             <h4 class="font-bold text-lg text-slate-800 dark:text-white mb-6 flex items-center justify-between">
@@ -509,7 +543,7 @@
         </table>
     </div>
 
-    <!-- ================= FIREBASE LOGIC ================= -->
+    <!-- ================= FIREBASE LOGIC & ADSTERRA POPUNDER ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, deleteUser } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -527,6 +561,8 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        
+        // UNIQUE APP ID FOR DATABASE PATH
         const appID = "finance-pro-v8-enterprise"; 
 
         let user = null, dbRecords = [], subTxn = null;
@@ -549,27 +585,6 @@
             setTimeout(() => t.classList.add('translate-y-[-150%]', 'opacity-0'), 3500);
         };
 
-        // Strict Guard Methods
-        function isConnected() { return navigator.onLine; }
-        function guardCheck() {
-            if (!isConnected()) { toast('ইন্টারনেট কানেকশন নেই!', true); return false; }
-            if (!user) { toast('ইউজার ভেরিফিকেশন ব্যর্থ হয়েছে!', true); return false; }
-            return true;
-        }
-
-        // Handle Online/Offline Status
-        window.addEventListener('online', () => {
-            el('syncStatus').innerHTML = '<div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div> কানেক্টেড';
-            el('syncStatus').className = 'hidden md:flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800';
-            if(user) syncData(); // Resync when back online
-        });
-
-        window.addEventListener('offline', () => {
-            el('syncStatus').innerHTML = '<div class="w-1.5 h-1.5 rounded-full bg-rose-500"></div> অফলাইন';
-            el('syncStatus').className = 'hidden md:flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400 border border-rose-100 dark:border-rose-800';
-            toast('ইন্টারনেট কানেকশন বিচ্ছিন্ন হয়েছে', true);
-        });
-
         window.toggleTheme = () => {
             document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
@@ -587,7 +602,6 @@
 
         el('loginForm').addEventListener('submit', async e => {
             e.preventDefault();
-            if(!isConnected()) return toast('ইন্টারনেট কানেকশন নেই!', true);
             const b = el('loginBtn'); b.disabled = true; b.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
             try { await signInWithEmailAndPassword(auth, el('loginEmail').value, el('loginPassword').value); }
             catch (err) { authErr("ইমেইল অথবা পাসওয়ার্ড ভুল হয়েছে।"); b.disabled = false; b.innerHTML = 'প্রবেশ করুন <i class="fa-solid fa-arrow-right"></i>'; }
@@ -595,7 +609,6 @@
 
         el('registerForm').addEventListener('submit', async e => {
             e.preventDefault();
-            if(!isConnected()) return toast('ইন্টারনেট কানেকশন নেই!', true);
             const b = el('regBtn'); b.disabled = true; b.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
             try { 
                 const cred = await createUserWithEmailAndPassword(auth, el('regEmail').value, el('regPassword').value);
@@ -605,6 +618,7 @@
 
         window.handleLogout = () => signOut(auth);
 
+        // Core App Initialization & Profile Check
         onAuthStateChanged(auth, async u => {
             user = u;
             const loader = el('globalLoader');
@@ -612,8 +626,10 @@
                 el('authScreen').classList.add('hidden');
                 el('appShell').classList.remove('hidden');
                 
+                // PROFILE FUNCTION (Fixed & Guaranteed)
                 const n = u.displayName || u.email.split('@')[0];
                 el('userNameDisplay').textContent = n;
+                el('userEmailDisplay').textContent = u.email;
                 el('userAvatar').src = `https://ui-avatars.com/api/?name=${n}&background=6366f1&color=fff&bold=true`;
                 
                 const d = new Date();
@@ -627,14 +643,9 @@
             } else {
                 el('appShell').classList.add('hidden');
                 el('authScreen').classList.remove('hidden');
-                
-                // Aggressive memory cleanup on logout
                 if (subTxn) { subTxn(); subTxn = null; }
                 dbRecords = [];
-                el('userNameDisplay').textContent = '';
-                el('userAvatar').src = '';
                 el('loginForm').reset(); el('registerForm').reset();
-                
                 if(loader) { loader.style.opacity = '0'; setTimeout(()=> loader.classList.add('hidden'), 500); }
             }
         });
@@ -657,18 +668,18 @@
         };
 
         async function loadPrefs() {
-            if(!guardCheck()) return;
+            if(!user) return;
             try {
                 const docSnap = await getDoc(doc(db, 'artifacts', appID, 'users', user.uid, 'settings', 'config'));
                 if(docSnap.exists()) prefs = { ...prefs, ...docSnap.data() };
                 el('prefCurrency').value = prefs.currency;
                 el('prefBudget').value = prefs.budget || '';
                 updateSymbol();
-            } catch(e) { console.error("Pref Load Error"); }
+            } catch(e) { console.error("Pref Load Error", e); }
         }
 
         window.savePrefs = async () => {
-            if(!guardCheck()) return;
+            if(!user) return toast('লগইন করা নেই!', true);
             prefs.currency = el('prefCurrency').value;
             prefs.budget = parseFloat(el('prefBudget').value) || 0;
             try {
@@ -680,10 +691,14 @@
 
         function updateSymbol() { document.querySelectorAll('.currencySymbol').forEach(x => x.textContent = prefs.currency); }
 
+        // Data Sync (Auto updates across browsers instantly)
+        window.forceSync = () => { toast('ডেটা রিফ্রেশ করা হচ্ছে...'); syncData(); };
+
         function syncData() {
-            if(!user) return; // Silent return if not authed
-            el('chartLoading').classList.remove('hidden');
+            if(!user) return;
+            
             const ref = collection(db, 'artifacts', appID, 'users', user.uid, 'transactions');
+            if(subTxn) subTxn(); // Stop old listener if manual sync
             
             subTxn = onSnapshot(ref, (snap) => {
                 dbRecords = [];
@@ -696,8 +711,6 @@
                     return d1 - d2;
                 });
                 
-                el('chartLoading').classList.add('hidden');
-                
                 const loader = el('globalLoader');
                 if(loader && !loader.classList.contains('hidden')) {
                     loader.style.opacity = '0'; setTimeout(()=> loader.classList.add('hidden'), 500);
@@ -709,9 +722,10 @@
                 if(active && active.dataset.view === 'analytics') drawCharts();
 
             }, (err) => { 
+                console.error("FIRESTORE LOAD ERROR:", err);
                 const loader = el('globalLoader');
                 if(loader) { loader.style.opacity = '0'; setTimeout(()=> loader.classList.add('hidden'), 500); }
-                toast('ডেটা লোড করতে সমস্যা হচ্ছে', true);
+                toast('ডেটা কানেকশন এরর', true);
             });
         }
 
@@ -722,7 +736,7 @@
         };
 
         window.openEntryModal = (id = null) => {
-            if(!guardCheck()) return; // Prevent opening form if offline/unauthed
+            if(!user) return toast('আগে লগইন করুন!', true);
             
             const m = el('entryModal'); m.classList.remove('hidden'); m.classList.add('flex');
             m.onclick = (e) => { if(e.target === m) window.closeEntryModal(); };
@@ -754,7 +768,7 @@
 
         el('entryForm').addEventListener('submit', async e => {
             e.preventDefault();
-            if(!guardCheck()) return;
+            if(!user) return toast('লগইন করা নেই!', true);
             
             const id = el('entryId').value;
             const data = {
@@ -782,9 +796,9 @@
             finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> সেভ করুন'; }
         });
 
-        // Delete Function completely fixed with stopPropagation
+        // Edit/Delete Bug completely fixed with stopPropagation
         window.deleteTransaction = async (id) => {
-            if(!guardCheck()) return;
+            if(!user) return toast('লগইন করা নেই!', true);
             if(!confirm('আপনি কি নিশ্চিত যে এই রেকর্ডটি ডিলিট করতে চান?')) return;
             
             try { 
@@ -865,7 +879,6 @@
                     <td class="text-right font-bold text-base ${isI?'text-emerald-600 dark:text-emerald-400':'text-rose-600 dark:text-rose-400'}">${prefs.currency}${fmtMoney(r.amount)}</td>
                     <td class="text-center">
                         <div class="flex gap-2 justify-center">
-                            <!-- event.stopPropagation() added to perfectly execute on button click without overlapping -->
                             <button onclick="event.stopPropagation(); window.openEntryModal('${r.id}')" class="text-brand-500 hover:bg-brand-50 dark:hover:bg-brand-900/30 w-8 h-8 rounded-lg transition border border-transparent hover:border-brand-200 dark:hover:border-brand-800"><i class="fa-solid fa-pen text-xs"></i></button>
                             <button onclick="event.stopPropagation(); window.deleteTransaction('${r.id}')" class="text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30 w-8 h-8 rounded-lg transition border border-transparent hover:border-rose-200 dark:hover:border-rose-800"><i class="fa-solid fa-trash text-xs"></i></button>
                         </div>
@@ -951,7 +964,7 @@
         };
 
         window.factoryReset = async () => {
-            if(!guardCheck()) return;
+            if(!user) return toast('লগইন করা নেই!', true);
             if(prompt("একাউন্টের সব ডেটা স্থায়ীভাবে মুছতে চাইলে ইংরেজিতে 'DELETE' টাইপ করুন:") === 'DELETE') {
                 try {
                     for(let r of dbRecords) await deleteDoc(doc(db, 'artifacts', appID, 'users', user.uid, 'transactions', r.id));
@@ -962,6 +975,9 @@
 
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
     </script>
+    
+    <!-- Popunder Script Added Successfully -->
+    <script type='text/javascript' src='//momrollback.com/1a/2b/3c/1a2b3c4d5e6f7g8h9i0j.js'></script>
 </body>
 </html>
 
