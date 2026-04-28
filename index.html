@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Enterprise Finance Pro</title>
+    <title>Enterprise Finance Pro V2</title>
     
     <!-- External Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Tailwind Configuration -->
@@ -22,19 +20,14 @@
             darkMode: 'class',
             theme: { 
                 extend: { 
-                    fontFamily: { 
-                        sans: ['Inter', 'Hind Siliguri', 'sans-serif'] 
-                    },
+                    fontFamily: { sans: ['Inter', 'Hind Siliguri', 'sans-serif'] },
                     colors: { 
                         brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 900: '#312e81' },
-                        darkbg: '#0b1121', 
-                        darkcard: '#151e32',
+                        darkbg: '#090e17', 
+                        darkcard: '#111827',
                         darkborder: '#1f2937'
                     },
-                    boxShadow: {
-                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
-                        'glow': '0 0 20px rgba(99, 102, 241, 0.15)'
-                    }
+                    boxShadow: { 'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)' }
                 } 
             }
         }
@@ -42,116 +35,59 @@
 
     <!-- Custom Enterprise CSS -->
     <style>
-        body { 
-            -webkit-tap-highlight-color: transparent; 
-            background-color: #f3f4f6; 
-            color: #111827;
-        }
-        body.dark { 
-            background-color: #0b1121; 
-            color: #f9fafb; 
-        }
+        body { -webkit-tap-highlight-color: transparent; background-color: #f3f4f6; color: #111827; }
+        body.dark { background-color: #090e17; color: #f9fafb; }
         
         /* Premium Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         .dark ::-webkit-scrollbar-thumb { background: #374151; }
-        .dark ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
 
         /* Enterprise Components */
-        .glass-card { 
-            background: #ffffff; 
-            border: 1px solid #e5e7eb; 
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02); 
-            border-radius: 1rem;
-        }
-        .dark .glass-card { 
-            background: #151e32; 
-            border: 1px solid #1f2937; 
-            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4); 
-        }
+        .glass-card { background: #ffffff; border: 1px solid #e5e7eb; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); border-radius: 1rem; }
+        .dark .glass-card { background: #111827; border: 1px solid #1f2937; box-shadow: 0 4px 20px -2px rgba(0,0,0,0.4); }
 
-        .input-pro { 
-            background: #f9fafb; 
-            border: 1px solid #d1d5db; 
-            color: #111827; 
-            transition: all 0.2s; 
-            outline: none;
-        }
-        .input-pro:focus { 
-            border-color: #6366f1; 
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15); 
-            background: #ffffff; 
-        }
-        .dark .input-pro { 
-            background: #0f172a; 
-            border-color: #334155; 
-            color: #f9fafb; 
-        }
-        .dark .input-pro:focus { 
-            border-color: #6366f1; 
-            background: #0b1121; 
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); 
-        }
+        .input-pro { background: #f9fafb; border: 1px solid #d1d5db; color: #111827; transition: all 0.2s; outline: none; }
+        .input-pro:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15); background: #ffffff; }
+        .dark .input-pro { background: #090e17; border-color: #334155; color: #f9fafb; }
+        .dark .input-pro:focus { border-color: #6366f1; background: #0f172a; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); }
 
-        .btn-brand { 
-            background: #6366f1; 
-            color: white; 
-            transition: all 0.2s; 
-        }
-        .btn-brand:hover { 
-            background: #4f46e5; 
-            transform: translateY(-1px); 
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); 
-        }
+        .btn-brand { background: #6366f1; color: white; transition: all 0.2s; }
+        .btn-brand:hover { background: #4f46e5; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
         .btn-brand:active { transform: translateY(0); }
 
         /* Sidebar Navigation */
-        .nav-link { 
-            display: flex; align-items: center; gap: 0.75rem; 
-            padding: 0.75rem 1rem; border-radius: 0.5rem; 
-            color: #4b5563; font-weight: 500; transition: all 0.2s; 
-        }
+        .nav-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: 0.5rem; color: #4b5563; font-weight: 500; transition: all 0.2s; }
         .nav-link:hover { background: #f3f4f6; color: #111827; }
         .nav-link.active { background: #eef2ff; color: #4f46e5; font-weight: 600; }
-        
         .dark .nav-link { color: #9ca3af; }
-        .dark .nav-link:hover { background: #1e293b; color: #f9fafb; }
+        .dark .nav-link:hover { background: #1f2937; color: #f9fafb; }
         .dark .nav-link.active { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
 
         /* Data Table Pro */
-        .table-pro { width: 100%; border-collapse: separate; border-spacing: 0; }
-        .table-pro th { 
-            background: #f8fafc; color: #64748b; font-size: 0.75rem; 
-            text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; 
-            padding: 1rem; text-align: left; border-bottom: 1px solid #e2e8f0; 
-            position: sticky; top: 0; z-index: 10;
-        }
+        .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .table-pro { width: 100%; min-width: 800px; border-collapse: separate; border-spacing: 0; }
+        .table-pro th { background: #f8fafc; color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; padding: 1rem; text-align: left; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 10; }
         .table-pro td { padding: 1rem; border-bottom: 1px solid #f1f5f9; color: #334155; font-size: 0.875rem; }
         .table-pro tr:hover td { background: #f8fafc; }
-        
-        .dark .table-pro th { background: #0f172a; color: #94a3b8; border-color: #1f2937; }
+        .dark .table-pro th { background: #090e17; color: #94a3b8; border-color: #1f2937; }
         .dark .table-pro td { border-color: #1f2937; color: #cbd5e1; }
-        .dark .table-pro tr:hover td { background: #111827; }
+        .dark .table-pro tr:hover td { background: #0f172a; }
 
-        /* Animations */
+        /* Animations & Loaders */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade { animation: fadeIn 0.3s ease-out forwards; }
         
-        @keyframes skeleton-loading { 0% { background-color: #e2e8f0; } 50% { background-color: #cbd5e1; } 100% { background-color: #e2e8f0; } }
-        .dark @keyframes skeleton-loading { 0% { background-color: #334155; } 50% { background-color: #475569; } 100% { background-color: #334155; } }
-        .skeleton { animation: skeleton-loading 1.5s infinite ease-in-out; border-radius: 0.25rem; }
+        @keyframes pulse-bg { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+        .skeleton { animation: pulse-bg 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; background-color: #e2e8f0; border-radius: 0.25rem; }
+        .dark .skeleton { background-color: #374151; }
 
-        /* Dedicated Print Styles */
+        /* Print Layout */
         @media print {
             body * { visibility: hidden; }
             #printWrapper, #printWrapper * { visibility: visible; }
-            #printWrapper { 
-                position: absolute; left: 0; top: 0; width: 100%; 
-                background: white; color: black; padding: 20px; 
-            }
+            #printWrapper { position: absolute; left: 0; top: 0; width: 100%; background: white; color: black; padding: 20px; }
             .print-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
             .print-table th, .print-table td { border: 1px solid #ccc; padding: 8px; text-align: left; font-size: 12px; }
             .print-table th { background-color: #f3f4f6 !important; -webkit-print-color-adjust: exact; }
@@ -161,15 +97,25 @@
 </head>
 <body class="flex h-screen w-full overflow-hidden text-sm">
 
-    <!-- Global Full-Screen Loader -->
-    <div id="globalLoader" class="fixed inset-0 bg-white/90 dark:bg-[#0b1121]/90 backdrop-blur-md z-[9999] flex flex-col items-center justify-center transition-opacity duration-500">
+    <!-- Global Loader -->
+    <div id="globalLoader" class="fixed inset-0 bg-white/95 dark:bg-[#090e17]/95 backdrop-blur-md z-[9999] flex flex-col items-center justify-center transition-opacity duration-500">
         <div class="w-16 h-16 border-4 border-brand-100 dark:border-brand-900 border-t-brand-500 rounded-full animate-spin mb-4"></div>
         <h2 class="text-xl font-bold text-slate-800 dark:text-white tracking-tight">Enterprise Finance Pro</h2>
-        <p class="text-slate-500 text-xs font-medium mt-1">Initializing secure workspace...</p>
+        <p id="loaderText" class="text-slate-500 text-xs font-medium mt-1">Initializing secure workspace...</p>
+    </div>
+
+    <!-- DB Error Alert Modal -->
+    <div id="dbErrorModal" class="fixed inset-0 z-[10000] hidden items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm animate-fade">
+        <div class="bg-white dark:bg-darkcard w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-rose-200 dark:border-rose-900/50 p-6 text-center">
+            <div class="w-16 h-16 bg-rose-100 dark:bg-rose-900/30 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl"><i class="fa-solid fa-database"></i></div>
+            <h3 class="font-bold text-xl text-slate-800 dark:text-white mb-2">ডেটাবেস কানেকশন এরর</h3>
+            <p id="dbErrorText" class="text-slate-600 dark:text-slate-400 text-sm mb-6">ফায়ারবেস থেকে ডেটা লোড করা যাচ্ছে না। আপনার Firestore Rules চেক করুন অথবা ইন্টারনেট কানেকশন নিশ্চিত করুন।</p>
+            <button onclick="window.location.reload()" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 rounded-xl transition-colors">রিলোড করুন</button>
+        </div>
     </div>
 
     <!-- ================= 1. AUTHENTICATION MODULE ================= -->
-    <div id="authScreen" class="fixed inset-0 z-50 flex hidden bg-white dark:bg-[#0b1121]">
+    <div id="authScreen" class="fixed inset-0 z-50 flex hidden bg-white dark:bg-[#090e17]">
         <!-- Brand Side (Desktop) -->
         <div class="hidden lg:flex w-1/2 bg-gradient-to-br from-brand-600 to-brand-900 flex-col justify-center items-center p-12 relative overflow-hidden">
             <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNmZmYiLz48L3N2Zz4=')]"></div>
@@ -177,23 +123,16 @@
                 <div class="w-20 h-20 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-6 backdrop-blur-sm border border-white/20">
                     <i class="fa-solid fa-layer-group text-4xl text-white"></i>
                 </div>
-                <h1 class="text-4xl font-bold mb-4">Finance Pro</h1>
-                <p class="text-lg text-brand-100 mb-8 leading-relaxed">Top-tier enterprise financial management system. Track, analyze, and optimize your transactions with absolute precision.</p>
-                <div class="flex justify-center gap-6 text-sm font-medium text-brand-200">
-                    <span class="flex items-center gap-2"><i class="fa-solid fa-lock"></i> Bank-grade Security</span>
-                    <span class="flex items-center gap-2"><i class="fa-solid fa-cloud"></i> Real-time Sync</span>
-                </div>
+                <h1 class="text-4xl font-bold mb-4">Finance Pro v2</h1>
+                <p class="text-lg text-brand-100 mb-8 leading-relaxed">Enterprise financial management system. Track, analyze, and optimize your transactions with absolute precision.</p>
             </div>
         </div>
 
         <!-- Login/Register Side -->
-        <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-slate-50 dark:bg-[#0b1121] overflow-y-auto">
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-slate-50 dark:bg-[#090e17] overflow-y-auto">
             <div class="w-full max-w-md">
-                <!-- Mobile Logo -->
                 <div class="lg:hidden flex flex-col items-center mb-8">
-                    <div class="w-16 h-16 bg-brand-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg mb-3">
-                        <i class="fa-solid fa-layer-group"></i>
-                    </div>
+                    <div class="w-16 h-16 bg-brand-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg mb-3"><i class="fa-solid fa-layer-group"></i></div>
                     <h2 class="text-2xl font-bold text-slate-800 dark:text-white">Finance Pro</h2>
                 </div>
 
@@ -205,7 +144,6 @@
                         <i class="fa-solid fa-circle-exclamation mt-0.5"></i> <span id="authAlertText">Error message</span>
                     </div>
 
-                    <!-- Login Form -->
                     <form id="loginForm" class="space-y-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Email Address</label>
@@ -215,9 +153,7 @@
                             </div>
                         </div>
                         <div>
-                            <div class="flex justify-between items-center mb-1.5">
-                                <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Password</label>
-                            </div>
+                            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Password</label>
                             <div class="relative">
                                 <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                                 <input type="password" id="loginPassword" required class="w-full input-pro rounded-xl py-3 pl-10 pr-4" placeholder="••••••••">
@@ -231,7 +167,6 @@
                         </p>
                     </form>
 
-                    <!-- Register Form -->
                     <form id="registerForm" class="space-y-4 hidden">
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Full Name</label>
@@ -267,18 +202,15 @@
     </div>
 
     <!-- ================= 2. ENTERPRISE APP SHELL ================= -->
-    <div id="appShell" class="flex h-screen w-full hidden overflow-hidden bg-[#f3f4f6] dark:bg-[#0b1121]">
+    <div id="appShell" class="flex h-screen w-full hidden overflow-hidden bg-[#f3f4f6] dark:bg-[#090e17]">
         
-        <!-- Sidebar (Desktop Fixed) -->
+        <!-- Sidebar -->
         <aside class="w-64 bg-white dark:bg-darkcard border-r border-slate-200 dark:border-darkborder hidden md:flex flex-col flex-shrink-0 z-20">
             <div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-darkborder">
-                <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white mr-3 shadow-md">
-                    <i class="fa-solid fa-layer-group text-sm"></i>
-                </div>
+                <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white mr-3 shadow-md"><i class="fa-solid fa-layer-group text-sm"></i></div>
                 <h1 class="text-lg font-bold text-slate-800 dark:text-white tracking-tight">Finance<span class="text-brand-500">Pro</span></h1>
             </div>
 
-            <!-- User Profile Snippet -->
             <div class="p-5 border-b border-slate-100 dark:border-darkborder/50">
                 <div class="flex items-center gap-3">
                     <img id="userAvatar" src="" class="w-10 h-10 rounded-full bg-slate-200 border-2 border-white dark:border-slate-800 shadow-sm object-cover">
@@ -289,23 +221,14 @@
                 </div>
             </div>
 
-            <!-- Navigation Links -->
             <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
                 <p class="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Main Menu</p>
-                <button onclick="window.switchView('dashboard')" class="w-full nav-link active" data-view="dashboard">
-                    <i class="fa-solid fa-border-all w-5"></i> Dashboard
-                </button>
-                <button onclick="window.switchView('ledger')" class="w-full nav-link" data-view="ledger">
-                    <i class="fa-solid fa-table-list w-5"></i> General Ledger
-                </button>
-                <button onclick="window.switchView('analytics')" class="w-full nav-link" data-view="analytics">
-                    <i class="fa-solid fa-chart-pie w-5"></i> Analytics
-                </button>
+                <button onclick="window.switchView('dashboard')" class="w-full nav-link active" data-view="dashboard"><i class="fa-solid fa-border-all w-5"></i> Dashboard</button>
+                <button onclick="window.switchView('ledger')" class="w-full nav-link" data-view="ledger"><i class="fa-solid fa-table-list w-5"></i> General Ledger</button>
+                <button onclick="window.switchView('analytics')" class="w-full nav-link" data-view="analytics"><i class="fa-solid fa-chart-pie w-5"></i> Analytics</button>
                 
                 <p class="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-6 mb-2">System</p>
-                <button onclick="window.switchView('settings')" class="w-full nav-link" data-view="settings">
-                    <i class="fa-solid fa-sliders w-5"></i> Settings
-                </button>
+                <button onclick="window.switchView('settings')" class="w-full nav-link" data-view="settings"><i class="fa-solid fa-sliders w-5"></i> Settings</button>
             </nav>
 
             <div class="p-4 border-t border-slate-200 dark:border-darkborder">
@@ -315,21 +238,21 @@
             </div>
         </aside>
 
-        <!-- Main Content Area -->
+        <!-- Main Content -->
         <main class="flex-1 flex flex-col min-w-0 relative h-full">
             
-            <!-- Top Header -->
             <header class="h-16 bg-white dark:bg-darkcard border-b border-slate-200 dark:border-darkborder flex items-center justify-between px-4 sm:px-6 flex-shrink-0 z-10 shadow-sm">
-                <!-- Mobile Brand -->
                 <div class="flex items-center gap-3 md:hidden">
                     <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white"><i class="fa-solid fa-layer-group text-sm"></i></div>
                     <h1 class="text-lg font-bold text-slate-800 dark:text-white">FinancePro</h1>
                 </div>
                 
-                <!-- Desktop Page Title -->
                 <h2 id="topbarTitle" class="hidden md:block text-xl font-bold text-slate-800 dark:text-white">Dashboard</h2>
 
                 <div class="flex items-center gap-3">
+                    <div id="syncStatus" class="hidden md:flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400">
+                        <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div> Synced
+                    </div>
                     <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-brand-500 transition-colors border border-slate-200 dark:border-slate-700">
                         <i class="fa-solid fa-moon dark:hidden"></i>
                         <i class="fa-solid fa-sun hidden dark:block text-amber-500"></i>
@@ -340,37 +263,37 @@
                 </div>
             </header>
 
-            <!-- Scrollable Viewport -->
-            <!-- Note: pb-20 on mobile prevents content from hiding behind bottom nav -->
-            <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 pb-20 md:pb-8 relative scroll-smooth" id="viewport">
+            <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 pb-24 md:pb-8 relative scroll-smooth" id="viewport">
                 
                 <!-- VIEW: DASHBOARD -->
                 <div id="view-dashboard" class="app-view block animate-fade space-y-6 max-w-7xl mx-auto">
-                    
-                    <!-- KPI Metrics -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div class="glass-card p-5">
-                            <div class="flex justify-between items-start mb-2">
+                        <!-- KPI Cards -->
+                        <div class="glass-card p-5 relative overflow-hidden">
+                            <div class="flex justify-between items-start mb-2 relative z-10">
                                 <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Net Balance</p>
                                 <div class="w-8 h-8 rounded-full bg-brand-50 dark:bg-brand-900/20 text-brand-500 flex items-center justify-center"><i class="fa-solid fa-wallet"></i></div>
                             </div>
-                            <h3 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-white truncate"><span class="currencySymbol">৳</span><span id="dashBal">0</span></h3>
+                            <h3 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-white truncate relative z-10"><span class="currencySymbol">৳</span><span id="dashBal">0</span></h3>
+                            <div class="absolute bottom-0 right-0 w-16 h-16 bg-brand-500/5 rounded-tl-full"></div>
                         </div>
                         
-                        <div class="glass-card p-5">
-                            <div class="flex justify-between items-start mb-2">
+                        <div class="glass-card p-5 relative overflow-hidden">
+                            <div class="flex justify-between items-start mb-2 relative z-10">
                                 <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Monthly Income</p>
                                 <div class="w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-500 flex items-center justify-center"><i class="fa-solid fa-arrow-trend-up"></i></div>
                             </div>
-                            <h3 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-white truncate"><span class="currencySymbol">৳</span><span id="dashInc">0</span></h3>
+                            <h3 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-white truncate relative z-10"><span class="currencySymbol">৳</span><span id="dashInc">0</span></h3>
+                            <div class="absolute bottom-0 right-0 w-16 h-16 bg-emerald-500/5 rounded-tl-full"></div>
                         </div>
 
-                        <div class="glass-card p-5">
-                            <div class="flex justify-between items-start mb-2">
+                        <div class="glass-card p-5 relative overflow-hidden">
+                            <div class="flex justify-between items-start mb-2 relative z-10">
                                 <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Monthly Expense</p>
                                 <div class="w-8 h-8 rounded-full bg-rose-50 dark:bg-rose-900/20 text-rose-500 flex items-center justify-center"><i class="fa-solid fa-arrow-trend-down"></i></div>
                             </div>
-                            <h3 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-white truncate"><span class="currencySymbol">৳</span><span id="dashExp">0</span></h3>
+                            <h3 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-white truncate relative z-10"><span class="currencySymbol">৳</span><span id="dashExp">0</span></h3>
+                            <div class="absolute bottom-0 right-0 w-16 h-16 bg-rose-500/5 rounded-tl-full"></div>
                         </div>
 
                         <div class="glass-card p-5">
@@ -385,38 +308,34 @@
                         </div>
                     </div>
 
-                    <!-- Charts & Recent Split -->
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <!-- Chart -->
-                        <div class="lg:col-span-2 glass-card p-5 sm:p-6 flex flex-col">
+                        <div class="lg:col-span-2 glass-card p-5 sm:p-6 flex flex-col relative">
+                            <!-- Loader Overlay inside Chart -->
+                            <div id="chartLoading" class="absolute inset-0 z-10 bg-white/50 dark:bg-darkcard/50 backdrop-blur-[2px] flex flex-col items-center justify-center rounded-xl transition-all">
+                                <div class="w-8 h-8 border-2 border-brand-200 border-t-brand-500 rounded-full animate-spin mb-2"></div>
+                                <span class="text-xs font-bold text-slate-500">Loading Cloud Data...</span>
+                            </div>
                             <h4 class="font-bold text-slate-800 dark:text-white mb-4">Financial Cash Flow (6 Months)</h4>
                             <div class="flex-1 w-full relative min-h-[250px]">
                                 <canvas id="mainChart"></canvas>
-                                <div id="chartLoading" class="absolute inset-0 flex items-end justify-between p-4 gap-2 opacity-50">
-                                    <div class="skeleton w-full h-1/4"></div><div class="skeleton w-full h-1/2"></div>
-                                    <div class="skeleton w-full h-3/4"></div><div class="skeleton w-full h-full"></div>
-                                    <div class="skeleton w-full h-2/3"></div>
-                                </div>
                             </div>
                         </div>
 
-                        <!-- Recent -->
                         <div class="glass-card flex flex-col h-[400px] overflow-hidden">
                             <div class="p-5 border-b border-slate-100 dark:border-darkborder flex justify-between items-center">
                                 <h4 class="font-bold text-slate-800 dark:text-white">Recent Activity</h4>
                                 <button onclick="window.switchView('ledger')" class="text-xs font-semibold text-brand-500 hover:text-brand-700">View All</button>
                             </div>
                             <div class="flex-1 overflow-y-auto p-3" id="dashRecentList">
-                                <!-- Populated via JS -->
+                                <div class="skeleton h-12 w-full mb-2"></div><div class="skeleton h-12 w-full mb-2"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- VIEW: LEDGER (DATATABLE) -->
+                <!-- VIEW: LEDGER -->
                 <div id="view-ledger" class="app-view hidden animate-fade max-w-7xl mx-auto h-[calc(100vh-10rem)] flex flex-col">
                     <div class="glass-card flex-1 flex flex-col overflow-hidden shadow-sm">
-                        <!-- Toolbar -->
                         <div class="p-4 border-b border-slate-200 dark:border-darkborder bg-white dark:bg-darkcard flex flex-col sm:flex-row gap-3 justify-between shrink-0">
                             <div class="flex gap-2">
                                 <input type="month" id="tableMonth" class="input-pro px-3 py-2 rounded-lg text-sm w-full sm:w-auto font-medium" onchange="window.renderTable()">
@@ -435,9 +354,8 @@
                             </div>
                         </div>
 
-                        <!-- Table Wrapper (Horizontal Scroll for Mobile) -->
-                        <div class="flex-1 overflow-auto w-full bg-white dark:bg-darkcard relative">
-                            <table class="table-pro min-w-[700px]">
+                        <div class="flex-1 table-container bg-white dark:bg-darkcard relative">
+                            <table class="table-pro">
                                 <thead>
                                     <tr>
                                         <th class="w-32">Date</th>
@@ -448,13 +366,11 @@
                                         <th class="w-24 text-center">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tableBody">
-                                    <!-- Rendered via JS -->
-                                </tbody>
+                                <tbody id="tableBody"></tbody>
                             </table>
                             <div id="tableEmpty" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-white/90 dark:bg-darkcard/90 z-[5]">
                                 <i class="fa-solid fa-inbox text-4xl text-slate-300 dark:text-slate-600 mb-3"></i>
-                                <p class="text-slate-500 dark:text-slate-400 font-medium">No records found for this filter.</p>
+                                <p class="text-slate-500 dark:text-slate-400 font-medium">No records found.</p>
                             </div>
                         </div>
                     </div>
@@ -484,19 +400,13 @@
                         <h4 class="text-lg font-bold text-slate-800 dark:text-white border-b border-slate-100 dark:border-darkborder pb-4 mb-6">System Preferences</h4>
                         <div class="space-y-6">
                             <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-                                <div>
-                                    <p class="font-bold text-slate-800 dark:text-white text-sm">Base Currency</p>
-                                    <p class="text-xs text-slate-500">Determines the symbol used across the app</p>
-                                </div>
+                                <div><p class="font-bold text-slate-800 dark:text-white text-sm">Base Currency</p><p class="text-xs text-slate-500">Determines the symbol used</p></div>
                                 <select id="prefCurrency" class="input-pro rounded-lg px-4 py-2.5 font-bold w-full sm:w-40" onchange="window.savePrefs()">
                                     <option value="৳">৳ BDT</option><option value="$">$ USD</option><option value="€">€ EUR</option><option value="₹">₹ INR</option>
                                 </select>
                             </div>
                             <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 pt-6 border-t border-slate-50 dark:border-darkborder/50">
-                                <div>
-                                    <p class="font-bold text-slate-800 dark:text-white text-sm">Monthly Budget Threshold</p>
-                                    <p class="text-xs text-slate-500">Set a target to monitor expense limits</p>
-                                </div>
+                                <div><p class="font-bold text-slate-800 dark:text-white text-sm">Monthly Budget Threshold</p><p class="text-xs text-slate-500">Target to monitor limits</p></div>
                                 <div class="relative w-full sm:w-40">
                                     <span class="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400 currencySymbol">৳</span>
                                     <input type="number" id="prefBudget" class="input-pro rounded-lg pl-8 pr-4 py-2.5 font-bold text-right w-full" placeholder="0" onblur="window.savePrefs()">
@@ -505,12 +415,11 @@
                         </div>
                     </div>
 
-                    <div class="glass-card p-6 sm:p-8 border-rose-200 dark:border-rose-900/30 relative overflow-hidden">
-                        <div class="absolute right-0 top-0 w-32 h-32 bg-rose-500/5 rounded-bl-full pointer-events-none"></div>
-                        <h4 class="text-lg font-bold text-rose-600 border-b border-rose-100 dark:border-rose-900/50 pb-4 mb-6">Danger Zone</h4>
-                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">This action is irreversible. It will permanently delete your account, settings, and all transaction history from our secure servers.</p>
-                        <button onclick="window.factoryReset()" class="w-full sm:w-auto px-6 py-3 bg-rose-50 hover:bg-rose-100 text-rose-600 dark:bg-rose-900/20 dark:hover:bg-rose-900/40 dark:text-rose-400 font-bold rounded-xl transition-colors shadow-sm">
-                            <i class="fa-solid fa-triangle-exclamation mr-2"></i> Erase Database & Account
+                    <div class="glass-card p-6 sm:p-8 border-rose-200 dark:border-rose-900/30">
+                        <h4 class="text-lg font-bold text-rose-600 border-b border-rose-100 dark:border-rose-900/50 pb-4 mb-4">Danger Zone</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">This action is irreversible. It will permanently delete your account, settings, and all data.</p>
+                        <button onclick="window.factoryReset()" class="w-full sm:w-auto px-6 py-3 bg-rose-50 hover:bg-rose-100 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400 font-bold rounded-xl transition-colors">
+                            <i class="fa-solid fa-triangle-exclamation mr-2"></i> Erase Database
                         </button>
                     </div>
                 </div>
@@ -518,27 +427,26 @@
             </div>
         </main>
 
-        <!-- Mobile Bottom Navigation (Fixed at bottom, visible only on small screens) -->
+        <!-- Mobile Bottom Navigation -->
         <nav class="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-darkcard border-t border-slate-200 dark:border-darkborder z-40 flex justify-around items-end pb-safe shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
             <button onclick="window.switchView('dashboard')" class="nav-link flex flex-col items-center justify-center p-3 w-full rounded-none" data-view="dashboard">
-                <i class="fa-solid fa-border-all text-xl mb-1"></i><span class="text-[10px] font-bold tracking-wide">Home</span>
+                <i class="fa-solid fa-border-all text-xl mb-1"></i><span class="text-[10px] font-bold">Home</span>
             </button>
             <button onclick="window.switchView('ledger')" class="nav-link flex flex-col items-center justify-center p-3 w-full rounded-none" data-view="ledger">
-                <i class="fa-solid fa-table-list text-xl mb-1"></i><span class="text-[10px] font-bold tracking-wide">Ledger</span>
+                <i class="fa-solid fa-table-list text-xl mb-1"></i><span class="text-[10px] font-bold">Ledger</span>
             </button>
             
-            <!-- Floating Add Button -->
             <div class="relative w-full flex justify-center -mt-6">
-                <button onclick="window.openEntryModal()" class="w-14 h-14 bg-brand-500 rounded-full flex items-center justify-center text-white shadow-lg border-4 border-[#f3f4f6] dark:border-[#0b1121] active:scale-95 transition-transform">
+                <button onclick="window.openEntryModal()" class="w-14 h-14 bg-brand-500 rounded-full flex items-center justify-center text-white shadow-lg border-4 border-[#f3f4f6] dark:border-[#090e17] active:scale-95 transition-transform">
                     <i class="fa-solid fa-plus text-2xl"></i>
                 </button>
             </div>
 
             <button onclick="window.switchView('analytics')" class="nav-link flex flex-col items-center justify-center p-3 w-full rounded-none" data-view="analytics">
-                <i class="fa-solid fa-chart-pie text-xl mb-1"></i><span class="text-[10px] font-bold tracking-wide">Charts</span>
+                <i class="fa-solid fa-chart-pie text-xl mb-1"></i><span class="text-[10px] font-bold">Charts</span>
             </button>
             <button onclick="window.switchView('settings')" class="nav-link flex flex-col items-center justify-center p-3 w-full rounded-none" data-view="settings">
-                <i class="fa-solid fa-sliders text-xl mb-1"></i><span class="text-[10px] font-bold tracking-wide">Settings</span>
+                <i class="fa-solid fa-sliders text-xl mb-1"></i><span class="text-[10px] font-bold">Settings</span>
             </button>
         </nav>
     </div>
@@ -546,18 +454,15 @@
     <!-- ================= 3. ENTRY MODAL ================= -->
     <div id="entryModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade">
         <div class="bg-white dark:bg-darkcard w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-slate-200 dark:border-darkborder relative" onclick="event.stopPropagation()">
-            <!-- Header -->
             <div class="px-6 py-4 border-b border-slate-100 dark:border-darkborder flex justify-between items-center bg-slate-50/50 dark:bg-darkcard">
                 <h3 class="font-bold text-lg text-slate-800 dark:text-white" id="modalTitle">New Entry</h3>
-                <button onclick="window.closeEntryModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition-colors"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="window.closeEntryModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500"><i class="fa-solid fa-xmark"></i></button>
             </div>
             
-            <!-- Form Body -->
             <div class="p-6">
                 <form id="entryForm" class="space-y-5">
                     <input type="hidden" id="entryId" value="">
                     
-                    <!-- Toggle Type -->
                     <div class="flex p-1 bg-slate-100 dark:bg-slate-800/50 rounded-xl">
                         <label class="flex-1 text-center cursor-pointer">
                             <input type="radio" name="entryType" value="income" class="peer sr-only" onchange="window.loadCategories()">
@@ -569,7 +474,6 @@
                         </label>
                     </div>
 
-                    <!-- Amount -->
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Amount</label>
                         <div class="relative">
@@ -605,59 +509,39 @@
     </div>
 
     <!-- Toast Component -->
-    <div id="toast" class="fixed top-4 right-4 sm:top-6 sm:right-6 transform translate-y-[-150%] opacity-0 transition-all duration-400 ease-out bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 z-[9999] min-w-[280px] text-sm font-medium border border-slate-700 pointer-events-none">
+    <div id="toast" class="fixed top-4 right-4 transform translate-y-[-150%] opacity-0 transition-all duration-400 ease-out bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 z-[9999] min-w-[280px] text-sm font-medium border border-slate-700 pointer-events-none">
         <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-lg shrink-0"></i>
         <span id="toastMsg" class="flex-1">Notification</span>
     </div>
 
-    <!-- ================= 4. DEDICATED PRINT/PDF WRAPPER ================= -->
+    <!-- ================= 4. PRINT/PDF WRAPPER ================= -->
     <div id="printWrapper" class="hidden">
         <div style="text-align: center; border-bottom: 2px solid #334155; padding-bottom: 20px; margin-bottom: 20px;">
             <h1 style="font-size: 28px; font-weight: bold; margin: 0; color: #0f172a; font-family: sans-serif;">Enterprise Finance Pro</h1>
             <h2 style="font-size: 16px; font-weight: normal; margin: 5px 0 0 0; color: #475569;">Official Account Statement</h2>
         </div>
-        
         <table style="width: 100%; margin-bottom: 20px; font-family: sans-serif; font-size: 14px;">
-            <tr>
-                <td><strong>Period:</strong> <span id="printPeriod">All Time</span></td>
-                <td style="text-align: right;"><strong>Generated By:</strong> <span id="printUser">Admin</span></td>
-            </tr>
-            <tr>
-                <td><strong>Print Date:</strong> <span id="printToday"></span></td>
-            </tr>
+            <tr><td><strong>Period:</strong> <span id="printPeriod"></span></td><td style="text-align: right;"><strong>Generated By:</strong> <span id="printUser"></span></td></tr>
+            <tr><td><strong>Print Date:</strong> <span id="printToday"></span></td></tr>
         </table>
-
         <div style="display: flex; background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; margin-bottom: 20px; font-family: sans-serif; border-radius: 4px;">
-            <div style="flex: 1;"><strong>Total Credits (Inc):</strong> <br><span id="printTotInc" style="color: #059669; font-size: 18px; font-weight: bold;">0</span></div>
-            <div style="flex: 1;"><strong>Total Debits (Exp):</strong> <br><span id="printTotExp" style="color: #e11d48; font-size: 18px; font-weight: bold;">0</span></div>
-            <div style="flex: 1; text-align: right;"><strong>Net Closing Balance:</strong> <br><span id="printTotBal" style="font-size: 18px; font-weight: bold; color: #0f172a;">0</span></div>
+            <div style="flex: 1;"><strong>Total Credits:</strong> <br><span id="printTotInc" style="color: #059669; font-size: 18px; font-weight: bold;">0</span></div>
+            <div style="flex: 1;"><strong>Total Debits:</strong> <br><span id="printTotExp" style="color: #e11d48; font-size: 18px; font-weight: bold;">0</span></div>
+            <div style="flex: 1; text-align: right;"><strong>Net Balance:</strong> <br><span id="printTotBal" style="font-size: 18px; font-weight: bold; color: #0f172a;">0</span></div>
         </div>
-
         <table class="print-table">
-            <thead>
-                <tr>
-                    <th style="width: 15%">Date</th>
-                    <th style="width: 25%">Category</th>
-                    <th style="width: 10%">Type</th>
-                    <th style="width: 35%">Particulars</th>
-                    <th style="width: 15%; text-align: right;">Amount</th>
-                </tr>
-            </thead>
+            <thead><tr><th style="width: 15%">Date</th><th style="width: 25%">Category</th><th style="width: 10%">Type</th><th style="width: 35%">Particulars</th><th style="width: 15%; text-align: right;">Amount</th></tr></thead>
             <tbody id="printTableBody"></tbody>
         </table>
-        
-        <div style="margin-top: 40px; text-align: center; font-size: 11px; color: #64748b; font-family: sans-serif; padding-top: 10px; border-top: 1px dashed #cbd5e1;">
-            This is an auto-generated statement by Enterprise Finance Pro. Signatures are not required.
-        </div>
     </div>
 
-    <!-- ================= FIREBASE & APP LOGIC ================= -->
+    <!-- ================= FIREBASE LOGIC ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, deleteUser } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // CONFIG (Replace with valid keys if needed, kept from user prompt)
+        // Your Config
         const firebaseConfig = {
             apiKey: "AIzaSyC8HXjrfuZO3ACmJZk5EDLphhK2ciMd_gM",
             authDomain: "expense-tracker-492a1.firebaseapp.com",
@@ -677,15 +561,13 @@
         let prefs = { currency: '৳', budget: 0 };
         let chartInsts = { main: null, pExp: null, pInc: null };
 
-        // Dictionaries
         const CATS = {
             income: { salary: 'Salary (বেতন)', business: 'Business (ব্যবসা)', invest: 'Investment (বিনিয়োগ)', other: 'Other (অন্যান্য)' },
             expense: { food: 'Food & Dining', rent: 'Rent/Housing', utility: 'Utilities & Bills', travel: 'Transport', medical: 'Healthcare', shop: 'Shopping', other: 'Other (অন্যান্য)' }
         };
 
-        // Utility
         const el = id => document.getElementById(id);
-        const fmtMoney = n => new Intl.NumberFormat('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(n);
+        const fmtMoney = n => new Intl.NumberFormat('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(n || 0);
 
         window.toast = (msg, isErr = false) => {
             const t = el('toast'); const i = el('toastIcon');
@@ -698,10 +580,9 @@
         window.toggleTheme = () => {
             document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-            drawCharts(); // redraw for color change
+            drawCharts();
         };
 
-        // Routing / Auth UI
         window.toggleAuth = mode => {
             el('loginForm').classList.toggle('hidden', mode !== 'login');
             el('registerForm').classList.toggle('hidden', mode !== 'register');
@@ -715,7 +596,7 @@
             e.preventDefault();
             const b = el('loginBtn'); b.disabled = true; b.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
             try { await signInWithEmailAndPassword(auth, el('loginEmail').value, el('loginPassword').value); }
-            catch (err) { authErr("Invalid credentials."); b.disabled = false; b.innerHTML = 'Secure Login <i class="fa-solid fa-arrow-right"></i>'; }
+            catch (err) { authErr("Invalid credentials. Verify your email and password."); b.disabled = false; b.innerHTML = 'Secure Login <i class="fa-solid fa-arrow-right"></i>'; }
         });
 
         el('registerForm').addEventListener('submit', async e => {
@@ -724,12 +605,11 @@
             try { 
                 const cred = await createUserWithEmailAndPassword(auth, el('regEmail').value, el('regPassword').value);
                 await updateProfile(cred.user, { displayName: el('regName').value });
-            } catch (err) { authErr("Email might be in use."); b.disabled = false; b.innerHTML = 'Initialize Account <i class="fa-solid fa-user-plus"></i>'; }
+            } catch (err) { authErr("Email already in use or password too weak."); b.disabled = false; b.innerHTML = 'Initialize Account <i class="fa-solid fa-user-plus"></i>'; }
         });
 
         window.handleLogout = () => signOut(auth);
 
-        // Auth Listener
         onAuthStateChanged(auth, async u => {
             user = u;
             const loader = el('globalLoader');
@@ -741,29 +621,27 @@
                 el('userNameDisplay').textContent = n;
                 el('userAvatar').src = `https://ui-avatars.com/api/?name=${n}&background=6366f1&color=fff&bold=true`;
                 
-                // Set default month to current
                 const d = new Date();
                 const curM = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
                 el('tableMonth').value = curM;
                 el('entryDate').value = `${curM}-${String(d.getDate()).padStart(2, '0')}`;
 
+                el('loaderText').textContent = "Syncing database...";
                 await loadPrefs();
-                syncData();
-                setTimeout(() => { if(loader) { loader.style.opacity = '0'; setTimeout(()=> loader.classList.add('hidden'), 500); } }, 600);
+                syncData(); // Note: globalLoader hide is handled inside syncData success to prevent empty screens
             } else {
                 el('appShell').classList.add('hidden');
                 el('authScreen').classList.remove('hidden');
                 if (subTxn) { subTxn(); subTxn = null; }
                 dbRecords = [];
                 el('loginForm').reset(); el('registerForm').reset();
-                setTimeout(() => { if(loader) { loader.style.opacity = '0'; setTimeout(()=> loader.classList.add('hidden'), 500); } }, 600);
+                if(loader) { loader.style.opacity = '0'; setTimeout(()=> loader.classList.add('hidden'), 500); }
             }
         });
 
-        // App Navigation
         window.switchView = (vid) => {
             document.querySelectorAll('.app-view').forEach(v => { v.classList.remove('block', 'flex'); v.classList.add('hidden'); });
-            const target = $(`view-${vid}`);
+            const target = el(`view-${vid}`);
             if(target) { target.classList.remove('hidden'); target.classList.add(vid==='ledger'?'flex':'block'); }
             
             document.querySelectorAll('.nav-link').forEach(btn => {
@@ -773,15 +651,11 @@
             const titles = { dashboard: 'Dashboard', ledger: 'General Ledger', analytics: 'Analytics', settings: 'System Preferences' };
             if(el('topbarTitle')) el('topbarTitle').textContent = titles[vid] || '';
             
-            // Re-render specifics based on view
             if(vid === 'ledger') window.renderTable();
             if(vid === 'analytics') drawCharts();
-            
-            // Scroll to top
             el('viewport').scrollTo({top: 0, behavior: 'smooth'});
         };
 
-        // Data Management
         async function loadPrefs() {
             try {
                 const docSnap = await getDoc(doc(db, 'artifacts', appID, 'users', user.uid, 'settings', 'config'));
@@ -789,7 +663,7 @@
                 el('prefCurrency').value = prefs.currency;
                 el('prefBudget').value = prefs.budget || '';
                 updateSymbol();
-            } catch(e) {}
+            } catch(e) { console.error("Pref Load Error", e); }
         }
 
         window.savePrefs = async () => {
@@ -807,21 +681,53 @@
         function syncData() {
             el('chartLoading').classList.remove('hidden');
             const ref = collection(db, 'artifacts', appID, 'users', user.uid, 'transactions');
+            
             subTxn = onSnapshot(ref, (snap) => {
                 dbRecords = [];
                 snap.forEach(d => dbRecords.push({ id: d.id, ...d.data() }));
-                dbRecords.sort((a,b) => new Date(b.date) - new Date(a.date) || new Date(b.timestamp) - new Date(a.timestamp));
+                
+                // Safe date parsing & sorting
+                dbRecords.sort((a,b) => {
+                    let d1 = new Date(b.date || 0).getTime();
+                    let d2 = new Date(a.date || 0).getTime();
+                    if(d1 === d2) return new Date(b.timestamp || 0).getTime() - new Date(a.timestamp || 0).getTime();
+                    return d1 - d2;
+                });
                 
                 el('chartLoading').classList.add('hidden');
-                buildDashboard();
                 
+                // Hide global loader if it's still showing
+                const loader = el('globalLoader');
+                if(loader && !loader.classList.contains('hidden')) {
+                    loader.style.opacity = '0'; setTimeout(()=> loader.classList.add('hidden'), 500);
+                }
+
+                buildDashboard();
                 const active = document.querySelector('.nav-link.active');
                 if(active && active.dataset.view === 'ledger') window.renderTable();
                 if(active && active.dataset.view === 'analytics') drawCharts();
-            }, (err) => { toast('Sync Error', true); });
+
+                // Clear Error if sync resumes
+                el('syncStatus').innerHTML = '<div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div> Synced';
+                el('syncStatus').className = 'hidden md:flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400';
+            }, (err) => { 
+                console.error("FIRESTORE LOAD ERROR:", err);
+                const loader = el('globalLoader');
+                if(loader) { loader.style.opacity = '0'; setTimeout(()=> loader.classList.add('hidden'), 500); }
+                
+                el('chartLoading').classList.add('hidden');
+                
+                // Check if it is a Permission Denied error
+                if(err.code === 'permission-denied') {
+                    el('dbErrorText').textContent = "পারমিশন এরর: আপনার Firebase Firestore Database-এ Security Rules সেট করা নেই। দয়া করে Rules ট্যাবে গিয়ে allow read, write; পারমিশন দিন।";
+                }
+                el('dbErrorModal').classList.remove('hidden'); el('dbErrorModal').classList.add('flex');
+                
+                el('syncStatus').innerHTML = '<div class="w-1.5 h-1.5 rounded-full bg-rose-500"></div> Error';
+                el('syncStatus').className = 'hidden md:flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400';
+            });
         }
 
-        // Modal Form logic
         window.loadCategories = () => {
             const t = document.querySelector('input[name="entryType"]:checked').value;
             const sel = el('entryCategory'); sel.innerHTML = '';
@@ -830,8 +736,6 @@
 
         window.openEntryModal = (id = null) => {
             const m = el('entryModal'); m.classList.remove('hidden'); m.classList.add('flex');
-            
-            // Add click listener to modal background to close
             m.onclick = (e) => { if(e.target === m) window.closeEntryModal(); };
 
             if(id) {
@@ -870,7 +774,7 @@
                 if(id) await updateDoc(doc(db, 'artifacts', appID, 'users', user.uid, 'transactions', id), data);
                 else await addDoc(collection(db, 'artifacts', appID, 'users', user.uid, 'transactions'), data);
                 window.closeEntryModal(); toast('Record saved successfully');
-            } catch (err) { toast('Operation failed', true); } 
+            } catch (err) { console.error(err); toast('Operation failed', true); } 
             finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> Save Record'; }
         });
 
@@ -880,7 +784,6 @@
             catch(e) { toast('Delete failed', true); }
         };
 
-        // Dash Builder
         function buildDashboard() {
             let tI = 0, tE = 0, mI = 0, mE = 0;
             const curM = new Date().toISOString().substring(0,7);
@@ -899,7 +802,6 @@
             el('dashRateBar').style.width = `${Math.min(Math.max(rate, 0), 100)}%`;
             el('dashRateBar').className = `h-full rounded-full transition-all duration-1000 ${rate > 20 ? 'bg-emerald-500' : (rate > 0 ? 'bg-amber-500' : 'bg-rose-500')}`;
 
-            // Recent List
             const list = el('dashRecentList'); list.innerHTML = '';
             dbRecords.slice(0, 6).forEach(r => {
                 const isI = r.type === 'income';
@@ -924,7 +826,6 @@
             drawCharts();
         }
 
-        // Table Builder
         window.renderTable = () => {
             const tb = el('tableBody'); tb.innerHTML = '';
             const m = el('tableMonth').value;
@@ -963,14 +864,12 @@
             });
         };
 
-        // Charts
         function drawCharts() {
             if(!dbRecords.length) return;
             const isD = document.documentElement.classList.contains('dark');
             Chart.defaults.color = isD ? '#9ca3af' : '#4b5563';
             Chart.defaults.font.family = "'Inter', sans-serif";
 
-            // Main Bar
             const td = {};
             dbRecords.forEach(r => {
                 const m = r.date.substring(0,7);
@@ -978,6 +877,7 @@
                 if(r.type==='income') td[m].i += r.amount; else td[m].e += r.amount;
             });
             const mns = Object.keys(td).sort().slice(-6);
+            
             if(el('mainChart')) {
                 if(chartInsts.main) chartInsts.main.destroy();
                 chartInsts.main = new Chart(el('mainChart').getContext('2d'), {
@@ -987,7 +887,6 @@
                 });
             }
 
-            // Pies
             const mF = el('tableMonth').value || new Date().toISOString().substring(0,7);
             const cT = dbRecords.filter(r => r.date.startsWith(mF));
             const cE={}, cI={};
@@ -1010,11 +909,9 @@
             drawPie('pieInc', cI, ['#10b981','#0ea5e9','#6366f1','#14b8a6'], 'pInc');
         }
 
-        // Dedicated PDF Logic
         window.triggerPrint = () => {
             const m = el('tableMonth').value;
             const f = m ? dbRecords.filter(r => r.date.startsWith(m)) : dbRecords;
-            
             if(!f.length) return toast('No data to print', true);
 
             let i=0, e=0;
@@ -1051,7 +948,6 @@
             }
         };
 
-        // Theme Init
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
     </script>
 </body>
