@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>স্মার্ট ফিন্যান্স প্রো</title>
+    <title>Enterprise Finance Pro</title>
     
     <!-- External Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,8 +17,14 @@
             darkMode: 'class',
             theme: { 
                 extend: { 
-                    fontFamily: { sans: ['Hind Siliguri', 'sans-serif'] },
-                    colors: { primary: '#0ea5e9', darkbg: '#0f172a', darkcard: '#1e293b' }
+                    fontFamily: { sans: ['Inter', 'Hind Siliguri', 'sans-serif'] },
+                    colors: { 
+                        primary: '#0ea5e9',
+                        brand: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' },
+                        darkbg: '#0f172a', 
+                        darkcard: '#1e293b' 
+                    },
+                    minHeight: { 'screen-safe': '100dvh' }
                 } 
             }
         }
@@ -26,596 +32,498 @@
 
     <!-- Custom CSS -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
         
-        body { transition: background-color 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
-        body.light { background-color: #f8fafc; background-image: radial-gradient(#e2e8f0 1px, transparent 1px); background-size: 24px 24px; }
-        body.dark { background-color: #0f172a; background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 24px 24px; color: #f8fafc; }
+        body { transition: background-color 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent; }
+        body.light { background-color: #f8fafc; color: #0f172a; }
+        body.dark { background-color: #0f172a; color: #f8fafc; }
         
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .dark ::-webkit-scrollbar-thumb { background: #334155; }
 
-        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05); }
-        .dark .glass-card { background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3); }
+        .glass-panel { background: rgba(255, 255, 255, 0.98); border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
+        .dark .glass-panel { background: rgba(30, 41, 59, 0.95); border: 1px solid rgba(51, 65, 85, 0.8); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2); }
 
-        .input-box { transition: all 0.3s ease; }
-        .input-box:focus-within { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(14, 165, 233, 0.15); border-color: #0ea5e9; }
+        .input-base { transition: all 0.2s ease; border: 1px solid #e2e8f0; background: #f8fafc; outline: none; }
+        .input-base:focus { border-color: #0ea5e9; box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1); background: #ffffff; }
+        .dark .input-base { border-color: #334155; background: #0f172a; color: #f8fafc; }
+        .dark .input-base:focus { border-color: #0ea5e9; background: #1e293b; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .animate-fade { animation: fadeIn 0.4s ease forwards; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-slide-up { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .btn-primary { background: linear-gradient(to right, #0ea5e9, #0284c7); color: white; transition: all 0.2s; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3); }
+        .btn-primary:active { transform: translateY(0); }
 
-        .loader { border: 3px solid #e2e8f0; border-top: 3px solid #0ea5e9; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
-        .dark .loader { border: 3px solid #334155; border-top: 3px solid #0ea5e9; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Sidebar Nav Item */
+        .sidebar-item { display: flex; items: center; padding: 0.75rem 1rem; border-radius: 0.5rem; color: #64748b; font-weight: 500; transition: all 0.2s; margin-bottom: 0.25rem; }
+        .sidebar-item:hover { background: #f1f5f9; color: #0f172a; }
+        .sidebar-item.active { background: #e0f2fe; color: #0284c7; font-weight: 600; }
+        .dark .sidebar-item:hover { background: #1e293b; color: #f8fafc; }
+        .dark .sidebar-item.active { background: #0c4a6e; color: #38bdf8; }
 
-        #globalLoader { position: fixed; inset: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.4s; }
-        .dark #globalLoader { background: rgba(15,23,42,0.95); }
+        /* Skeleton Animation */
+        @keyframes pulse-bg { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+        .skeleton { animation: pulse-bg 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; background-color: #e2e8f0; border-radius: 0.25rem; }
+        .dark .skeleton { background-color: #334155; }
 
-        .nav-item.active { color: #0ea5e9; font-weight: bold; }
-        .nav-item.active .nav-icon { transform: translateY(-4px); color: #0ea5e9; }
-        .nav-icon { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        /* Data Table */
+        .enterprise-table th { background-color: #f8fafc; color: #475569; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; padding: 1rem; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        .enterprise-table td { padding: 1rem; border-bottom: 1px solid #f1f5f9; color: #334155; font-size: 0.875rem; }
+        .dark .enterprise-table th { background-color: #0f172a; color: #94a3b8; border-color: #334155; }
+        .dark .enterprise-table td { border-color: #1e293b; color: #cbd5e1; }
+        .enterprise-table tr:hover td { background-color: #f8fafc; }
+        .dark .enterprise-table tr:hover td { background-color: #1e293b; }
 
-        .bg-blob { position: absolute; border-radius: 50%; filter: blur(80px); z-index: -1; opacity: 0.5; animation: float 10s infinite ease-in-out; }
-        .dark .bg-blob { opacity: 0.15; }
-        @keyframes float { 0% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.05); } 100% { transform: translateY(0) scale(1); } }
-
-        .pin-dot { width: 16px; height: 16px; border-radius: 50%; background: #cbd5e1; transition: all 0.3s; }
-        .dark .pin-dot { background: #334155; }
-        .pin-dot.filled { background: #0ea5e9; transform: scale(1.2); }
-
-        /* Premium Ad Container Styles */
-        .premium-ad-container {
-            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(248,250,252,0.6));
-            border: 1px solid rgba(226,232,240,0.8); border-radius: 20px; overflow: hidden; position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; justify-content: center; align-items: center; padding: 10px;
-            width: 100%; overflow-x: auto;
-        }
-        .dark .premium-ad-container {
-            background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,23,42,0.6));
-            border: 1px solid rgba(51,65,85,0.8); box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        .ad-badge {
-            position: absolute; top: 0; right: 12px; background: #cbd5e1; color: #475569; font-size: 8px; font-weight: 800;
-            padding: 2px 8px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; letter-spacing: 0.5px; z-index: 10;
-        }
-        .dark .ad-badge { background: #334155; color: #94a3b8; }
-        
-        .premium-ad-container::-webkit-scrollbar { display: none; }
-        .premium-ad-container { -ms-overflow-style: none; scrollbar-width: none; }
-
+        /* PDF/Print Styles */
         @media print {
-            body { background: white !important; color: black !important; }
-            .no-print, nav, #mobileNav, .premium-ad-container { display: none !important; }
-            .glass-card { box-shadow: none !important; border: 1px solid #e2e8f0 !important; break-inside: avoid; background: white !important; }
+            body * { visibility: hidden; }
+            #printStatement, #printStatement * { visibility: visible; }
+            #printStatement { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 20px; background: white; color: black; }
+            .print-hide { display: none !important; }
+            .print-table th { background-color: #f1f5f9 !important; -webkit-print-color-adjust: exact; }
+            .print-table th, .print-table td { border: 1px solid #cbd5e1; padding: 8px; }
+            @page { size: A4; margin: 1cm; }
         }
     </style>
 </head>
-<body class="antialiased flex flex-col min-h-screen relative pb-20 md:pb-0">
+<body class="flex h-screen overflow-hidden antialiased bg-slate-50 dark:bg-[#0b1120]">
 
-    <!-- Global Loader -->
-    <div id="globalLoader">
-        <div class="relative w-20 h-20 mb-6">
-            <div class="absolute inset-0 border-4 border-sky-100 dark:border-slate-800 rounded-full"></div>
-            <div class="absolute inset-0 border-4 border-sky-500 rounded-full border-t-transparent animate-spin"></div>
-            <div class="absolute inset-0 flex items-center justify-center text-sky-500 text-2xl"><i class="fa-solid fa-shield-check"></i></div>
-        </div>
-        <h2 class="text-2xl font-black text-gray-800 dark:text-white tracking-tight">ফিন্যান্স<span class="text-sky-500">প্রো</span></h2>
-        <p class="text-gray-500 text-xs font-bold mt-2 uppercase tracking-widest">সিকিউর ক্লাউড লোডিং...</p>
-    </div>
-
-    <div class="bg-blob bg-sky-300 w-96 h-96 top-0 left-0"></div>
-    <div class="bg-blob bg-indigo-300 w-96 h-96 bottom-0 right-0" style="animation-delay: -5s;"></div>
-
-    <!-- ================= 0. APP PIN LOCK SCREEN ================= -->
-    <div id="pinScreen" class="hidden fixed inset-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl z-[9000] flex-col items-center justify-center animate-fade">
-        <div class="text-center mb-8">
-            <div class="w-20 h-20 bg-sky-100 dark:bg-sky-900/30 text-sky-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-inner border border-sky-200 dark:border-sky-800">
-                <i class="fa-solid fa-lock"></i>
+    <!-- ================= AUTH SCREEN ================= -->
+    <div id="authScreen" class="flex h-screen w-full z-50 fixed inset-0 bg-white dark:bg-[#0b1120]">
+        <!-- Left Brand Panel -->
+        <div class="hidden lg:flex flex-col justify-center items-center w-1/2 bg-gradient-to-br from-brand-600 to-brand-900 text-white p-12 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+            <div class="relative z-10 text-center max-w-lg">
+                <div class="w-24 h-24 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-8 backdrop-blur-sm border border-white/20">
+                    <i class="fa-solid fa-chart-pie text-5xl text-white"></i>
+                </div>
+                <h1 class="text-4xl font-bold mb-4 font-['Inter']">Enterprise Finance Pro</h1>
+                <p class="text-lg text-brand-100 mb-8">স্মার্ট ফিন্যান্সিয়াল ম্যানেজমেন্ট সিস্টেম। আপনার আয়-ব্যয়ের সম্পূর্ণ নিয়ন্ত্রণ এখন আপনার হাতের মুঠোয়।</p>
+                <div class="flex items-center justify-center gap-4 text-sm font-medium">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> 256-bit Secure</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-cloud"></i> Cloud Sync</span>
+                </div>
             </div>
-            <h2 class="text-2xl font-black text-gray-800 dark:text-white">অ্যাপ লকড</h2>
-            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1 font-medium">প্রবেশ করতে আপনার ৪-ডিজিটের পিন দিন</p>
-        </div>
-        
-        <div class="flex gap-4 mb-10" id="pinDots">
-            <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
         </div>
 
-        <div class="grid grid-cols-3 gap-4 max-w-[280px] w-full">
-            <button onclick="window.enterPin(1)" class="w-full h-16 bg-gray-50 dark:bg-slate-800 rounded-2xl text-2xl font-black text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700 shadow-sm active:scale-95 transition-all">1</button>
-            <button onclick="window.enterPin(2)" class="w-full h-16 bg-gray-50 dark:bg-slate-800 rounded-2xl text-2xl font-black text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700 shadow-sm active:scale-95 transition-all">2</button>
-            <button onclick="window.enterPin(3)" class="w-full h-16 bg-gray-50 dark:bg-slate-800 rounded-2xl text-2xl font-black text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700 shadow-sm active:scale-95 transition-all">3</button>
-            <button onclick="window.enterPin(4)" class="w-full h-16 bg-gray-50 dark:bg-slate-800 rounded-2xl text-2xl font-black text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700 shadow-sm active:scale-95 transition-all">4</button>
-            <button onclick="window.enterPin(5)" class="w-full h-16 bg-gray-50 dark:bg-slate-800 rounded-2xl text-2xl font-black text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700 shadow-sm active:scale-95 transition-all">5</button>
-            <button onclick="window.enterPin(6)" class="w-full h-16 bg-gray-50 dark:bg-slate-800 rounded-2xl text-2xl font-black text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700 shadow-sm active:scale-95 transition-all">6</button>
-            <button onclick="window.enterPin(7)" class="w-full h-16 bg-gray-50 dark:bg-slate-800 rounded-2xl text-2xl font-black text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700 shadow-sm active:scale-95 transition-all">7</button>
-            <button onclick="window.enterPin(8)" class="w-full h-16 bg-gray-50 dark:bg-slate-800 rounded-2xl text-2xl font-black text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700 shadow-sm active:scale-95 transition-all">8</button>
-            <button onclick="window.enterPin(9)" class="w-full h-16 bg-gray-50 dark:bg-slate-800 rounded-2xl text-2xl font-black text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700 shadow-sm active:scale-95 transition-all">9</button>
-            <div class="w-full h-16"></div>
-            <button onclick="window.enterPin(0)" class="w-full h-16 bg-gray-50 dark:bg-slate-800 rounded-2xl text-2xl font-black text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700 shadow-sm active:scale-95 transition-all">0</button>
-            <button onclick="window.clearPin()" class="w-full h-16 bg-rose-50 dark:bg-rose-900/30 rounded-2xl text-xl font-black text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/50 shadow-sm active:scale-95 transition-all"><i class="fa-solid fa-delete-left"></i></button>
-        </div>
-        <p id="pinError" class="text-rose-500 font-bold mt-6 hidden">পিন কোড ভুল হয়েছে!</p>
-        <button onclick="window.handleLogout()" class="mt-8 text-sm text-gray-500 font-bold hover:underline">লগআউট করুন</button>
-    </div>
-
-    <!-- ================= 1. AUTHENTICATION SCREEN ================= -->
-    <div id="authScreen" class="hidden flex-1 items-center justify-center p-4 relative z-10 min-h-screen">
-        <div class="glass-card rounded-[2.5rem] p-8 sm:p-10 max-w-[420px] w-full animate-slide-up border border-white/60 dark:border-slate-700">
-            
-            <div class="text-center mb-8">
-                <div class="w-20 h-20 bg-gradient-to-br from-sky-400 to-indigo-600 rounded-[1.5rem] flex items-center justify-center mx-auto mb-5 shadow-xl shadow-sky-500/30 text-white text-3xl transform rotate-3">
-                    <i class="fa-solid fa-wallet transform -rotate-3"></i>
-                </div>
-                <h2 class="text-3xl font-black text-gray-800 dark:text-white tracking-tight">হিসাবরক্ষক</h2>
-            </div>
-
-            <div class="flex bg-gray-100 dark:bg-slate-800/80 p-1.5 rounded-2xl mb-6 relative">
-                <div id="authTabIndicator" class="absolute left-1.5 top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-white dark:bg-slate-700 rounded-[12px] shadow-sm transition-transform duration-300"></div>
-                <button onclick="window.switchAuth('login')" class="flex-1 py-3 text-sm font-bold text-sky-600 dark:text-sky-400 relative z-10">লগইন</button>
-                <button onclick="window.switchAuth('register')" class="flex-1 py-3 text-sm font-bold text-gray-500 dark:text-gray-400 relative z-10">রেজিস্ট্রেশন</button>
-            </div>
-
-            <div id="authMsg" class="hidden mb-4 p-3 rounded-xl text-sm font-bold text-center border animate-fade"></div>
-
-            <form id="loginForm" class="space-y-4">
-                <div class="input-box relative bg-gray-50 dark:bg-slate-900/80 border border-gray-200 dark:border-slate-700 rounded-2xl">
-                    <i class="fa-regular fa-envelope absolute left-5 top-4 text-gray-400"></i>
-                    <input type="email" id="loginEmail" required placeholder="ইমেইল এড্রেস" class="w-full pl-12 pr-4 py-4 bg-transparent outline-none dark:text-white font-medium">
-                </div>
-                <div class="input-box relative bg-gray-50 dark:bg-slate-900/80 border border-gray-200 dark:border-slate-700 rounded-2xl">
-                    <i class="fa-solid fa-lock absolute left-5 top-4 text-gray-400"></i>
-                    <input type="password" id="loginPassword" required placeholder="পাসওয়ার্ড" class="w-full pl-12 pr-4 py-4 bg-transparent outline-none dark:text-white font-medium tracking-widest">
-                </div>
-                <div class="text-right">
-                    <button type="button" onclick="window.toggleForgotPass()" class="text-xs font-bold text-sky-500 hover:text-sky-600">পাসওয়ার্ড ভুলে গেছেন?</button>
-                </div>
-                <button type="submit" id="loginBtn" class="w-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-2xl py-4 flex justify-center items-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-lg">
-                    <span>প্রবেশ করুন</span> <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                </button>
-            </form>
-
-            <form id="registerForm" class="space-y-4 hidden animate-fade">
-                <div class="input-box relative bg-gray-50 dark:bg-slate-900/80 border border-gray-200 dark:border-slate-700 rounded-2xl">
-                    <i class="fa-regular fa-user absolute left-5 top-4 text-gray-400"></i>
-                    <input type="text" id="regName" required placeholder="আপনার নাম" class="w-full pl-12 pr-4 py-4 bg-transparent outline-none dark:text-white font-medium">
-                </div>
-                <div class="input-box relative bg-gray-50 dark:bg-slate-900/80 border border-gray-200 dark:border-slate-700 rounded-2xl">
-                    <i class="fa-regular fa-envelope absolute left-5 top-4 text-gray-400"></i>
-                    <input type="email" id="regEmail" required placeholder="ইমেইল এড্রেস" class="w-full pl-12 pr-4 py-4 bg-transparent outline-none dark:text-white font-medium">
-                </div>
-                <div class="input-box relative bg-gray-50 dark:bg-slate-900/80 border border-gray-200 dark:border-slate-700 rounded-2xl">
-                    <i class="fa-solid fa-lock absolute left-5 top-4 text-gray-400"></i>
-                    <input type="password" id="regPassword" required minlength="6" placeholder="নতুন পাসওয়ার্ড (৬+ অক্ষর)" class="w-full pl-12 pr-4 py-4 bg-transparent outline-none dark:text-white font-medium tracking-widest">
-                </div>
-                <button type="submit" id="regBtn" class="w-full bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-bold rounded-2xl py-4 flex justify-center items-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-lg shadow-sky-500/30">
-                    <span>একাউন্ট তৈরি করুন</span> <i class="fa-solid fa-user-plus"></i>
-                </button>
-            </form>
-
-            <form id="forgotPassForm" class="space-y-4 hidden animate-fade mt-4 pt-4 border-t border-gray-200 dark:border-slate-700">
-                <p class="text-sm font-bold text-gray-800 dark:text-white mb-2 text-center">পাসওয়ার্ড রিসেট করুন</p>
-                <div class="input-box relative bg-gray-50 dark:bg-slate-900/80 border border-gray-200 dark:border-slate-700 rounded-2xl">
-                    <i class="fa-regular fa-envelope absolute left-5 top-4 text-gray-400"></i>
-                    <input type="email" id="resetEmail" required placeholder="আপনার ইমেইল দিন" class="w-full pl-12 pr-4 py-4 bg-transparent outline-none dark:text-white font-medium">
-                </div>
-                <div class="flex gap-3">
-                    <button type="button" onclick="window.toggleForgotPass()" class="flex-1 bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-white font-bold rounded-2xl py-3.5">বাতিল</button>
-                    <button type="submit" id="resetBtn" class="flex-1 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-2xl py-3.5">লিংক পাঠান</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-    <!-- ================= 2. MAIN APPLICATION ================= -->
-    <div id="mainApp" class="hidden flex-col min-h-screen relative z-10 w-full">
-        
-        <!-- Top Navbar -->
-        <nav class="sticky top-0 z-40 bg-white/70 dark:bg-[#0f172a]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-slate-800/50 w-full no-print">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-400 to-indigo-500 flex items-center justify-center text-white shadow-md">
+        <!-- Right Login Panel -->
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-8 relative">
+            <div class="max-w-md w-full">
+                <div class="lg:hidden text-center mb-8">
+                    <div class="w-16 h-16 bg-brand-500 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg text-white text-2xl">
                         <i class="fa-solid fa-chart-pie"></i>
                     </div>
-                    <h1 class="text-xl font-black text-gray-900 dark:text-white tracking-tight hidden sm:block">ফিন্যান্স<span class="text-sky-500">প্রো</span></h1>
+                    <h2 class="text-2xl font-bold text-slate-800 dark:text-white">Finance Pro</h2>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700">
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2" id="authTitle">অ্যাকাউন্টে প্রবেশ করুন</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mb-8">আপনার ক্রেডেনশিয়াল দিয়ে সিস্টেমে লগইন করুন।</p>
+
+                    <div id="authMsg" class="hidden mb-4 p-3 rounded-lg text-sm font-medium text-center border bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-900/30 dark:border-rose-800 dark:text-rose-400"></div>
+
+                    <!-- Login Form -->
+                    <form id="loginForm" class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">ইমেইল এড্রেস</label>
+                            <div class="relative">
+                                <i class="fa-regular fa-envelope absolute left-4 top-3 text-slate-400"></i>
+                                <input type="email" id="loginEmail" required class="w-full input-base rounded-xl py-2.5 pl-10 pr-4 text-sm" placeholder="admin@example.com">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">পাসওয়ার্ড</label>
+                                <button type="button" onclick="window.toggleAuth('forgot')" class="text-xs text-brand-500 hover:text-brand-600 font-medium">পাসওয়ার্ড ভুলে গেছেন?</button>
+                            </div>
+                            <div class="relative">
+                                <i class="fa-solid fa-lock absolute left-4 top-3 text-slate-400"></i>
+                                <input type="password" id="loginPassword" required class="w-full input-base rounded-xl py-2.5 pl-10 pr-4 text-sm" placeholder="••••••••">
+                            </div>
+                        </div>
+                        <button type="submit" id="loginBtn" class="w-full btn-primary font-semibold rounded-xl py-3 flex justify-center items-center gap-2">
+                            লগইন করুন <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <p class="text-center text-sm text-slate-500 dark:text-slate-400 mt-4">
+                            অ্যাকাউন্ট নেই? <button type="button" onclick="window.toggleAuth('register')" class="text-brand-500 font-semibold hover:underline">নতুন অ্যাকাউন্ট খুলুন</button>
+                        </p>
+                    </form>
+
+                    <!-- Register Form -->
+                    <form id="registerForm" class="space-y-5 hidden">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">সম্পূর্ণ নাম</label>
+                            <div class="relative">
+                                <i class="fa-regular fa-user absolute left-4 top-3 text-slate-400"></i>
+                                <input type="text" id="regName" required class="w-full input-base rounded-xl py-2.5 pl-10 pr-4 text-sm" placeholder="জনাব / বেগম">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">ইমেইল এড্রেস</label>
+                            <div class="relative">
+                                <i class="fa-regular fa-envelope absolute left-4 top-3 text-slate-400"></i>
+                                <input type="email" id="regEmail" required class="w-full input-base rounded-xl py-2.5 pl-10 pr-4 text-sm" placeholder="example@email.com">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">নতুন পাসওয়ার্ড</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-lock absolute left-4 top-3 text-slate-400"></i>
+                                <input type="password" id="regPassword" required minlength="6" class="w-full input-base rounded-xl py-2.5 pl-10 pr-4 text-sm" placeholder="৬ ক্যারেক্টারের বেশি">
+                            </div>
+                        </div>
+                        <button type="submit" id="regBtn" class="w-full btn-primary font-semibold rounded-xl py-3 flex justify-center items-center gap-2">
+                            অ্যাকাউন্ট তৈরি করুন <i class="fa-solid fa-user-plus"></i>
+                        </button>
+                        <p class="text-center text-sm text-slate-500 dark:text-slate-400 mt-4">
+                            আগে থেকে অ্যাকাউন্ট আছে? <button type="button" onclick="window.toggleAuth('login')" class="text-brand-500 font-semibold hover:underline">লগইন করুন</button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MAIN APP LAYOUT ================= -->
+    <div id="mainApp" class="hidden flex-col md:flex-row h-full w-full">
+        
+        <!-- Sidebar (Desktop) -->
+        <aside class="hidden md:flex flex-col w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 z-20">
+            <div class="p-6 flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white"><i class="fa-solid fa-chart-pie"></i></div>
+                <h1 class="text-lg font-bold text-slate-800 dark:text-white tracking-tight">Finance<span class="text-brand-500">Pro</span></h1>
+            </div>
+
+            <div class="px-6 pb-6 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-3">
+                    <img id="sideAvatar" src="https://ui-avatars.com/api/?name=User&background=0ea5e9&color=fff" class="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-700">
+                    <div>
+                        <p id="sideUserName" class="text-sm font-bold text-slate-800 dark:text-white leading-tight">Admin</p>
+                        <p class="text-xs text-slate-500">System User</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+                <button onclick="window.switchView('dashboard')" class="w-full text-left sidebar-item active" data-view="dashboard">
+                    <i class="fa-solid fa-chart-line w-6 text-center"></i> ড্যাশবোর্ড
+                </button>
+                <button onclick="window.switchView('ledger')" class="w-full text-left sidebar-item" data-view="ledger">
+                    <i class="fa-solid fa-table-list w-6 text-center"></i> লেজার / রিপোর্ট
+                </button>
+                <button onclick="window.switchView('analytics')" class="w-full text-left sidebar-item" data-view="analytics">
+                    <i class="fa-solid fa-chart-pie w-6 text-center"></i> অ্যানালিটিক্স
+                </button>
+                <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800">
+                    <button onclick="window.switchView('settings')" class="w-full text-left sidebar-item" data-view="settings">
+                        <i class="fa-solid fa-gear w-6 text-center"></i> সেটিংস
+                    </button>
+                </div>
+            </nav>
+
+            <div class="p-4 border-t border-slate-200 dark:border-slate-800">
+                <button onclick="window.handleLogout()" class="w-full flex items-center justify-center gap-2 py-2 px-4 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 rounded-lg text-sm font-semibold hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-colors">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> লগআউট
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col h-full overflow-hidden relative">
+            
+            <!-- Top Header (Mobile & Desktop) -->
+            <header class="h-16 glass-panel border-b-0 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 sm:px-6 z-10 shrink-0">
+                <div class="flex items-center gap-3 md:hidden">
+                    <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white"><i class="fa-solid fa-chart-pie"></i></div>
+                    <h1 class="text-lg font-bold text-slate-800 dark:text-white">FinancePro</h1>
                 </div>
                 
+                <!-- Page Title Desktop -->
+                <h2 id="topbarTitle" class="hidden md:block text-xl font-semibold text-slate-800 dark:text-white">ড্যাশবোর্ড ওভারভিউ</h2>
+
                 <div class="flex items-center gap-3">
-                    <div class="flex flex-col text-right hidden md:block mr-2">
-                        <span id="timeGreeting" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">শুভ দিন</span>
-                        <span id="userGreeting" class="text-sm font-bold text-gray-800 dark:text-white leading-tight">হ্যালো, ইউজার</span>
-                    </div>
-                    
-                    <button onclick="window.toggleTheme()" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-slate-800 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors border border-gray-200 dark:border-slate-700">
+                    <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
                         <i class="fa-solid fa-moon dark:hidden"></i>
                         <i class="fa-solid fa-sun hidden dark:block text-yellow-500"></i>
                     </button>
-                    
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 p-0.5 cursor-pointer shadow-md hover:scale-105 transition-transform" onclick="window.switchTab('settings')" title="প্রোফাইল">
-                        <img id="navAvatar" src="" class="w-full h-full rounded-[10px] object-cover border-2 border-white dark:border-slate-900">
-                    </div>
+                    <button onclick="window.switchView('ledger'); setTimeout(()=>window.openAddModal(), 100);" class="btn-primary text-xs sm:text-sm px-4 py-2 rounded-full font-semibold flex items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-plus"></i> <span class="hidden sm:inline">নতুন এন্ট্রি</span>
+                    </button>
                 </div>
-            </div>
-        </nav>
+            </header>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow flex flex-col items-center">
-
-            <!-- Data Error Alert -->
-            <div id="dataErrorAlert" class="hidden w-full mb-6 p-4 rounded-2xl flex items-center justify-between gap-4 shadow-sm bg-rose-50 border border-rose-200 dark:bg-rose-900/20 dark:border-rose-800 animate-slide-up">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-triangle-exclamation text-2xl text-rose-500 animate-pulse"></i>
-                    <div>
-                        <h4 class="font-bold text-rose-700 dark:text-rose-400 text-sm">ডেটা কানেকশন সমস্যা!</h4>
-                        <p class="text-xs text-rose-600 dark:text-rose-300 mt-0.5">Firebase Database Rules সঠিক নয় অথবা ইন্টারনেট কানেকশন নেই।</p>
-                    </div>
-                </div>
-                <button onclick="window.hideDataError()" class="text-rose-400 hover:text-rose-600"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-
-            <!-- TAB 1: DASHBOARD -->
-            <div id="tab-dashboard" class="app-tab animate-fade w-full block">
+            <!-- Scrollable Views Container -->
+            <div class="flex-1 overflow-y-auto bg-slate-50/50 dark:bg-[#0b1120] p-4 sm:p-6 pb-24 md:pb-6 relative" id="viewsContainer">
                 
-                <!-- AD PLACEMENT 1: Leaderboard Banner -->
-                <div class="premium-ad-container mb-6">
-                    <div class="ad-badge">SPONSORED</div>
-                    <!-- 728x90 Ad -->
-                    <script type="text/javascript">
-                        atOptions = { 'key' : '1e087770c61f970569f062a26fc2dc82', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-                    </script>
-                    <script type="text/javascript" src="https://momrollback.com/1e087770c61f970569f062a26fc2dc82/invoke.js"></script>
-                </div>
-
-                <div id="smartMessage" class="hidden w-full mb-6 p-4 rounded-2xl flex items-center gap-4 animate-slide-up shadow-sm border"></div>
-
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-8 w-full">
-                    <!-- Total Balance -->
-                    <div class="md:col-span-8 glass-card bg-gray-900 dark:bg-gradient-to-br dark:from-slate-800 dark:to-[#0f172a] p-8 rounded-[2rem] relative overflow-hidden text-white border-0 shadow-2xl">
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-sky-500/20 rounded-full blur-[60px] pointer-events-none"></div>
-                        <div class="absolute bottom-0 right-0 p-8 opacity-5 pointer-events-none">
-                            <i class="fa-brands fa-apple text-9xl"></i>
+                <!-- VIEW 1: DASHBOARD -->
+                <div id="view-dashboard" class="app-view block animate-fade">
+                    
+                    <!-- KPI Cards Row -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group">
+                            <div class="absolute right-0 top-0 h-full w-1 bg-brand-500"></div>
+                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">সর্বমোট ব্যালেন্স</p>
+                            <h3 class="text-3xl font-bold text-slate-800 dark:text-white"><span class="currencySymbol">৳</span> <span id="dashBalance">0</span></h3>
                         </div>
-                        <div class="relative z-10 flex flex-col h-full justify-between">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <p class="text-gray-400 text-xs font-bold tracking-widest uppercase mb-2">সর্বমোট ব্যালেন্স</p>
-                                    <h2 class="text-4xl sm:text-5xl font-black tracking-tighter"><span class="currencySymbol">৳</span> <span id="totalBalance">0</span></h2>
-                                </div>
-                                <div class="bg-white/10 px-3 py-1.5 rounded-lg flex items-center gap-2 no-print">
-                                    <input type="month" id="monthFilter" class="bg-transparent border-none text-white font-bold outline-none cursor-pointer text-sm" onchange="window.updateUI()">
-                                </div>
-                            </div>
-                            
-                            <div class="mt-8 pt-6 border-t border-gray-700/50">
-                                <div class="flex justify-between items-end mb-3">
-                                    <span class="text-sm font-bold text-gray-300" id="budgetStatusText">চলতি মাস: <span class="text-white"><span class="currencySymbol">৳</span> <span id="monthlyExpText">0</span></span></span>
-                                    <span id="expensePercentage" class="text-2xl font-black text-sky-400">0%</span>
-                                </div>
-                                <div class="w-full bg-gray-800 rounded-full h-3 overflow-hidden shadow-inner border border-gray-700">
-                                    <div id="expenseProgressBar" class="h-full rounded-full transition-all duration-1000 ease-out bg-sky-500 relative" style="width: 0%;"></div>
-                                </div>
-                            </div>
+                        <div class="glass-panel p-5 rounded-2xl relative overflow-hidden">
+                            <div class="absolute right-0 top-0 h-full w-1 bg-emerald-500"></div>
+                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">মাসিক আয় (চলতি)</p>
+                            <h3 class="text-2xl font-bold text-slate-800 dark:text-white"><span class="currencySymbol">৳</span> <span id="dashIncome">0</span></h3>
+                        </div>
+                        <div class="glass-panel p-5 rounded-2xl relative overflow-hidden">
+                            <div class="absolute right-0 top-0 h-full w-1 bg-rose-500"></div>
+                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">মাসিক ব্যয় (চলতি)</p>
+                            <h3 class="text-2xl font-bold text-slate-800 dark:text-white"><span class="currencySymbol">৳</span> <span id="dashExpense">0</span></h3>
+                        </div>
+                        <div class="glass-panel p-5 rounded-2xl relative overflow-hidden">
+                            <div class="absolute right-0 top-0 h-full w-1 bg-indigo-500"></div>
+                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">সেভিংস রেশিও</p>
+                            <h3 class="text-2xl font-bold text-slate-800 dark:text-white"><span id="dashSavings">0</span>%</h3>
                         </div>
                     </div>
 
-                    <!-- Monthly Stats -->
-                    <div class="md:col-span-4 flex flex-col gap-6 w-full">
-                        <div class="glass-card p-6 flex-1 flex flex-col justify-center rounded-[2rem] border-b-4 border-b-green-500 relative overflow-hidden group">
-                            <div class="absolute -right-4 -bottom-4 text-7xl text-green-500/5 group-hover:scale-110 transition-transform"><i class="fa-solid fa-arrow-trend-up"></i></div>
-                            <div class="flex items-center gap-3 mb-2 relative z-10">
-                                <div class="w-10 h-10 rounded-full bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-500"><i class="fa-solid fa-arrow-down"></i></div>
-                                <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">মাসিক আয়</span>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Chart Area -->
+                        <div class="lg:col-span-2 glass-panel rounded-2xl p-5">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="font-semibold text-slate-800 dark:text-white">আয় ও ব্যয় (বিগত ৬ মাস)</h4>
                             </div>
-                            <h3 class="text-3xl font-black text-gray-800 dark:text-white relative z-10"><span class="currencySymbol">৳</span> <span id="monthlyIncome">0</span></h3>
+                            <div class="h-72 w-full relative">
+                                <canvas id="mainTrendChart"></canvas>
+                                <div id="chartSkeleton" class="absolute inset-0 flex items-end gap-2 p-4">
+                                    <div class="skeleton w-full h-1/3"></div><div class="skeleton w-full h-2/3"></div><div class="skeleton w-full h-1/2"></div><div class="skeleton w-full h-full"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="glass-card p-6 flex-1 flex flex-col justify-center rounded-[2rem] border-b-4 border-b-rose-500 relative overflow-hidden group">
-                            <div class="absolute -right-4 -bottom-4 text-7xl text-rose-500/5 group-hover:scale-110 transition-transform"><i class="fa-solid fa-arrow-trend-down"></i></div>
-                            <div class="flex items-center gap-3 mb-2 relative z-10">
-                                <div class="w-10 h-10 rounded-full bg-rose-50 dark:bg-rose-900/20 flex items-center justify-center text-rose-500"><i class="fa-solid fa-arrow-up"></i></div>
-                                <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">মাসিক ব্যয়</span>
+
+                        <!-- Recent Transactions -->
+                        <div class="glass-panel rounded-2xl p-0 flex flex-col h-[350px]">
+                            <div class="p-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                                <h4 class="font-semibold text-slate-800 dark:text-white">সাম্প্রতিক ট্রানজেকশন</h4>
+                                <button onclick="window.switchView('ledger')" class="text-xs text-brand-500 font-medium hover:underline">সব দেখুন</button>
                             </div>
-                            <h3 class="text-3xl font-black text-gray-800 dark:text-white relative z-10"><span class="currencySymbol">৳</span> <span id="monthlyExpense">0</span></h3>
+                            <div class="p-3 flex-1 overflow-y-auto" id="dashRecentList">
+                                <!-- Skeletons -->
+                                <div class="flex gap-3 mb-3 items-center"><div class="skeleton w-10 h-10 rounded-full"></div><div class="flex-1"><div class="skeleton w-24 h-3 mb-2"></div><div class="skeleton w-16 h-2"></div></div></div>
+                                <div class="flex gap-3 mb-3 items-center"><div class="skeleton w-10 h-10 rounded-full"></div><div class="flex-1"><div class="skeleton w-24 h-3 mb-2"></div><div class="skeleton w-16 h-2"></div></div></div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full">
-                    <!-- Quick Add Form -->
-                    <div class="lg:col-span-5 space-y-6 w-full no-print">
-                        <div id="transactionFormCard" class="glass-card rounded-[2rem] p-6 sm:p-8 shadow-xl relative overflow-hidden border border-white/60 dark:border-slate-700">
-                            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-sky-400 to-indigo-400"></div>
-                            
-                            <div class="flex justify-between items-center mb-6">
-                                <h3 class="text-xl font-black text-gray-800 dark:text-white flex items-center gap-2" id="formTitle">
-                                    <div class="w-8 h-8 rounded-lg bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center text-sky-500"><i class="fa-solid fa-plus text-sm"></i></div>
-                                    নতুন লেনদেন
-                                </h3>
-                                <button type="button" id="cancelEditBtn" onclick="window.cancelEdit()" class="hidden text-xs font-bold bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg border border-rose-200">বাতিল করুন</button>
+                <!-- VIEW 2: LEDGER / DATATABLE -->
+                <div id="view-ledger" class="app-view hidden animate-fade flex flex-col h-full">
+                    <div class="glass-panel rounded-2xl flex flex-col flex-1 overflow-hidden">
+                        
+                        <!-- Table Toolbar -->
+                        <div class="p-4 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 shrink-0">
+                            <div class="flex gap-3 w-full md:w-auto">
+                                <input type="month" id="filterMonth" class="input-base rounded-lg px-3 py-2 text-sm w-full md:w-40" onchange="window.renderLedger()">
+                                <select id="filterType" class="input-base rounded-lg px-3 py-2 text-sm w-full md:w-32" onchange="window.renderLedger()">
+                                    <option value="all">সব ধরন</option>
+                                    <option value="income">আয়</option>
+                                    <option value="expense">ব্যয়</option>
+                                </select>
                             </div>
-                            
-                            <form id="transactionForm" class="space-y-4">
-                                <input type="hidden" id="editModeId" value="">
-                                
-                                <div class="flex p-1.5 bg-gray-100 dark:bg-slate-800/80 rounded-2xl relative shadow-inner border border-gray-200 dark:border-slate-700">
-                                    <label class="flex-1 text-center relative z-10 cursor-pointer">
-                                        <input type="radio" name="type" value="income" class="peer sr-only" onchange="window.updateCategories()">
-                                        <div class="py-2.5 text-sm font-extrabold text-gray-500 peer-checked:text-gray-900 dark:peer-checked:text-white transition-colors tracking-wide">আয় (+)</div>
-                                    </label>
-                                    <label class="flex-1 text-center relative z-10 cursor-pointer">
-                                        <input type="radio" name="type" value="expense" class="peer sr-only" checked onchange="window.updateCategories()">
-                                        <div class="py-2.5 text-sm font-extrabold text-gray-500 peer-checked:text-gray-900 dark:peer-checked:text-white transition-colors tracking-wide">ব্যয় (-)</div>
-                                    </label>
-                                    <div id="typeIndicator" class="absolute left-1.5 top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-white dark:bg-slate-700 rounded-xl shadow-sm transition-transform duration-300 border border-gray-200 dark:border-slate-600" style="transform: translateX(100%);"></div>
+                            <div class="flex gap-2 w-full md:w-auto items-center">
+                                <div class="relative w-full md:w-64">
+                                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-sm"></i>
+                                    <input type="text" id="searchTable" placeholder="অনুসন্ধান করুন..." class="input-base rounded-lg pl-9 pr-3 py-2 text-sm w-full" onkeyup="window.renderLedger()">
                                 </div>
-
-                                <div class="input-box bg-gray-50 dark:bg-slate-900/80 border border-gray-200 dark:border-slate-700 rounded-2xl relative">
-                                    <span class="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 font-black text-2xl currencySymbol">৳</span>
-                                    <input type="number" id="amount" required min="1" placeholder="0.00" class="w-full pl-12 pr-5 py-4 bg-transparent outline-none text-3xl font-black dark:text-white font-mono tracking-tighter">
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div class="input-box bg-gray-50 dark:bg-slate-900/80 border border-gray-200 dark:border-slate-700 rounded-2xl">
-                                        <input type="date" id="date" required class="w-full px-4 py-3.5 bg-transparent outline-none text-sm dark:text-white dark:[color-scheme:dark] font-bold">
-                                    </div>
-                                    <div class="input-box bg-gray-50 dark:bg-slate-900/80 border border-gray-200 dark:border-slate-700 rounded-2xl relative">
-                                        <select id="category" required class="w-full px-4 py-3.5 bg-transparent outline-none text-sm dark:text-white font-bold appearance-none cursor-pointer"></select>
-                                        <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs pointer-events-none"></i>
-                                    </div>
-                                </div>
-
-                                <div class="input-box bg-gray-50 dark:bg-slate-900/80 border border-gray-200 dark:border-slate-700 rounded-2xl">
-                                    <textarea id="note" rows="2" placeholder="নোট / বিবরণ (ঐচ্ছিক)" class="w-full px-5 py-3.5 bg-transparent outline-none resize-none dark:text-white text-sm transition-all font-medium"></textarea>
-                                </div>
-
-                                <button id="submitBtn" type="submit" class="w-full bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-extrabold rounded-2xl py-4 hover:shadow-lg hover:shadow-sky-500/30 active:scale-[0.98] transition-all flex justify-center items-center gap-2 text-lg tracking-wide">
-                                    <i class="fa-solid fa-check"></i> <span id="submitBtnText">ডেটা সেভ করুন</span>
+                                <button onclick="window.generatePDFStatement()" class="bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-700 transition shadow-sm whitespace-nowrap" title="Download PDF">
+                                    <i class="fa-solid fa-file-pdf text-rose-400"></i> এক্সপোর্ট
                                 </button>
-                            </form>
-                        </div>
-                        
-                        <!-- AD PLACEMENT 2: Square Banner -->
-                        <div class="premium-ad-container w-full">
-                            <div class="ad-badge">ADVERTISEMENT</div>
-                            <!-- 300x250 Ad -->
-                            <script type="text/javascript">
-                                atOptions = { 'key' : 'e8d156b2876798842923e2f7475b7419', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
-                            </script>
-                            <script type="text/javascript" src="https://momrollback.com/e8d156b2876798842923e2f7475b7419/invoke.js"></script>
-                        </div>
-                    </div>
-
-                    <!-- Right Column: Recent Transactions Mini & Chart -->
-                    <div class="lg:col-span-7 flex flex-col gap-6 w-full">
-                        
-                        <div class="glass-card rounded-[2rem] p-6 shadow-lg flex flex-col flex-1 max-h-[450px]">
-                            <div class="flex justify-between items-center mb-4 border-b border-gray-100 dark:border-slate-800 pb-3">
-                                <h3 class="text-sm font-black text-gray-800 dark:text-white uppercase tracking-widest"><i class="fa-solid fa-clock-rotate-left text-sky-500 mr-2"></i> সাম্প্রতিক লেনদেন</h3>
-                                <button onclick="window.switchTab('transactions')" class="no-print text-xs font-bold text-sky-500 hover:text-sky-600 bg-sky-50 dark:bg-sky-900/30 px-3 py-1.5 rounded-lg border border-sky-100 dark:border-sky-800 transition-colors">সব দেখুন <i class="fa-solid fa-arrow-right ml-1"></i></button>
-                            </div>
-                            
-                            <div id="recentTransactionList" class="space-y-3 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-                                <div class="flex flex-col items-center justify-center py-10 text-gray-400">
-                                    <div class="loader !border-gray-300 !border-t-sky-500 mb-2"></div>
-                                    <p class="text-xs font-bold uppercase tracking-widest">ডেটা লোড হচ্ছে...</p>
-                                </div>
                             </div>
                         </div>
 
-                        <!-- Mini Chart -->
-                        <div class="glass-card rounded-[2rem] p-6 shadow-lg h-60 flex flex-col sm:flex-row gap-4 items-center">
-                            <div class="flex-1 h-full relative w-full">
-                                <canvas id="expenseChart"></canvas>
-                                <div id="noChartData" class="absolute inset-0 flex flex-col items-center justify-center text-gray-400 hidden">
-                                    <i class="fa-solid fa-chart-pie text-2xl opacity-30 mb-2"></i>
-                                    <span class="text-[10px] font-bold uppercase tracking-widest">পর্যাপ্ত ডেটা নেই</span>
-                                </div>
+                        <!-- Table Wrapper -->
+                        <div class="flex-1 overflow-auto bg-white dark:bg-slate-900 relative">
+                            <table class="w-full text-left border-collapse enterprise-table min-w-[700px]">
+                                <thead class="sticky top-0 z-10">
+                                    <tr>
+                                        <th class="w-24">তারিখ</th>
+                                        <th>বিবরণ / খাত</th>
+                                        <th class="w-24 text-center">ধরন</th>
+                                        <th>নোট</th>
+                                        <th class="text-right w-32">পরিমাণ</th>
+                                        <th class="w-20 text-center">অ্যাকশন</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ledgerTbody">
+                                    <tr><td colspan="6" class="text-center py-10"><div class="skeleton h-4 w-1/2 mx-auto mb-2"></div><div class="skeleton h-4 w-1/3 mx-auto"></div></td></tr>
+                                </tbody>
+                            </table>
+                            <div id="ledgerEmpty" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-white dark:bg-slate-900 z-0">
+                                <i class="fa-solid fa-folder-open text-4xl text-slate-300 mb-3"></i>
+                                <p class="text-slate-500 font-medium">কোনো ডেটা পাওয়া যায়নি</p>
                             </div>
-                            <div class="w-full sm:w-1/3 h-full flex flex-col justify-center text-center sm:text-left">
-                                <h4 class="text-xs font-black text-gray-800 dark:text-white uppercase tracking-widest mb-1">ব্যয়ের ওভারভিউ</h4>
-                                <p class="text-[10px] text-gray-500 dark:text-gray-400 leading-tight">ডোনাট চার্টে আপনার বর্তমান মাসের খরচের ডিস্ট্রিবিউশন দেখানো হচ্ছে।</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 3: ANALYTICS -->
+                <div id="view-analytics" class="app-view hidden animate-fade">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="glass-panel p-6 rounded-2xl">
+                            <h4 class="font-semibold text-slate-800 dark:text-white mb-4">ব্যয়ের খাত (ডোনাট চার্ট)</h4>
+                            <div class="h-64 w-full relative">
+                                <canvas id="expenseCatChart"></canvas>
                             </div>
                         </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- TAB 2: TRANSACTIONS & ANALYTICS -->
-            <div id="tab-transactions" class="app-tab hidden animate-fade w-full">
-                
-                <div class="glass-card rounded-[2rem] p-5 mb-6 flex flex-col md:flex-row gap-4 justify-between items-center shadow-lg no-print">
-                    <div class="flex items-center gap-3 w-full md:w-auto">
-                        <div class="bg-gray-100 dark:bg-slate-800/80 px-4 py-3 rounded-xl flex items-center gap-2 flex-1 sm:flex-none border border-gray-200 dark:border-slate-700 shadow-inner">
-                            <i class="fa-regular fa-calendar-check text-sky-500"></i>
-                            <input type="month" id="histMonthFilter" class="bg-transparent border-none text-sm font-bold text-gray-800 dark:text-white outline-none w-full cursor-pointer" onchange="window.syncMonthsAndRender()">
-                        </div>
-                    </div>
-                    
-                    <div class="relative w-full md:w-96 input-box bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl">
-                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400 text-sm"></i>
-                        <input type="text" id="searchInput" placeholder="যেকোনো কিছু খুঁজুন (খাত, নোট)..." class="w-full pl-10 pr-4 py-3 bg-transparent outline-none text-sm dark:text-white font-medium" onkeyup="window.renderHistory()">
-                    </div>
-                </div>
-
-                <!-- AD PLACEMENT 3: Report Banner -->
-                <div class="premium-ad-container mb-6 w-full">
-                    <div class="ad-badge">SPONSORED</div>
-                    <!-- 728x90 Ad -->
-                    <script type="text/javascript">
-                        atOptions = { 'key' : '1e087770c61f970569f062a26fc2dc82', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-                    </script>
-                    <script type="text/javascript" src="https://momrollback.com/1e087770c61f970569f062a26fc2dc82/invoke.js"></script>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 w-full">
-                    <div class="glass-card rounded-[2.5rem] p-6 shadow-lg">
-                        <h3 class="text-sm font-black text-gray-800 dark:text-white uppercase tracking-widest mb-6 flex items-center justify-between">
-                            খাত অনুযায়ী ব্যয় <i class="fa-solid fa-chart-pie text-rose-400"></i>
-                        </h3>
-                        <div class="relative h-64 w-full"><canvas id="catChart"></canvas></div>
-                    </div>
-                    
-                    <div class="glass-card rounded-[2.5rem] p-6 shadow-lg">
-                        <h3 class="text-sm font-black text-gray-800 dark:text-white uppercase tracking-widest mb-6 flex items-center justify-between">
-                            আয় বনাম ব্যয় (৬ মাস) <i class="fa-solid fa-chart-column text-green-400"></i>
-                        </h3>
-                        <div class="relative h-64 w-full"><canvas id="trendChart"></canvas></div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-[2.5rem] p-6 min-h-[500px] shadow-xl border border-gray-200 dark:border-slate-700 relative overflow-hidden w-full">
-                    <div class="flex flex-col sm:flex-row justify-between items-center mb-6 border-b border-gray-100 dark:border-slate-800 pb-4 gap-4">
-                        <h3 class="text-xl font-black text-gray-800 dark:text-white flex items-center gap-2">
-                            <i class="fa-solid fa-list-ul text-sky-500"></i> সম্পূর্ণ ডেটাবেস
-                        </h3>
-                        <div class="flex gap-2 w-full sm:w-auto no-print">
-                            <select id="typeFilter" onchange="window.renderHistory()" class="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-xs font-bold px-4 py-2 rounded-xl outline-none dark:text-white cursor-pointer flex-1 sm:flex-none shadow-inner">
-                                <option value="all">সব ধরনের ডেটা</option>
-                                <option value="income">শুধুমাত্র আয়</option>
-                                <option value="expense">শুধুমাত্র ব্যয়</option>
-                            </select>
-                            <button onclick="window.print()" class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:shadow-lg transition-all flex items-center justify-center gap-1 flex-1 sm:flex-none">
-                                <i class="fa-solid fa-file-pdf"></i> পিডিএফ
-                            </button>
-                            <button onclick="window.exportData()" class="bg-gradient-to-r from-emerald-500 to-green-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:shadow-lg transition-all flex items-center justify-center gap-1 flex-1 sm:flex-none">
-                                <i class="fa-solid fa-file-csv"></i> এক্সপোর্ট
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div id="fullTransactionList" class="space-y-4 relative z-10 w-full"></div>
-                    
-                    <div id="fullEmptyState" class="hidden flex-col items-center justify-center py-20 relative z-10 w-full">
-                        <div class="w-24 h-24 bg-gray-50 dark:bg-slate-800 rounded-[2rem] flex items-center justify-center text-4xl text-gray-300 dark:text-slate-600 mb-4 shadow-inner border border-gray-100 dark:border-slate-700">
-                            <i class="fa-solid fa-box-open"></i>
-                        </div>
-                        <h4 class="text-xl font-black text-gray-700 dark:text-gray-300">কোনো রেকর্ড নেই</h4>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- TAB 3: SETTINGS -->
-            <div id="tab-settings" class="app-tab hidden animate-fade w-full max-w-3xl mx-auto space-y-6">
-                
-                <h2 class="text-3xl font-black text-gray-800 dark:text-white mb-8 tracking-tight">প্রোফাইল ও সেটিংস</h2>
-
-                <!-- Add Custom Category -->
-                <div class="glass-card rounded-[2.5rem] p-6 sm:p-8 shadow-lg w-full">
-                    <h3 class="text-xs font-black text-sky-500 uppercase tracking-widest mb-6 border-b border-gray-100 dark:border-slate-800 pb-3">নতুন ক্যাটাগরি তৈরি করুন</h3>
-                    <form id="customCatForm" class="flex flex-col sm:flex-row gap-4 items-center">
-                        <div class="w-full sm:w-1/3">
-                            <select id="newCatType" class="w-full bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 font-bold px-4 py-3 rounded-xl outline-none dark:text-white cursor-pointer text-sm">
-                                <option value="expense">ব্যয় (Expense)</option>
-                                <option value="income">আয় (Income)</option>
-                            </select>
-                        </div>
-                        <div class="w-full sm:w-2/3 flex gap-2">
-                            <input type="text" id="newCatName" required placeholder="ক্যাটাগরির নাম (যেমন: বন্ধুর ঋণ)" class="w-full pl-4 pr-4 py-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl outline-none dark:text-white text-sm font-medium">
-                            <button type="submit" class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-6 py-3 rounded-xl font-bold hover:opacity-90"><i class="fa-solid fa-plus"></i></button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="glass-card rounded-[2.5rem] p-6 sm:p-8 shadow-lg w-full">
-                    <h3 class="text-xs font-black text-sky-500 uppercase tracking-widest mb-6 border-b border-gray-100 dark:border-slate-800 pb-3">অ্যাপ্লিকেশন সেটিংস</h3>
-                    
-                    <div class="space-y-6">
-                        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 bg-gray-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-gray-100 dark:border-slate-800">
-                            <div>
-                                <h4 class="font-bold text-gray-800 dark:text-white text-base">মুদ্রা (Currency)</h4>
-                                <p class="text-[11px] font-bold text-gray-400 mt-0.5 uppercase tracking-wide">অ্যাপের প্রধান মুদ্রা নির্ধারণ করুন</p>
+                        <div class="glass-panel p-6 rounded-2xl">
+                            <h4 class="font-semibold text-slate-800 dark:text-white mb-4">আয়ের খাত (ডোনাট চার্ট)</h4>
+                            <div class="h-64 w-full relative">
+                                <canvas id="incomeCatChart"></canvas>
                             </div>
-                            <div class="relative w-full sm:w-32">
-                                <select id="setCurrency" onchange="window.saveSettings()" class="w-full bg-white dark:bg-slate-800 font-black px-4 py-3 rounded-xl outline-none dark:text-white cursor-pointer text-sm shadow-sm border border-gray-200 dark:border-slate-700 appearance-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 4: SETTINGS -->
+                <div id="view-settings" class="app-view hidden animate-fade max-w-2xl mx-auto space-y-6">
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <h4 class="font-bold text-lg text-slate-800 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">জেনারেল সেটিংস</h4>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <div><p class="font-medium text-slate-800 dark:text-white">মুদ্রা (Currency)</p><p class="text-xs text-slate-500">সিস্টেমের ডিফল্ট মুদ্রা</p></div>
+                                <select id="setCurrency" class="input-base rounded-lg px-4 py-2 font-bold" onchange="window.saveSettings()">
                                     <option value="৳">৳ BDT</option>
                                     <option value="$">$ USD</option>
                                     <option value="€">€ EUR</option>
                                     <option value="₹">₹ INR</option>
                                 </select>
                             </div>
-                        </div>
-
-                        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 bg-gray-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-gray-100 dark:border-slate-800">
-                            <div>
-                                <h4 class="font-bold text-gray-800 dark:text-white text-base">মাসিক বাজেট অ্যালার্ট</h4>
-                                <p class="text-[11px] font-bold text-gray-400 mt-0.5 uppercase tracking-wide">লিমিট পার হলে সতর্কবার্তা পাবেন</p>
-                            </div>
-                            <div class="relative w-full sm:w-40 input-box">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-black currencySymbol">৳</span>
-                                <input type="number" id="setBudget" placeholder="0" class="w-full pl-8 pr-4 py-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl outline-none dark:text-white text-base font-black transition-all text-right" onblur="window.saveSettings()">
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 bg-gray-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-gray-100 dark:border-slate-800">
-                            <div>
-                                <h4 class="font-bold text-gray-800 dark:text-white text-base">অ্যাপ লক (পিন কোড)</h4>
-                                <p class="text-[11px] font-bold text-gray-400 mt-0.5 uppercase tracking-wide">৪-ডিজিটের সিকিউরিটি পিন সেট করুন</p>
-                            </div>
-                            <div class="flex gap-2 w-full sm:w-auto">
-                                <input type="password" id="setPinInput" maxlength="4" placeholder="****" class="w-24 text-center tracking-widest bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 font-black px-4 py-3 rounded-xl outline-none dark:text-white text-base shadow-sm">
-                                <button onclick="window.saveAppPin()" class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-xl font-bold">সেভ</button>
-                                <button onclick="window.removeAppPin()" class="bg-rose-100 text-rose-500 px-4 py-3 rounded-xl font-bold hover:bg-rose-200"><i class="fa-solid fa-trash"></i></button>
+                            <div class="flex justify-between items-center">
+                                <div><p class="font-medium text-slate-800 dark:text-white">মাসিক বাজেট লিমিট</p><p class="text-xs text-slate-500">বাজেট অতিক্রম করলে অ্যালার্ট পাবেন</p></div>
+                                <input type="number" id="setBudget" class="input-base rounded-lg px-4 py-2 w-32 text-right font-bold" placeholder="0" onblur="window.saveSettings()">
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Account Management -->
-                <div class="glass-card rounded-[2.5rem] p-6 sm:p-8 shadow-lg border border-gray-200 dark:border-slate-700 w-full">
-                    <h3 class="text-xs font-black text-rose-500 uppercase tracking-widest mb-6 border-b border-gray-100 dark:border-slate-800 pb-3">ডেঞ্জার জোন</h3>
-                    
-                    <div class="space-y-4">
-                        <button onclick="window.handleLogout()" class="w-full flex items-center justify-between p-4 sm:p-5 bg-gray-50 dark:bg-slate-900/80 rounded-2xl hover:bg-gray-100 dark:hover:bg-slate-800 transition-all group">
-                            <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-xl bg-gray-200 dark:bg-slate-700 text-gray-600 dark:text-gray-300 flex items-center justify-center text-lg"><i class="fa-solid fa-right-from-bracket"></i></div>
-                                <div class="text-left"><h4 class="font-black text-gray-800 dark:text-white text-base">লগআউট করুন</h4><p class="text-xs text-gray-500 font-medium">আপনার বর্তমান সেশন বন্ধ করুন</p></div>
-                            </div>
-                            <i class="fa-solid fa-chevron-right text-gray-300 group-hover:text-gray-500 transition-colors"></i>
+                    <div class="glass-panel p-6 rounded-2xl border-rose-200 dark:border-rose-900/50">
+                        <h4 class="font-bold text-lg text-rose-600 border-b border-rose-100 dark:border-rose-900/50 pb-3 mb-4">ডেঞ্জার জোন</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">এই সেকশনের কাজ অপরিবর্তনযোগ্য। সাবধানে ব্যবহার করুন।</p>
+                        <button onclick="window.handleResetData()" class="w-full py-3 bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400 font-bold rounded-xl hover:bg-rose-100 dark:hover:bg-rose-900/40 transition">
+                            <i class="fa-solid fa-triangle-exclamation"></i> সম্পূর্ণ ডেটাবেস মুছুন
                         </button>
-
-                        <div class="pt-4 mt-2 border-t border-rose-100 dark:border-rose-900/30">
-                            <button onclick="window.handleResetData()" class="w-full py-4 text-sm font-black text-rose-600 bg-rose-50 dark:bg-rose-900/20 rounded-2xl hover:bg-rose-600 hover:text-white transition-all shadow-sm flex items-center justify-center gap-2 border border-rose-100 dark:border-transparent">
-                                <i class="fa-solid fa-skull-crossbones text-lg"></i> সম্পূর্ণ একাউন্ট ও ডেটা মুছুন
-                            </button>
-                            <p class="text-[10px] text-center text-gray-400 font-bold mt-2 uppercase tracking-wide">সতর্কতা: এই কাজ করার পর ডেটা ফেরত পাওয়া যাবে না।</p>
-                        </div>
                     </div>
                 </div>
 
             </div>
+        </main>
 
+        <!-- Mobile Bottom Nav -->
+        <nav class="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 z-40 flex justify-around p-2 pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+            <button onclick="window.switchView('dashboard')" class="flex flex-col items-center p-2 text-slate-400 sidebar-item w-full" data-view="dashboard">
+                <i class="fa-solid fa-chart-line text-lg mb-1"></i><span class="text-[10px] font-bold">হোম</span>
+            </button>
+            <button onclick="window.switchView('ledger')" class="flex flex-col items-center p-2 text-slate-400 sidebar-item w-full" data-view="ledger">
+                <i class="fa-solid fa-table-list text-lg mb-1"></i><span class="text-[10px] font-bold">লেজার</span>
+            </button>
+            <button onclick="window.openAddModal()" class="flex flex-col items-center justify-center p-0 text-white w-full max-w-[60px]">
+                <div class="w-12 h-12 bg-brand-500 rounded-full flex items-center justify-center shadow-lg -mt-6 border-4 border-white dark:border-slate-900"><i class="fa-solid fa-plus text-xl"></i></div>
+            </button>
+            <button onclick="window.switchView('analytics')" class="flex flex-col items-center p-2 text-slate-400 sidebar-item w-full" data-view="analytics">
+                <i class="fa-solid fa-chart-pie text-lg mb-1"></i><span class="text-[10px] font-bold">চার্ট</span>
+            </button>
+            <button onclick="window.switchView('settings')" class="flex flex-col items-center p-2 text-slate-400 sidebar-item w-full" data-view="settings">
+                <i class="fa-solid fa-gear text-lg mb-1"></i><span class="text-[10px] font-bold">সেটিংস</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- ================= ADD/EDIT MODAL ================= -->
+    <div id="entryModal" class="hidden fixed inset-0 z-[100] bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 animate-fade">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-700 animate-slide-up">
+            <div class="p-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900">
+                <h3 class="font-bold text-lg text-slate-800 dark:text-white" id="modalTitle">নতুন এন্ট্রি</h3>
+                <button onclick="window.closeAddModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-5">
+                <form id="entryForm" class="space-y-4">
+                    <input type="hidden" id="entryId" value="">
+                    
+                    <div class="flex p-1 bg-slate-100 dark:bg-slate-900 rounded-lg">
+                        <label class="flex-1 text-center cursor-pointer">
+                            <input type="radio" name="entryType" value="income" class="peer sr-only" onchange="window.populateCategories()">
+                            <div class="py-2 text-sm font-bold text-slate-500 rounded-md peer-checked:bg-white peer-checked:text-emerald-600 peer-checked:shadow-sm dark:peer-checked:bg-slate-700 dark:peer-checked:text-emerald-400 transition-all">আয় (+)</div>
+                        </label>
+                        <label class="flex-1 text-center cursor-pointer">
+                            <input type="radio" name="entryType" value="expense" class="peer sr-only" checked onchange="window.populateCategories()">
+                            <div class="py-2 text-sm font-bold text-slate-500 rounded-md peer-checked:bg-white peer-checked:text-rose-600 peer-checked:shadow-sm dark:peer-checked:bg-slate-700 dark:peer-checked:text-rose-400 transition-all">ব্যয় (-)</div>
+                        </label>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">পরিমাণ</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-3 font-bold text-slate-400 currencySymbol">৳</span>
+                            <input type="number" id="entryAmount" required min="1" class="w-full input-base rounded-lg py-3 pl-10 pr-4 text-xl font-bold font-mono" placeholder="0.00">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">তারিখ</label>
+                            <input type="date" id="entryDate" required class="w-full input-base rounded-lg px-3 py-2.5 text-sm font-medium dark:[color-scheme:dark]">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">খাত</label>
+                            <select id="entryCategory" required class="w-full input-base rounded-lg px-3 py-2.5 text-sm font-medium"></select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">নোট (ঐচ্ছিক)</label>
+                        <input type="text" id="entryNote" class="w-full input-base rounded-lg px-4 py-2.5 text-sm" placeholder="বিস্তারিত বিবরণ...">
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" id="entrySubmitBtn" class="w-full btn-primary font-bold py-3 rounded-lg flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-check"></i> সেভ করুন
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- Mobile Bottom Navigation -->
-    <nav id="mobileNav" class="md:hidden fixed bottom-0 left-0 w-full bg-white/90 dark:bg-[#0f172a]/95 backdrop-blur-2xl border-t border-gray-200 dark:border-slate-800 z-40 pb-safe shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
-        <div class="flex justify-around items-center h-16 px-4">
-            <button onclick="window.switchTab('dashboard')" class="nav-item active flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-slate-500 transition-all relative group" data-target="tab-dashboard">
-                <i class="fa-solid fa-house nav-icon text-xl mb-1 group-active:scale-90"></i>
-                <span class="text-[10px] font-bold tracking-wide">হোম</span>
-            </button>
-            <button onclick="window.switchTab('transactions')" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-slate-500 transition-all relative group" data-target="tab-transactions">
-                <i class="fa-solid fa-chart-pie nav-icon text-xl mb-1 group-active:scale-90"></i>
-                <span class="text-[10px] font-bold tracking-wide">রিপোর্ট</span>
-            </button>
-            <button onclick="window.switchTab('settings')" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-slate-500 transition-all relative group" data-target="tab-settings">
-                <i class="fa-solid fa-gear nav-icon text-xl mb-1 group-active:scale-90"></i>
-                <span class="text-[10px] font-bold tracking-wide">সেটিংস</span>
-            </button>
-        </div>
-    </nav>
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 transform translate-y-[-150%] opacity-0 transition-all duration-300 ease-out bg-slate-800 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 z-[9999] pointer-events-none min-w-[250px] font-medium text-sm border border-slate-700">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toastMsg">Message saved</span>
+    </div>
 
-    <!-- Ultra Premium Toast -->
-    <div id="toast" class="fixed top-6 right-6 transform translate-y-[-150%] opacity-0 transition-all duration-400 ease-out bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-2xl flex items-center gap-4 z-[9999] pointer-events-none min-w-[280px] max-w-sm border border-gray-100 dark:border-slate-700">
-        <div id="toastIconBg" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 shadow-inner"><i id="toastIcon" class="text-white text-xs"></i></div>
-        <div class="flex-1">
-            <h4 id="toastTitle" class="text-gray-900 dark:text-white font-black text-sm tracking-tight">Title</h4>
-            <p id="toastMsg" class="text-gray-500 dark:text-gray-400 text-xs mt-0.5 font-bold leading-snug">Message</p>
+    <!-- ================= PRINTABLE STATEMENT (HIDDEN FROM UI) ================= -->
+    <div id="printStatement" class="print-hide">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h1 style="font-size: 24px; font-weight: bold; margin: 0; font-family: sans-serif;">Finance Pro - Account Statement</h1>
+            <p style="color: #666; margin: 5px 0;" id="printDateRange"></p>
+            <p style="color: #666; margin: 5px 0;" id="printUserInfo"></p>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px; padding: 15px; background: #f8fafc; border: 1px solid #e2e8f0;">
+            <div><strong>Total Income: </strong> <span id="printInc" style="color: green;">0</span></div>
+            <div><strong>Total Expense: </strong> <span id="printExp" style="color: red;">0</span></div>
+            <div><strong>Net Balance: </strong> <span id="printBal">0</span></div>
+        </div>
+
+        <table class="print-table" style="width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 12px; text-align: left;">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Date</th>
+                    <th style="width: 25%;">Category</th>
+                    <th style="width: 10%;">Type</th>
+                    <th style="width: 35%;">Note / Particulars</th>
+                    <th style="width: 15%; text-align: right;">Amount</th>
+                </tr>
+            </thead>
+            <tbody id="printTbody"></tbody>
+        </table>
+        
+        <div style="margin-top: 30px; font-size: 10px; color: #888; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
+            Generated by Enterprise Finance Pro - Automated System
         </div>
     </div>
 
@@ -625,7 +533,7 @@
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, updateProfile, deleteUser } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // 1. Firebase Config
+        // Provided Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyC8HXjrfuZO3ACmJZk5EDLphhK2ciMd_gM",
             authDomain: "expense-tracker-492a1.firebaseapp.com",
@@ -639,631 +547,387 @@
         const db = getFirestore(app);
         const appID = "finance-pro-v7"; 
 
-        // 2. Safe DOM Helpers
-        const getEl = (id) => document.getElementById(id);
-        const getVal = (id) => { const el = getEl(id); return el ? el.value : ''; };
-        const setVal = (id, val) => { const el = getEl(id); if (el) el.value = val; };
-        const setText = (id, text) => { const el = getEl(id); if (el) el.textContent = text; };
-        const showEl = (id) => { const el = getEl(id); if(el) { el.classList.remove('hidden'); el.classList.add('flex'); } };
-        const hideEl = (id) => { const el = getEl(id); if(el) { el.classList.add('hidden'); el.classList.remove('flex'); } };
-
-        // 3. Base Categories
-        let bdCategories = {
-            income: [
-                { id: 'salary', name: 'মাসিক বেতন', icon: 'fa-money-check-dollar', color: 'text-emerald-500', bg: 'bg-emerald-100 dark:bg-emerald-900/30' },
-                { id: 'business', name: 'ব্যবসা / সেলস', icon: 'fa-store', color: 'text-sky-500', bg: 'bg-sky-100 dark:bg-sky-900/30' },
-                { id: 'freelance', name: 'ফ্রিল্যান্সিং', icon: 'fa-laptop-code', color: 'text-indigo-500', bg: 'bg-indigo-100 dark:bg-indigo-900/30' }
-            ],
-            expense: [
-                { id: 'grocery', name: 'কাঁচাবাজার/মুদি', icon: 'fa-basket-shopping', color: 'text-orange-500', bg: 'bg-orange-100 dark:bg-orange-900/30' },
-                { id: 'food', name: 'খাবার/রেস্টুরেন্ট', icon: 'fa-burger', color: 'text-amber-500', bg: 'bg-amber-100 dark:bg-amber-900/30' },
-                { id: 'rent', name: 'বাড়ি ভাড়া/মেস', icon: 'fa-house', color: 'text-rose-500', bg: 'bg-rose-100 dark:bg-rose-900/30' },
-                { id: 'bills', name: 'বিদ্যুৎ/গ্যাস/নেট', icon: 'fa-file-invoice-dollar', color: 'text-cyan-500', bg: 'bg-cyan-100 dark:bg-cyan-900/30' },
-                { id: 'transport', name: 'যাতায়াত/ভাড়া', icon: 'fa-car-side', color: 'text-indigo-500', bg: 'bg-indigo-100 dark:bg-indigo-900/30' },
-                { id: 'mobile', name: 'মোবাইল রিচার্জ', icon: 'fa-mobile-screen', color: 'text-blue-500', bg: 'bg-blue-100 dark:bg-blue-900/30' },
-                { id: 'health', name: 'চিকিৎসা/ওষুধ', icon: 'fa-pills', color: 'text-red-500', bg: 'bg-red-100 dark:bg-red-900/30' }
-            ]
-        };
-
+        // State Variables
         let currentUser = null, transactions = [], unsubscribeTxns = null;
-        let userSettings = { currency: '৳', budget: 0, customCategories: { income: [], expense: [] } };
-        let catChartInst = null, trendChartInst = null, expenseChartInstance = null;
-        let currentPin = '';
+        let userSettings = { currency: '৳', budget: 0 };
+        let charts = { main: null, expDoughnut: null, incDoughnut: null };
 
-        // App PIN Logic
-        const storedPin = localStorage.getItem('appPin');
-        window.enterPin = (num) => {
-            if(currentPin.length < 4) {
-                currentPin += num;
-                updatePinDots();
-                if(currentPin.length === 4) {
-                    if(currentPin === storedPin) {
-                        hideEl('pinScreen'); currentPin = ''; updatePinDots();
-                    } else {
-                        showEl('pinError');
-                        setTimeout(() => { currentPin = ''; updatePinDots(); hideEl('pinError'); }, 1000);
-                    }
-                }
-            }
+        // Categories Map
+        const CATEGORIES = {
+            income: { salary: 'বেতন (Salary)', business: 'ব্যবসা (Business)', freelance: 'ফ্রিল্যান্স (Freelance)', other: 'অন্যান্য (Other)' },
+            expense: { food: 'খাবার (Food)', rent: 'ভাড়া (Rent)', bills: 'বিল/ইউটিলিটি (Bills)', transport: 'যাতায়াত (Transport)', health: 'চিকিৎসা (Health)', shopping: 'শপিং (Shopping)', other: 'অন্যান্য (Other)' }
         };
-        window.clearPin = () => { if(currentPin.length > 0) { currentPin = currentPin.slice(0, -1); updatePinDots(); } };
-        function updatePinDots() {
-            const dots = document.querySelectorAll('#pinDots .pin-dot');
-            dots.forEach((dot, i) => { if(i < currentPin.length) dot.classList.add('filled'); else dot.classList.remove('filled'); });
-        }
 
-        window.saveAppPin = () => {
-            const val = getVal('setPinInput');
-            if(val.length === 4 && !isNaN(val)) {
-                localStorage.setItem('appPin', val);
-                setVal('setPinInput', '');
-                window.showToast('সিকিউরিটি', 'অ্যাপ পিন কোড সেভ হয়েছে।');
-            } else { window.showToast('ভুল', 'পিন ৪ সংখ্যার হতে হবে।', 'error'); }
+        // DOM Helpers
+        const $ = id => document.getElementById(id);
+        const formatMoney = num => new Intl.NumberFormat('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(num);
+
+        // Core Functions
+        window.showToast = (msg, type = 'success') => {
+            const t = $('toast'); const icon = $('toastIcon');
+            $('toastMsg').textContent = msg;
+            icon.className = type === 'error' ? 'fa-solid fa-circle-exclamation text-rose-400 text-lg' : 'fa-solid fa-circle-check text-emerald-400 text-lg';
+            t.classList.remove('translate-y-[-150%]', 'opacity-0');
+            setTimeout(() => t.classList.add('translate-y-[-150%]', 'opacity-0'), 3000);
         };
-        window.removeAppPin = () => { localStorage.removeItem('appPin'); window.showToast('সফল', 'পিন মুছে ফেলা হয়েছে।'); };
 
-        // 4. Global Window Methods
         window.toggleTheme = () => {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            if(expenseChartInstance) window.updateUI(); // Redraw charts for theme
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+            renderCharts(); // Re-render charts for theme colors
         };
 
-        window.formatNumber = num => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(num);
-        
-        window.getCategory = (id, type) => {
-            const defaults = bdCategories[type] || [];
-            const customs = userSettings.customCategories?.[type] || [];
-            const allCats = [...defaults, ...customs];
-            return allCats.find(c => c.id === id) || { name: id || 'অন্যান্য', icon: 'fa-tags', color: 'text-gray-500', bg: 'bg-gray-200 dark:bg-gray-800' };
+        // Auth Routing
+        window.toggleAuth = (view) => {
+            $('loginForm').classList.toggle('hidden', view !== 'login');
+            $('registerForm').classList.toggle('hidden', view !== 'register');
+            $('authTitle').textContent = view === 'login' ? 'অ্যাকাউন্টে প্রবেশ করুন' : 'নতুন অ্যাকাউন্ট খুলুন';
+            $('authMsg').classList.add('hidden');
         };
 
-        window.updateCategories = () => {
-            const typeNode = document.querySelector('input[name="type"]:checked');
-            if(!typeNode) return;
-            const type = typeNode.value;
-            const ind = getEl('typeIndicator');
-            if(ind) ind.style.transform = type === 'income' ? 'translateX(0)' : 'translateX(100%)';
-            
-            const select = getEl('category');
-            if(select) {
-                select.innerHTML = ''; 
-                const defaults = bdCategories[type] || [];
-                const customs = userSettings.customCategories?.[type] || [];
-                const allCats = [...defaults, ...customs];
-                allCats.forEach(c => select.add(new Option(c.name, c.id)));
-                select.add(new Option('অন্যান্য', 'other_'+type));
-            }
-        };
+        const showAuthError = msg => { $('authMsg').textContent = msg; $('authMsg').classList.remove('hidden'); };
 
-        // Custom Category Submit
-        const customCatForm = getEl('customCatForm');
-        if(customCatForm) customCatForm.addEventListener('submit', async (e) => {
+        $('loginForm').addEventListener('submit', async e => {
             e.preventDefault();
-            const type = getVal('newCatType');
-            const name = getVal('newCatName');
-            if(!name) return;
-
-            const newCat = { id: 'custom_' + Date.now(), name: name, icon: 'fa-tags', color: type==='income'?'text-teal-500':'text-purple-500', bg: type==='income'?'bg-teal-100 dark:bg-teal-900/30':'bg-purple-100 dark:bg-purple-900/30' };
-            
-            if(!userSettings.customCategories) userSettings.customCategories = { income:[], expense:[] };
-            if(!userSettings.customCategories[type]) userSettings.customCategories[type] = [];
-            userSettings.customCategories[type].push(newCat);
-            
-            setVal('newCatName', '');
-            window.saveSettings(false); // save silently
-            window.updateCategories();
-            window.showToast('সফল', 'নতুন ক্যাটাগরি তৈরি হয়েছে।');
+            const btn = $('loginBtn'); btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            try { await signInWithEmailAndPassword(auth, $('loginEmail').value, $('loginPassword').value); }
+            catch (err) { showAuthError("ইমেইল বা পাসওয়ার্ড ভুল হয়েছে।"); btn.disabled = false; btn.innerHTML = 'লগইন করুন <i class="fa-solid fa-arrow-right"></i>'; }
         });
 
-
-        window.switchTab = (tabId) => {
-            document.querySelectorAll('.app-tab').forEach(t => { t.classList.remove('block'); t.classList.add('hidden'); });
-            const target = getEl(`tab-${tabId}`);
-            if(target) { target.classList.remove('hidden'); target.classList.add('block'); }
-            
-            document.querySelectorAll('.nav-item').forEach(btn => {
-                if(btn.dataset.target === `tab-${tabId}`) btn.classList.add('active');
-                else btn.classList.remove('active');
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            if(tabId === 'transactions') window.renderHistory();
-        };
-
-        window.openQuickAdd = () => {
-            window.switchTab('dashboard');
-            const formCard = getEl('transactionFormCard');
-            if(formCard) {
-                window.scrollTo({ top: formCard.offsetTop - 80, behavior: 'smooth' });
-                const amountInput = getEl('amount');
-                if(amountInput) setTimeout(()=> amountInput.focus(), 500);
-            }
-        };
-
-        window.showToast = (title, msg, type = 'success') => {
-            const toast = getEl('toast');
-            setText('toastTitle', title); setText('toastMsg', msg);
-            const iconBg = getEl('toastIconBg'); const icon = getEl('toastIcon');
-            
-            if(type === 'error') { iconBg.className = 'w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center shrink-0 mt-0.5 shadow-inner'; icon.className = 'fa-solid fa-xmark text-rose-500 text-lg'; }
-            else if(type === 'warning') { iconBg.className = 'w-10 h-10 rounded-xl bg-yellow-100 dark:bg-yellow-900/40 flex items-center justify-center shrink-0 mt-0.5 shadow-inner'; icon.className = 'fa-solid fa-exclamation text-yellow-500 text-lg'; }
-            else { iconBg.className = 'w-10 h-10 rounded-xl bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center shrink-0 mt-0.5 shadow-inner'; icon.className = 'fa-solid fa-check text-teal-500 text-lg'; }
-            
-            toast.classList.remove('translate-y-[-150%]', 'opacity-0'); toast.classList.add('translate-y-0', 'opacity-100');
-            setTimeout(() => { toast.classList.remove('translate-y-0', 'opacity-100'); toast.classList.add('translate-y-[-150%]', 'opacity-0'); }, 3000);
-        };
-
-        // Auth Logic
-        window.switchAuth = (mode) => {
-            hideEl('authMsg');
-            const ind = getEl('authTabIndicator');
-            if(mode === 'login') {
-                if(ind) ind.style.transform = 'translateX(0)';
-                showEl('loginForm'); hideEl('registerForm');
-            } else {
-                if(ind) ind.style.transform = 'translateX(100%)';
-                hideEl('loginForm'); showEl('registerForm');
-            }
-            window.cancelForgotPass();
-        };
-        window.toggleForgotPass = () => { hideEl('loginForm'); showEl('forgotPassForm'); };
-        window.cancelForgotPass = () => { showEl('loginForm'); hideEl('forgotPassForm'); };
-        
-        function showAuthErr(msg) {
-            const div = getEl('authMsg');
-            if(div) { div.className = 'mb-6 p-4 rounded-2xl text-sm font-bold text-center border animate-fade bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-900/30 dark:border-rose-900/50 dark:text-rose-400 block'; div.textContent = msg; }
-        }
-
-        const loginForm = getEl('loginForm');
-        if(loginForm) loginForm.addEventListener('submit', async (e) => {
+        $('registerForm').addEventListener('submit', async e => {
             e.preventDefault();
-            const btn = getEl('loginBtn'); const orig = btn.innerHTML; 
-            btn.innerHTML = '<div class="loader !border-gray-500 !border-t-white dark:!border-gray-400 dark:!border-t-gray-900"></div>'; btn.disabled = true;
-            try { await signInWithEmailAndPassword(auth, getVal('loginEmail'), getVal('loginPassword')); }
-            catch (err) { showAuthErr("ইমেইল বা পাসওয়ার্ড ভুল হয়েছে।"); btn.innerHTML = orig; btn.disabled = false; }
-        });
-
-        const registerForm = getEl('registerForm');
-        if(registerForm) registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = getEl('regBtn'); const orig = btn.innerHTML; 
-            btn.innerHTML = '<div class="loader !border-sky-300 !border-t-white"></div>'; btn.disabled = true;
+            const btn = $('regBtn'); btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
             try { 
-                const cred = await createUserWithEmailAndPassword(auth, getVal('regEmail'), getVal('regPassword'));
-                await updateProfile(cred.user, { displayName: getVal('regName') });
-            } catch (err) { showAuthErr("ইমেইলটি ব্যবহৃত হচ্ছে বা পাসওয়ার্ড দুর্বল।"); btn.innerHTML = orig; btn.disabled = false; }
+                const cred = await createUserWithEmailAndPassword(auth, $('regEmail').value, $('regPassword').value);
+                await updateProfile(cred.user, { displayName: $('regName').value });
+            } catch (err) { showAuthError("রেজিস্ট্রেশন ব্যর্থ। ইমেইলটি ব্যবহৃত হতে পারে।"); btn.disabled = false; btn.innerHTML = 'অ্যাকাউন্ট তৈরি করুন <i class="fa-solid fa-user-plus"></i>'; }
         });
 
-        const forgotPassForm = getEl('forgotPassForm');
-        if(forgotPassForm) forgotPassForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = getEl('resetBtn'); const orig = btn.innerHTML; 
-            btn.innerHTML = '<div class="loader !border-gray-500 !border-t-white"></div>'; btn.disabled = true;
-            try { 
-                await sendPasswordResetEmail(auth, getVal('resetEmail'));
-                window.cancelForgotPass(); window.showToast('সফল', 'রিসেট লিংক ইমেইলে পাঠানো হয়েছে।');
-            } catch(e) { showAuthErr("সঠিক ইমেইল দিন।"); }
-            finally { btn.innerHTML = orig; btn.disabled = false; }
-        });
-
-        window.handleLogout = async () => { 
-            if(confirm("লগআউট করতে চান?")) { 
-                const gl = getEl('globalLoader'); if(gl) { gl.style.opacity = '1'; gl.style.display = 'flex'; }
-                await signOut(auth); 
-            } 
-        };
-
-        window.updateGreeting = () => {
-            if(!currentUser) return;
-            const name = currentUser.displayName || currentUser.email.split('@')[0];
-            const hour = new Date().getHours();
-            let greeting = 'শুভ দিন';
-            if (hour >= 5 && hour < 12) greeting = 'শুভ সকাল';
-            else if (hour >= 12 && hour < 18) greeting = 'শুভ বিকেল';
-            else if (hour >= 18 && hour < 22) greeting = 'শুভ সন্ধ্যা';
-            else greeting = 'শুভ রাত্রি';
-            
-            setText('timeGreeting', greeting);
-            setText('userGreeting', `${name}`);
-        };
-
-        window.hideDataError = () => { hideEl('dataErrorAlert'); };
+        window.handleLogout = () => signOut(auth);
 
         // Firebase Auth Observer
-        onAuthStateChanged(auth, async (user) => {
+        onAuthStateChanged(auth, async user => {
             currentUser = user;
-            const loader = getEl('globalLoader');
-            
+            const loader = $('globalLoader');
             if (user) {
-                // Check PIN
-                if(localStorage.getItem('appPin')) {
-                    hideEl('authScreen'); hideEl('mainApp'); showEl('pinScreen');
-                } else {
-                    hideEl('authScreen'); hideEl('pinScreen'); showEl('mainApp');
-                }
+                $('authScreen').classList.add('hidden');
+                $('mainApp').classList.remove('hidden');
+                $('mainApp').classList.add('flex');
                 
-                window.updateGreeting();
-                const navAv = getEl('navAvatar'); 
-                if(navAv) navAv.src = `https://ui-avatars.com/api/?name=${user.displayName || user.email.split('@')[0]}&background=0ea5e9&color=fff&bold=true`;
+                // Set UI info
+                const name = user.displayName || user.email.split('@')[0];
+                $('sideUserName').textContent = name;
+                if($('userGreeting')) $('userGreeting').textContent = `হ্যালো, ${name}`;
+                $('sideAvatar').src = `https://ui-avatars.com/api/?name=${name}&background=0ea5e9&color=fff&bold=true`;
+                
+                // Init Defaults
+                const d = new Date();
+                const m = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+                $('filterMonth').value = m;
+                $('entryDate').value = `${m}-${String(d.getDate()).padStart(2, '0')}`;
 
                 await fetchSettings();
                 fetchTransactions();
                 setTimeout(() => { if(loader) { loader.style.opacity = '0'; setTimeout(()=> loader.style.display = 'none', 400); } }, 500);
             } else {
-                hideEl('mainApp'); hideEl('pinScreen'); showEl('authScreen');
+                $('mainApp').classList.add('hidden'); $('mainApp').classList.remove('flex');
+                $('authScreen').classList.remove('hidden');
                 if (unsubscribeTxns) { unsubscribeTxns(); unsubscribeTxns = null; }
-                transactions = []; window.updateUI();
-                
-                const lf = getEl('loginForm'); if(lf) lf.reset();
-                const rf = getEl('registerForm'); if(rf) rf.reset();
+                transactions = [];
+                $('loginForm').reset(); $('registerForm').reset();
                 setTimeout(() => { if(loader) { loader.style.opacity = '0'; setTimeout(()=> loader.style.display = 'none', 400); } }, 500);
             }
         });
 
-        // Cloud Settings Logic
+        // App Navigation
+        window.switchView = (viewId) => {
+            document.querySelectorAll('.app-view').forEach(v => { v.classList.remove('block', 'flex'); v.classList.add('hidden'); });
+            const target = $(`view-${viewId}`);
+            if(target) { target.classList.remove('hidden'); target.classList.add(viewId==='ledger'?'flex':'block'); }
+            
+            document.querySelectorAll('.sidebar-item').forEach(btn => {
+                if(btn.dataset.view === viewId) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+            
+            const titles = { dashboard: 'ড্যাশবোর্ড ওভারভিউ', ledger: 'লেজার ও রিপোর্ট', analytics: 'অ্যানালিটিক্স', settings: 'সিস্টেম সেটিংস' };
+            if($('topbarTitle')) $('topbarTitle').textContent = titles[viewId] || '';
+            
+            if(viewId === 'ledger') window.renderLedger();
+            if(viewId === 'analytics') renderCharts();
+        };
+
+        // Data Fetching & Settings
         async function fetchSettings() {
             try {
                 const docSnap = await getDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'settings', 'profile'));
-                if(docSnap.exists()) {
-                    const data = docSnap.data();
-                    userSettings = { ...userSettings, ...data };
-                    if(!userSettings.customCategories) userSettings.customCategories = { income:[], expense:[] };
-                }
-                setVal('setCurrency', userSettings.currency);
-                setVal('setBudget', userSettings.budget || '');
+                if(docSnap.exists()) userSettings = { ...userSettings, ...docSnap.data() };
+                $('setCurrency').value = userSettings.currency;
+                $('setBudget').value = userSettings.budget || '';
                 updateCurrencySymbols();
-                window.updateCategories(); 
-            } catch(e) { console.error("Settings fetch error"); }
+            } catch(e) {}
         }
 
-        window.saveSettings = async (showMsg = true) => {
-            const currency = getVal('setCurrency') || '৳';
-            const budget = parseFloat(getVal('setBudget')) || 0;
-            userSettings.currency = currency; userSettings.budget = budget;
+        window.saveSettings = async () => {
+            userSettings.currency = $('setCurrency').value;
+            userSettings.budget = parseFloat($('setBudget').value) || 0;
             try {
                 await setDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'settings', 'profile'), userSettings, {merge: true});
-                updateCurrencySymbols();
-                window.updateUI();
-                if(showMsg) window.showToast('সেটিংস', 'সফলভাবে সেভ হয়েছে।');
-            } catch(e) { if(showMsg) window.showToast('ত্রুটি', 'সেভ হয়নি', 'error'); }
+                updateCurrencySymbols(); updateDashboard();
+                window.showToast('সেটিংস সেভ হয়েছে');
+            } catch(e) { window.showToast('সেভ ব্যর্থ', 'error'); }
         };
 
         function updateCurrencySymbols() { document.querySelectorAll('.currencySymbol').forEach(el => el.textContent = userSettings.currency); }
 
-        // Transactions CRUD
         function fetchTransactions() {
-            if (!currentUser) return;
-            const loader = getEl('listLoader'); if(loader) loader.classList.remove('hidden');
-            
-            // Following strictly: artifacts/appId/users/userId/collectionName
+            $('chartSkeleton').classList.remove('hidden');
             const txnsRef = collection(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions');
-            
             unsubscribeTxns = onSnapshot(txnsRef, (snap) => {
-                hideEl('dataErrorAlert'); // Hide error if successful
                 transactions = [];
-                snap.forEach(doc => {
-                    const d = doc.data();
-                    transactions.push({ id: doc.id, ...d, date: d.date || '' }); 
-                });
-                transactions.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+                snap.forEach(doc => transactions.push({ id: doc.id, ...doc.data() }));
+                transactions.sort((a,b) => new Date(b.date) - new Date(a.date) || new Date(b.timestamp) - new Date(a.timestamp));
                 
-                if(loader) loader.classList.add('hidden');
-                window.updateUI();
-                
-                const tabT = getEl('tab-transactions');
-                if(tabT && !tabT.classList.contains('hidden')) window.renderHistory();
-            }, (error) => {
-                console.error("Firestore Read Error:", error);
-                if(loader) loader.classList.add('hidden');
-                showEl('dataErrorAlert'); // Show prominent error alert
-            });
+                $('chartSkeleton').classList.add('hidden');
+                updateDashboard();
+                const activeView = document.querySelector('.sidebar-item.active');
+                if(activeView && activeView.dataset.view === 'ledger') window.renderLedger();
+                if(activeView && activeView.dataset.view === 'analytics') renderCharts();
+            }, (error) => { console.error(error); window.showToast('ডেটা সিঙ্ক ত্রুটি', 'error'); });
         }
 
-        const txnForm = getEl('transactionForm');
-        if(txnForm) txnForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentUser) return;
-
-            const typeNode = document.querySelector('input[name="type"]:checked');
-            if(!typeNode) return;
-            const type = typeNode.value;
-            const amount = parseFloat(getVal('amount'));
-            const date = getVal('date');
-            const cat = getVal('category');
-            const note = getVal('note');
-            const editId = getVal('editModeId');
-            
-            if (amount <= 0 || !date) return;
-
-            const btn = getEl('submitBtn'); const orig = btn.innerHTML;
-            btn.innerHTML = '<div class="loader !w-6 !h-6 !border-4 !border-t-4 mr-2 !border-gray-400 !border-t-white"></div> সেভ হচ্ছে...'; btn.disabled = true;
-
-            let timestamp = new Date().toISOString();
-            if(editId) { const oldTxn = transactions.find(t=>t.id===editId); if(oldTxn) timestamp = oldTxn.timestamp || timestamp; }
-            const data = { type, amount, date, category: cat, note, timestamp };
-
-            try {
-                if(editId) {
-                    await updateDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions', editId), data);
-                    window.showToast('আপডেট', 'সফলভাবে পরিবর্তন হয়েছে।');
-                } else {
-                    await addDoc(collection(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions'), data);
-                    window.showToast('সংরক্ষিত', 'নতুন ডেটা যোগ হয়েছে।');
-                }
-                window.cancelEdit();
-            } catch (err) { window.showToast('ব্যর্থ', 'সেভ করতে সমস্যা হচ্ছে।', 'error'); } 
-            finally { btn.innerHTML = orig; btn.disabled = false; }
-        });
-
-        window.editTransaction = (id) => {
-            const txn = transactions.find(t => t.id === id);
-            if(!txn) return;
-            setVal('editModeId', txn.id);
-            const radio = document.querySelector(`input[name="type"][value="${txn.type}"]`); if(radio) radio.checked = true;
-            window.updateCategories();
-            
-            setVal('amount', txn.amount); setVal('date', txn.date); setVal('category', txn.category); setVal('note', txn.note);
-            
-            setText('formTitle', 'হিসাব পরিবর্তন');
-            const btn = getEl('submitBtnText'); if(btn) btn.textContent = 'আপডেট করুন';
-            showEl('cancelEditBtn');
-            window.openQuickAdd();
+        // Modal Logic
+        window.populateCategories = () => {
+            const type = document.querySelector('input[name="entryType"]:checked').value;
+            const sel = $('entryCategory'); sel.innerHTML = '';
+            for(let key in CATEGORIES[type]) { sel.add(new Option(CATEGORIES[type][key], key)); }
         };
 
-        window.cancelEdit = () => {
-            setVal('editModeId', '');
-            const form = getEl('transactionForm'); if(form) form.reset();
-            const d = new Date(); setVal('date', `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`);
-            setText('formTitle', 'নতুন লেনদেন');
-            const btn = getEl('submitBtnText'); if(btn) btn.textContent = 'ডেটা সেভ করুন';
-            hideEl('cancelEditBtn');
-        };
-
-        window.deleteTransaction = async (id) => {
-            if(!currentUser) return;
-            if(confirm('স্থায়ীভাবে মুছে ফেলতে চান?')) {
-                try { await deleteDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions', id)); window.showToast('মুছে ফেলা হয়েছে', '', 'warning'); }
-                catch(e) { window.showToast('ত্রুটি', '', 'error'); }
+        window.openAddModal = (id = null) => {
+            const m = $('entryModal'); m.classList.remove('hidden'); m.classList.add('flex');
+            if(id) {
+                const t = transactions.find(x => x.id === id);
+                if(!t) return;
+                $('modalTitle').textContent = 'এডিট এন্ট্রি';
+                $('entryId').value = t.id;
+                document.querySelector(`input[name="entryType"][value="${t.type}"]`).checked = true;
+                window.populateCategories();
+                $('entryAmount').value = t.amount; $('entryDate').value = t.date;
+                $('entryCategory').value = t.category; $('entryNote').value = t.note || '';
+            } else {
+                $('modalTitle').textContent = 'নতুন এন্ট্রি';
+                $('entryForm').reset(); $('entryId').value = '';
+                document.querySelector('input[name="entryType"][value="expense"]').checked = true;
+                window.populateCategories();
+                const d = new Date(); $('entryDate').value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
             }
         };
+        window.closeAddModal = () => { $('entryModal').classList.add('hidden'); $('entryModal').classList.remove('flex'); };
 
-        window.syncMonthsAndRender = () => { const histMonth = getVal('histMonthFilter'); if(histMonth) setVal('monthFilter', histMonth); window.updateUI(); window.renderHistory(); };
-
-        // Data Processing & UI Update
-        window.updateUI = () => {
+        $('entryForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            if (!currentUser) return;
+            const id = $('entryId').value;
+            const data = {
+                type: document.querySelector('input[name="entryType"]:checked').value,
+                amount: parseFloat($('entryAmount').value),
+                date: $('entryDate').value,
+                category: $('entryCategory').value,
+                note: $('entryNote').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            const btn = $('entrySubmitBtn'); btn.disabled = true; btn.innerHTML = 'সেভ হচ্ছে...';
             try {
-                let mFilter = getVal('monthFilter');
-                if(!mFilter) { const d = new Date(); mFilter = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; setVal('monthFilter', mFilter); setVal('histMonthFilter', mFilter); }
-                
-                const currentMonthTxns = transactions.filter(t => t.date && t.date.startsWith(mFilter));
-                let inc=0, exp=0, globalInc=0, globalExp=0;
-                transactions.forEach(t => { if(t.type==='income') globalInc += t.amount; else globalExp += t.amount; });
-                currentMonthTxns.forEach(t => { if(t.type==='income') inc += t.amount; else exp += t.amount; });
+                if(id) await updateDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions', id), data);
+                else await addDoc(collection(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions'), data);
+                window.closeAddModal(); window.showToast('সফলভাবে সংরক্ষিত');
+            } catch (err) { window.showToast('ব্যর্থ', 'error'); } 
+            finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> সেভ করুন'; }
+        });
 
-                setText('totalBalance', window.formatNumber(globalInc - globalExp));
-                setText('totalIncomeLife', window.formatNumber(globalInc)); setText('totalExpenseLife', window.formatNumber(globalExp));
-                setText('monthlyIncome', window.formatNumber(inc)); setText('monthlyExpense', window.formatNumber(exp));
-                setText('monthlyExpText', window.formatNumber(exp));
-
-                // Budget System
-                const budget = userSettings.budget;
-                const prog = getEl('expenseProgressBar'); const perc = getEl('expensePercentage'); const statText = getEl('budgetStatusText'); const smartMsg = getEl('smartMessage');
-
-                if(budget > 0 && prog && perc && statText && smartMsg) {
-                    let ratio = (exp / budget) * 100;
-                    prog.style.width = `${Math.min(ratio, 100)}%`; perc.textContent = `${Math.round(ratio)}%`;
-                    
-                    if(ratio < 50) {
-                        prog.className = 'h-full rounded-full transition-all duration-1000 ease-out bg-sky-500 relative';
-                        perc.className = 'text-2xl font-black text-sky-400';
-                        smartMsg.className = 'w-full mb-6 p-4 rounded-2xl flex items-center gap-4 shadow-sm bg-sky-50 border border-sky-100 dark:bg-sky-900/20 dark:border-sky-800 text-sky-700 dark:text-sky-400 animate-slide-up block';
-                        smartMsg.innerHTML = '<i class="fa-solid fa-thumbs-up text-2xl"></i><div><h4 class="font-bold text-sm tracking-tight">দারুণ চলছে!</h4><p class="text-xs font-medium">আপনার খরচ লিমিটের অনেক নিচেই আছে।</p></div>';
-                    } else if(ratio < 85) {
-                        prog.className = 'h-full rounded-full transition-all duration-1000 ease-out bg-amber-500 relative';
-                        perc.className = 'text-2xl font-black text-amber-500';
-                        smartMsg.className = 'w-full mb-6 p-4 rounded-2xl flex items-center gap-4 shadow-sm bg-amber-50 border border-amber-100 dark:bg-amber-900/20 dark:border-amber-800 text-amber-700 dark:text-amber-400 animate-slide-up block';
-                        smartMsg.innerHTML = '<i class="fa-solid fa-bell text-2xl"></i><div><h4 class="font-bold text-sm tracking-tight">সতর্ক হোন</h4><p class="text-xs font-medium">খরচ ধীরে ধীরে বাজেটের কাছাকাছি যাচ্ছে।</p></div>';
-                    } else {
-                        prog.className = 'h-full rounded-full transition-all duration-1000 ease-out bg-rose-500 relative animate-pulse';
-                        perc.className = 'text-2xl font-black text-rose-500 animate-pulse';
-                        smartMsg.className = 'w-full mb-6 p-4 rounded-2xl flex items-center gap-4 shadow-sm bg-rose-50 border border-rose-100 dark:bg-rose-900/20 dark:border-rose-800 text-rose-700 dark:text-rose-400 animate-slide-up block';
-                        smartMsg.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-2xl animate-pulse"></i><div><h4 class="font-bold text-sm tracking-tight">বাজেট অ্যালার্ট!</h4><p class="text-xs font-medium">আপনার খরচ লিমিট পার হয়ে যাচ্ছে বা গেছে।</p></div>';
-                    }
-                    statText.innerHTML = `চলতি মাস: <span class="text-white"><span class="currencySymbol">${userSettings.currency}</span> ${window.formatNumber(exp)}</span> / ${window.formatNumber(budget)}`;
-                } else {
-                    if(prog) { prog.style.width = '0%'; prog.className = 'h-full rounded-full transition-all duration-1000 ease-out bg-gray-500 relative'; }
-                    if(perc) { perc.textContent = '0%'; perc.className = 'text-2xl font-black text-gray-500'; }
-                    if(smartMsg) { smartMsg.className = 'hidden'; }
-                    if(statText) { statText.innerHTML = `বাজেট সেট করা নেই`; }
-                }
-
-                // Recent List Mini
-                const miniList = getEl('recentTransactionList');
-                if(miniList) {
-                    miniList.innerHTML = '';
-                    transactions.slice(0,4).forEach(t => {
-                        const c = window.getCategory(t.category, t.type);
-                        const isInc = t.type === 'income';
-                        const el = document.createElement('div');
-                        el.className = 'flex justify-between items-center bg-white dark:bg-slate-900/50 p-4 rounded-2xl border border-gray-100 dark:border-slate-700 cursor-pointer hover:shadow-md transition-all group';
-                        el.onclick = () => window.editTransaction(t.id);
-                        
-                        const dStr = t.date ? t.date.split('-').reverse().join('/') : 'N/A';
-                        
-                        el.innerHTML = `
-                            <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-xl ${c.bg} ${c.color} flex items-center justify-center text-lg shadow-inner"><i class="fa-solid ${c.icon}"></i></div>
-                                <div>
-                                    <p class="text-sm font-bold text-gray-800 dark:text-gray-100 group-hover:text-sky-500 transition-colors">${c.name}</p>
-                                    <p class="text-[11px] font-bold text-gray-400 tracking-wider">${dStr}</p>
-                                </div>
-                            </div>
-                            <span class="text-base font-black ${isInc?'text-green-500':'text-rose-500'}">${isInc?'+':'-'}${userSettings.currency}${window.formatNumber(t.amount)}</span>
-                        `;
-                        miniList.appendChild(el);
-                    });
-                    if(transactions.length===0) miniList.innerHTML = '<div class="text-center py-10"><i class="fa-solid fa-receipt text-3xl text-gray-300 mb-2"></i><p class="text-xs text-gray-400 font-bold uppercase">কোনো ডেটা নেই</p></div>';
-                }
-
-                renderMiniChart(currentMonthTxns);
-            } catch(error) { console.error("UI Update error: ", error); }
+        window.deleteTransaction = async (id) => {
+            if(!currentUser || !confirm('মুছে ফেলতে চান?')) return;
+            try { await deleteDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions', id)); window.showToast('মুছে ফেলা হয়েছে'); }
+            catch(e) { window.showToast('ত্রুটি', 'error'); }
         };
 
-        window.renderHistory = () => {
-            try {
-                const filterMonth = getVal('histMonthFilter') || getVal('monthFilter');
-                setVal('histMonthFilter', filterMonth);
-                
-                const term = getVal('searchInput').toLowerCase();
-                const typeFilter = getVal('typeFilter') || 'all';
+        // Render Logic
+        function updateDashboard() {
+            let totalInc = 0, totalExp = 0, monthInc = 0, monthExp = 0;
+            const currentMonth = new Date().toISOString().substring(0,7);
+            
+            transactions.forEach(t => {
+                if(t.type === 'income') { totalInc += t.amount; if(t.date.startsWith(currentMonth)) monthInc += t.amount; }
+                else { totalExp += t.amount; if(t.date.startsWith(currentMonth)) monthExp += t.amount; }
+            });
 
-                let filtered = transactions.filter(t => t.date && t.date.startsWith(filterMonth));
-                if(typeFilter !== 'all') filtered = filtered.filter(t => t.type === typeFilter);
-                if(term) filtered = filtered.filter(t => window.getCategory(t.category, t.type).name.toLowerCase().includes(term) || (t.note||'').toLowerCase().includes(term));
+            $('dashBalance').textContent = formatMoney(totalInc - totalExp);
+            $('dashIncome').textContent = formatMoney(monthInc);
+            $('dashExpense').textContent = formatMoney(monthExp);
+            
+            const savings = monthInc > 0 ? ((monthInc - monthExp) / monthInc) * 100 : 0;
+            const savingsEl = $('dashSavings');
+            savingsEl.textContent = savings > 0 ? savings.toFixed(1) : 0;
+            savingsEl.className = savings > 20 ? 'text-emerald-500' : (savings > 0 ? 'text-amber-500' : 'text-rose-500');
 
-                const list = getEl('fullTransactionList');
-                const empty = getEl('fullEmptyState');
-                if(!list || !empty) return;
-
-                list.innerHTML = '';
-                if(filtered.length === 0) { hideEl('fullTransactionList'); showEl('fullEmptyState'); }
-                else { showEl('fullTransactionList'); hideEl('fullEmptyState'); }
-
-                const catMap = {};
-
-                filtered.forEach(t => {
-                    const c = window.getCategory(t.category, t.type);
-                    const isInc = t.type === 'income';
-                    if(!isInc) catMap[t.category] = (catMap[t.category]||0) + t.amount;
-                    
-                    const dStr = t.date ? t.date.split('-').reverse().join('-') : 'N/A';
-                    
-                    const el = document.createElement('div');
-                    el.className = 'flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-white dark:bg-slate-800/80 rounded-2xl border border-gray-100 dark:border-slate-700 hover:shadow-md transition-all group gap-4 relative overflow-hidden';
-                    el.innerHTML = `
-                        <div class="absolute left-0 top-0 bottom-0 w-1.5 ${isInc ? 'bg-green-500' : 'bg-rose-500'}"></div>
-                        <div class="flex items-center gap-4 flex-1 w-full overflow-hidden pl-2">
-                            <div class="w-12 h-12 rounded-xl ${c.bg} ${c.color} flex items-center justify-center text-xl shrink-0 shadow-inner"><i class="fa-solid ${c.icon}"></i></div>
-                            <div class="min-w-0 flex-1">
-                                <h4 class="font-extrabold text-gray-800 dark:text-gray-100 text-[15px] truncate">${c.name}</h4>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 font-bold mt-0.5 tracking-wide"><i class="fa-regular fa-calendar text-sky-500 mr-1"></i>${dStr}</p>
-                                ${t.note ? `<p class="text-[11px] text-gray-600 dark:text-gray-300 truncate bg-gray-50 dark:bg-slate-900/50 px-2.5 py-1 rounded-lg inline-block mt-1.5 max-w-full font-medium border border-gray-100 dark:border-slate-700">${t.note}</p>`:''}
+            // Render Recent
+            const list = $('dashRecentList'); list.innerHTML = '';
+            transactions.slice(0, 5).forEach(t => {
+                const isInc = t.type === 'income';
+                const catName = CATEGORIES[t.type][t.category] || t.category;
+                list.innerHTML += `
+                    <div class="flex justify-between items-center p-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg cursor-pointer transition border border-transparent hover:border-slate-100 dark:hover:border-slate-700" onclick="window.openAddModal('${t.id}')">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center bg-${isInc?'emerald':'rose'}-100 text-${isInc?'emerald':'rose'}-600 dark:bg-${isInc?'emerald':'rose'}-900/30">
+                                <i class="fa-solid ${isInc?'fa-arrow-down':'fa-arrow-up'}"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">${catName}</p>
+                                <p class="text-xs text-slate-500">${t.date}</p>
                             </div>
                         </div>
-                        <div class="flex flex-row sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto shrink-0 gap-3 sm:gap-1.5 pt-3 sm:pt-0 border-t sm:border-t-0 border-gray-100 dark:border-slate-700">
-                            <span class="font-black ${isInc?'text-green-500':'text-rose-500'} text-lg">${isInc?'+':'-'}${userSettings.currency}${window.formatNumber(t.amount)}</span>
-                            <div class="flex gap-2">
-                                <button onclick="window.editTransaction('${t.id}')" class="text-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/30 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-transparent hover:border-sky-200 dark:hover:border-sky-800"><i class="fa-solid fa-pen mr-1"></i> এডিট</button>
-                                <button onclick="window.deleteTransaction('${t.id}')" class="text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-transparent hover:border-rose-200 dark:hover:border-rose-800"><i class="fa-solid fa-trash mr-1"></i> ডিলিট</button>
-                            </div>
+                        <span class="font-bold text-sm ${isInc?'text-emerald-500':'text-rose-500'}">${isInc?'+':'-'}${userSettings.currency}${formatMoney(t.amount)}</span>
+                    </div>
+                `;
+            });
+            if(transactions.length===0) list.innerHTML = '<div class="text-center text-slate-400 py-6 text-sm">কোনো ডেটা নেই</div>';
+            
+            renderCharts();
+        }
+
+        window.renderLedger = () => {
+            const tbody = $('ledgerTbody'); tbody.innerHTML = '';
+            const m = $('filterMonth').value;
+            const tType = $('filterType').value;
+            const q = $('searchTable').value.toLowerCase();
+
+            let filtered = transactions;
+            if(m) filtered = filtered.filter(t => t.date.startsWith(m));
+            if(tType !== 'all') filtered = filtered.filter(t => t.type === tType);
+            if(q) filtered = filtered.filter(t => {
+                const cat = (CATEGORIES[t.type][t.category] || '').toLowerCase();
+                return cat.includes(q) || (t.note||'').toLowerCase().includes(q) || t.amount.toString().includes(q);
+            });
+
+            if(filtered.length === 0) { $('ledgerEmpty').classList.remove('hidden'); } 
+            else { $('ledgerEmpty').classList.add('hidden'); }
+
+            filtered.forEach(t => {
+                const isInc = t.type === 'income';
+                const catName = CATEGORIES[t.type][t.category] || t.category;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="whitespace-nowrap"><i class="fa-regular fa-calendar mr-2 text-slate-400"></i>${t.date}</td>
+                    <td class="font-medium">${catName}</td>
+                    <td class="text-center"><span class="px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${isInc?'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400':'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'}">${isInc?'Income':'Expense'}</span></td>
+                    <td class="max-w-[200px] truncate" title="${t.note}">${t.note||'-'}</td>
+                    <td class="text-right font-bold ${isInc?'text-emerald-600 dark:text-emerald-400':'text-rose-600 dark:text-rose-400'}">${userSettings.currency}${formatMoney(t.amount)}</td>
+                    <td class="text-center">
+                        <div class="flex gap-2 justify-center">
+                            <button onclick="window.openAddModal('${t.id}')" class="text-brand-500 hover:text-brand-700 bg-brand-50 dark:bg-brand-900/30 p-1.5 rounded"><i class="fa-solid fa-pen text-xs"></i></button>
+                            <button onclick="window.deleteTransaction('${t.id}')" class="text-rose-500 hover:text-rose-700 bg-rose-50 dark:bg-rose-900/30 p-1.5 rounded"><i class="fa-solid fa-trash text-xs"></i></button>
                         </div>
-                    `;
-                    list.appendChild(el);
-                });
-                renderBigCharts(catMap);
-            } catch(e) { console.error("Render History Error:", e); }
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
         };
 
         // Charts
-        function renderMiniChart(txns) {
-            const canvas = getEl('expenseChart');
-            const noData = getEl('noChartData');
-            if(!canvas || !noData) return;
-            const ctx = canvas.getContext('2d');
-
-            const exps = txns.filter(t=>t.type==='expense');
-            if(exps.length===0) { 
-                if(expenseChartInstance) expenseChartInstance.destroy(); 
-                canvas.style.display = 'none'; noData.classList.remove('hidden'); noData.classList.add('flex');
-                return; 
-            }
-            
-            canvas.style.display = 'block'; noData.classList.add('hidden'); noData.classList.remove('flex');
-            
-            const map = {}; exps.forEach(t => map[window.getCategory(t.category, 'expense').name] = (map[window.getCategory(t.category, 'expense').name]||0) + t.amount);
-            
-            if(expenseChartInstance) expenseChartInstance.destroy();
+        function renderCharts() {
+            if(!transactions.length) return;
             const isDark = document.documentElement.classList.contains('dark');
-            expenseChartInstance = new Chart(ctx, {
-                type: 'doughnut',
-                data: { labels: Object.keys(map), datasets: [{ data: Object.values(map), backgroundColor: ['#f97316','#f59e0b','#e11d48','#06b6d4','#6366f1','#3b82f6','#ef4444','#d946ef','#64748b'], borderWidth: isDark?0:3, borderColor: isDark?'transparent':'#fff', borderRadius: 5, hoverOffset: 5 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, cutout: '72%', animation: { animateScale: true, animateRotate: true } }
+            const gridColor = isDark ? '#1e293b' : '#f1f5f9';
+            const textColor = isDark ? '#94a3b8' : '#475569';
+            Chart.defaults.color = textColor;
+            Chart.defaults.font.family = "'Inter', sans-serif";
+
+            // Main Trend
+            const trendData = {};
+            transactions.forEach(t => {
+                const m = t.date.substring(0,7);
+                if(!trendData[m]) trendData[m] = { i:0, e:0 };
+                if(t.type==='income') trendData[m].i += t.amount; else trendData[m].e += t.amount;
             });
-        }
-
-        function renderBigCharts(catMap) {
-            const c1 = getEl('catChart'); const c2 = getEl('trendChart');
-            if(!c1 || !c2) return;
-            
-            const ctx1 = c1.getContext('2d'); const ctx2 = c2.getContext('2d');
-            const isDark = document.documentElement.classList.contains('dark');
-            const tColor = isDark ? '#94a3b8' : '#64748b';
-
-            if(catChartInst) catChartInst.destroy();
-            if(Object.keys(catMap).length > 0) {
-                const labels = Object.keys(catMap).map(k => window.getCategory(k, 'expense').name);
-                catChartInst = new Chart(ctx1, {
-                    type: 'doughnut',
-                    data: { labels, datasets: [{ data: Object.values(catMap), backgroundColor: ['#f97316','#f59e0b','#e11d48','#06b6d4','#6366f1','#3b82f6','#ef4444','#d946ef','#64748b'], borderWidth: isDark?0:4, borderColor: isDark?'transparent':'#fff', borderRadius: 8, hoverOffset: 10 }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: tColor, font:{family:"'Hind Siliguri', sans-serif", weight: 'bold'}, usePointStyle: true, boxWidth: 8, padding: 15 } } }, cutout: '65%' }
+            const months = Object.keys(trendData).sort().slice(-6);
+            if($('mainTrendChart')) {
+                if(charts.main) charts.main.destroy();
+                charts.main = new Chart($('mainTrendChart').getContext('2d'), {
+                    type: 'bar',
+                    data: { labels: months, datasets: [{ label: 'Income', data: months.map(m=>trendData[m].i), backgroundColor: '#10b981', borderRadius: 4 }, { label: 'Expense', data: months.map(m=>trendData[m].e), backgroundColor: '#f43f5e', borderRadius: 4 }] },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: gridColor }, beginAtZero: true }, x: { grid: { display: false } } }, plugins: { legend: { position: 'top' } } }
                 });
             }
 
-            if(trendChartInst) trendChartInst.destroy();
-            const trendData = {};
-            transactions.forEach(t => {
-                if(!t.date) return;
-                const month = t.date.substring(0,7);
-                if(!trendData[month]) trendData[month] = { i:0, e:0 };
-                if(t.type==='income') trendData[month].i += t.amount; else trendData[month].e += t.amount;
+            // Doughnuts
+            const mFilter = $('filterMonth').value || new Date().toISOString().substring(0,7);
+            const curTxns = transactions.filter(t => t.date.startsWith(mFilter));
+            const catExp={}, catInc={};
+            curTxns.forEach(t => {
+                const cName = CATEGORIES[t.type][t.category] || t.category;
+                if(t.type==='expense') catExp[cName] = (catExp[cName]||0) + t.amount;
+                else catInc[cName] = (catInc[cName]||0) + t.amount;
             });
-            const sortedMonths = Object.keys(trendData).sort().slice(-6); 
-            const dataI = sortedMonths.map(m => trendData[m].i);
-            const dataE = sortedMonths.map(m => trendData[m].e);
-            
-            trendChartInst = new Chart(ctx2, {
-                type: 'bar',
-                data: { labels: sortedMonths, datasets: [{ label: 'আয়', data: dataI, backgroundColor: '#10b981', borderRadius: 6 }, { label: 'ব্যয়', data: dataE, backgroundColor: '#f43f5e', borderRadius: 6 }] },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid:{ color: isDark?'#1e293b':'#f1f5f9' }, ticks:{color:tColor, font:{weight:'bold'}} }, x: { grid:{display:false}, ticks:{color:tColor, font:{weight:'bold'}} } }, plugins: { legend: { labels: {color:tColor, font:{family:"'Hind Siliguri'", weight:'bold'}} } } }
-            });
+
+            const drawDoughnut = (id, dataObj, colorArr, chartRefKey) => {
+                const el = $(id); if(!el) return;
+                if(charts[chartRefKey]) charts[chartRefKey].destroy();
+                charts[chartRefKey] = new Chart(el.getContext('2d'), {
+                    type: 'doughnut',
+                    data: { labels: Object.keys(dataObj), datasets: [{ data: Object.values(dataObj), backgroundColor: colorArr, borderWidth: isDark?0:2, borderColor: isDark?'#0f172a':'#fff' }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } }, cutout: '70%' }
+                });
+            };
+
+            drawDoughnut('expenseCatChart', catExp, ['#f43f5e','#f97316','#eab308','#3b82f6','#8b5cf6','#ec4899','#64748b'], 'expDoughnut');
+            drawDoughnut('incomeCatChart', catInc, ['#10b981','#0ea5e9','#6366f1','#14b8a6'], 'incDoughnut');
         }
 
-        // Export Data
-        window.exportData = () => {
-            if(transactions.length === 0) return window.showToast('খালি', 'এক্সপোর্ট করার মতো ডেটা নেই', 'warning');
-            let csv = "Date,Type,Category,Amount,Note\n";
-            transactions.forEach(t => { csv += `"${t.date || ''}","${t.type}","${window.getCategory(t.category, t.type).name}","${t.amount}","${t.note || ''}"\n`; });
-            const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = `FinancePro_${new Date().toISOString().split('T')[0]}.csv`;
-            link.click();
-            window.showToast('সফল', 'ডেটা ডাউনলোড হয়েছে।');
+        // PDF Generation via Print
+        window.generatePDFStatement = () => {
+            const m = $('filterMonth').value;
+            const filtered = m ? transactions.filter(t => t.date.startsWith(m)) : transactions;
+            
+            if(filtered.length === 0) return window.showToast('এক্সপোর্ট করার মত ডেটা নেই', 'error');
+
+            let ti=0, te=0;
+            const tbody = $('printTbody'); tbody.innerHTML = '';
+            filtered.forEach(t => {
+                if(t.type==='income') ti+=t.amount; else te+=t.amount;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${t.date}</td>
+                    <td>${CATEGORIES[t.type][t.category] || t.category}</td>
+                    <td>${t.type==='income'?'Income':'Expense'}</td>
+                    <td>${t.note||'-'}</td>
+                    <td style="text-align: right;">${t.amount.toLocaleString('en-IN')}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            $('printDateRange').textContent = `Period: ${m || 'All Time'}`;
+            $('printUserInfo').textContent = `Account: ${currentUser?.email}`;
+            $('printInc').textContent = `${userSettings.currency}${ti.toLocaleString('en-IN')}`;
+            $('printExp').textContent = `${userSettings.currency}${te.toLocaleString('en-IN')}`;
+            $('printBal').textContent = `${userSettings.currency}${(ti-te).toLocaleString('en-IN')}`;
+
+            window.print();
         };
 
         window.handleResetData = async () => {
             if(prompt("সব ডেটা ও একাউন্ট মুছতে চাইলে 'DELETE' লিখুন:") === 'DELETE') {
-                const gl = getEl('globalLoader'); if(gl) { gl.style.opacity = '1'; gl.style.display = 'flex'; }
                 try {
-                    for(let t of transactions) { await deleteDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions', t.id)); }
+                    for(let t of transactions) await deleteDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions', t.id));
                     await deleteUser(currentUser);
-                } catch(e) { 
-                    if(gl) { gl.style.opacity = '0'; setTimeout(()=>gl.style.display='none', 400); }
-                    alert("নিরাপত্তার স্বার্থে পুনরায় লগইন করে আবার চেষ্টা করুন।");
-                }
+                } catch(e) { alert("নিরাপত্তার স্বার্থে পুনরায় লগইন করে আবার চেষ্টা করুন।"); }
             }
         };
 
-        // Init
-        document.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
-            const d = new Date(); 
-            setVal('date', `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`);
-            const m = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-            setVal('monthFilter', m); setVal('histMonthFilter', m);
-            window.updateCategories();
-        });
-
+        // Init Theme
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
     </script>
 </body>
-</html
+</html>
+
+
