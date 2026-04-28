@@ -94,12 +94,11 @@
     <div id="globalLoader" class="fixed inset-0 bg-white/95 dark:bg-[#090e17]/95 backdrop-blur-md z-[9999] flex flex-col items-center justify-center transition-opacity duration-500">
         <div class="w-16 h-16 border-4 border-brand-100 dark:border-brand-900 border-t-brand-500 rounded-full animate-spin mb-4"></div>
         <h2 class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">স্মার্ট ফিন্যান্স প্রো</h2>
-        <p id="loaderText" class="text-slate-500 text-sm font-semibold mt-1">সিকিউর ক্লাউড লোড হচ্ছে...</p>
+        <p id="loaderText" class="text-slate-500 text-sm font-semibold mt-1">কানেকশন চেক করা হচ্ছে...</p>
     </div>
 
     <!-- ================= 1. AUTHENTICATION MODULE ================= -->
     <div id="authScreen" class="fixed inset-0 z-50 flex hidden bg-white dark:bg-[#090e17]">
-        <!-- Left Banner -->
         <div class="hidden lg:flex w-1/2 bg-gradient-to-br from-brand-600 to-brand-900 flex-col justify-center items-center p-12 relative overflow-hidden">
             <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNmZmYiLz48L3N2Zz4=')]"></div>
             <div class="relative z-10 max-w-lg text-center text-white">
@@ -111,7 +110,6 @@
             </div>
         </div>
 
-        <!-- Right Form -->
         <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-slate-50 dark:bg-[#090e17] overflow-y-auto">
             <div class="w-full max-w-md">
                 <div class="lg:hidden flex flex-col items-center mb-8">
@@ -198,8 +196,8 @@
                 <div class="flex items-center gap-3">
                     <img id="userAvatar" src="" class="w-10 h-10 rounded-full bg-slate-200 border-2 border-white dark:border-slate-800 shadow-sm object-cover">
                     <div class="overflow-hidden">
-                        <p id="userNameDisplay" class="text-sm font-bold text-slate-800 dark:text-white truncate">অ্যাডমিন</p>
-                        <p class="text-xs text-brand-500 font-bold">এন্টারপ্রাইজ একাউন্ট</p>
+                        <p id="userNameDisplay" class="text-sm font-bold text-slate-800 dark:text-white truncate">লোডিং...</p>
+                        <p class="text-xs text-brand-500 font-bold">এন্টারপ্রাইজ প্রোফাইল</p>
                     </div>
                 </div>
             </div>
@@ -234,7 +232,7 @@
 
                 <div class="flex items-center gap-3">
                     <div id="syncStatus" class="hidden md:flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800">
-                        <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div> ক্লাউড সিঙ্কড
+                        <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div> কানেক্টেড
                     </div>
                     <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-brand-500 transition-colors border border-slate-200 dark:border-slate-700">
                         <i class="fa-solid fa-moon dark:hidden"></i>
@@ -551,6 +549,27 @@
             setTimeout(() => t.classList.add('translate-y-[-150%]', 'opacity-0'), 3500);
         };
 
+        // Strict Guard Methods
+        function isConnected() { return navigator.onLine; }
+        function guardCheck() {
+            if (!isConnected()) { toast('ইন্টারনেট কানেকশন নেই!', true); return false; }
+            if (!user) { toast('ইউজার ভেরিফিকেশন ব্যর্থ হয়েছে!', true); return false; }
+            return true;
+        }
+
+        // Handle Online/Offline Status
+        window.addEventListener('online', () => {
+            el('syncStatus').innerHTML = '<div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div> কানেক্টেড';
+            el('syncStatus').className = 'hidden md:flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800';
+            if(user) syncData(); // Resync when back online
+        });
+
+        window.addEventListener('offline', () => {
+            el('syncStatus').innerHTML = '<div class="w-1.5 h-1.5 rounded-full bg-rose-500"></div> অফলাইন';
+            el('syncStatus').className = 'hidden md:flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400 border border-rose-100 dark:border-rose-800';
+            toast('ইন্টারনেট কানেকশন বিচ্ছিন্ন হয়েছে', true);
+        });
+
         window.toggleTheme = () => {
             document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
@@ -568,6 +587,7 @@
 
         el('loginForm').addEventListener('submit', async e => {
             e.preventDefault();
+            if(!isConnected()) return toast('ইন্টারনেট কানেকশন নেই!', true);
             const b = el('loginBtn'); b.disabled = true; b.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
             try { await signInWithEmailAndPassword(auth, el('loginEmail').value, el('loginPassword').value); }
             catch (err) { authErr("ইমেইল অথবা পাসওয়ার্ড ভুল হয়েছে।"); b.disabled = false; b.innerHTML = 'প্রবেশ করুন <i class="fa-solid fa-arrow-right"></i>'; }
@@ -575,6 +595,7 @@
 
         el('registerForm').addEventListener('submit', async e => {
             e.preventDefault();
+            if(!isConnected()) return toast('ইন্টারনেট কানেকশন নেই!', true);
             const b = el('regBtn'); b.disabled = true; b.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
             try { 
                 const cred = await createUserWithEmailAndPassword(auth, el('regEmail').value, el('regPassword').value);
@@ -606,9 +627,14 @@
             } else {
                 el('appShell').classList.add('hidden');
                 el('authScreen').classList.remove('hidden');
+                
+                // Aggressive memory cleanup on logout
                 if (subTxn) { subTxn(); subTxn = null; }
                 dbRecords = [];
+                el('userNameDisplay').textContent = '';
+                el('userAvatar').src = '';
                 el('loginForm').reset(); el('registerForm').reset();
+                
                 if(loader) { loader.style.opacity = '0'; setTimeout(()=> loader.classList.add('hidden'), 500); }
             }
         });
@@ -631,16 +657,18 @@
         };
 
         async function loadPrefs() {
+            if(!guardCheck()) return;
             try {
                 const docSnap = await getDoc(doc(db, 'artifacts', appID, 'users', user.uid, 'settings', 'config'));
                 if(docSnap.exists()) prefs = { ...prefs, ...docSnap.data() };
                 el('prefCurrency').value = prefs.currency;
                 el('prefBudget').value = prefs.budget || '';
                 updateSymbol();
-            } catch(e) { console.error("Pref Load Error", e); }
+            } catch(e) { console.error("Pref Load Error"); }
         }
 
         window.savePrefs = async () => {
+            if(!guardCheck()) return;
             prefs.currency = el('prefCurrency').value;
             prefs.budget = parseFloat(el('prefBudget').value) || 0;
             try {
@@ -653,6 +681,7 @@
         function updateSymbol() { document.querySelectorAll('.currencySymbol').forEach(x => x.textContent = prefs.currency); }
 
         function syncData() {
+            if(!user) return; // Silent return if not authed
             el('chartLoading').classList.remove('hidden');
             const ref = collection(db, 'artifacts', appID, 'users', user.uid, 'transactions');
             
@@ -680,7 +709,6 @@
                 if(active && active.dataset.view === 'analytics') drawCharts();
 
             }, (err) => { 
-                console.error("FIRESTORE LOAD ERROR:", err);
                 const loader = el('globalLoader');
                 if(loader) { loader.style.opacity = '0'; setTimeout(()=> loader.classList.add('hidden'), 500); }
                 toast('ডেটা লোড করতে সমস্যা হচ্ছে', true);
@@ -694,6 +722,8 @@
         };
 
         window.openEntryModal = (id = null) => {
+            if(!guardCheck()) return; // Prevent opening form if offline/unauthed
+            
             const m = el('entryModal'); m.classList.remove('hidden'); m.classList.add('flex');
             m.onclick = (e) => { if(e.target === m) window.closeEntryModal(); };
 
@@ -701,7 +731,6 @@
                 const rec = dbRecords.find(x => x.id === id); if(!rec) return;
                 el('modalTitle').textContent = 'রেকর্ড এডিট করুন';
                 
-                // Set explicitly 
                 el('entryId').value = rec.id;
                 document.querySelector(`input[name="entryType"][value="${rec.type}"]`).checked = true;
                 window.loadCategories();
@@ -713,7 +742,7 @@
             } else {
                 el('modalTitle').textContent = 'নতুন এন্ট্রি';
                 el('entryForm').reset(); 
-                el('entryId').value = ''; // Important to reset ID
+                el('entryId').value = ''; 
                 
                 document.querySelector('input[name="entryType"][value="expense"]').checked = true;
                 window.loadCategories();
@@ -725,7 +754,8 @@
 
         el('entryForm').addEventListener('submit', async e => {
             e.preventDefault();
-            if (!user) return;
+            if(!guardCheck()) return;
+            
             const id = el('entryId').value;
             const data = {
                 type: document.querySelector('input[name="entryType"]:checked').value,
@@ -747,14 +777,16 @@
                 }
                 window.closeEntryModal(); 
             } catch (err) { 
-                console.error(err); toast('ডেটা সেভ করতে সমস্যা হয়েছে', true); 
+                toast('ডেটা সেভ করতে সমস্যা হয়েছে', true); 
             } 
             finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> সেভ করুন'; }
         });
 
-        // Delete Function Fix
+        // Delete Function completely fixed with stopPropagation
         window.deleteTransaction = async (id) => {
-            if(!user || !confirm('আপনি কি নিশ্চিত যে এই রেকর্ডটি ডিলিট করতে চান?')) return;
+            if(!guardCheck()) return;
+            if(!confirm('আপনি কি নিশ্চিত যে এই রেকর্ডটি ডিলিট করতে চান?')) return;
+            
             try { 
                 await deleteDoc(doc(db, 'artifacts', appID, 'users', user.uid, 'transactions', id)); 
                 toast('রেকর্ড মুছে ফেলা হয়েছে'); 
@@ -833,7 +865,7 @@
                     <td class="text-right font-bold text-base ${isI?'text-emerald-600 dark:text-emerald-400':'text-rose-600 dark:text-rose-400'}">${prefs.currency}${fmtMoney(r.amount)}</td>
                     <td class="text-center">
                         <div class="flex gap-2 justify-center">
-                            <!-- StopPropagation added here to fix click conflict -->
+                            <!-- event.stopPropagation() added to perfectly execute on button click without overlapping -->
                             <button onclick="event.stopPropagation(); window.openEntryModal('${r.id}')" class="text-brand-500 hover:bg-brand-50 dark:hover:bg-brand-900/30 w-8 h-8 rounded-lg transition border border-transparent hover:border-brand-200 dark:hover:border-brand-800"><i class="fa-solid fa-pen text-xs"></i></button>
                             <button onclick="event.stopPropagation(); window.deleteTransaction('${r.id}')" class="text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30 w-8 h-8 rounded-lg transition border border-transparent hover:border-rose-200 dark:hover:border-rose-800"><i class="fa-solid fa-trash text-xs"></i></button>
                         </div>
@@ -919,6 +951,7 @@
         };
 
         window.factoryReset = async () => {
+            if(!guardCheck()) return;
             if(prompt("একাউন্টের সব ডেটা স্থায়ীভাবে মুছতে চাইলে ইংরেজিতে 'DELETE' টাইপ করুন:") === 'DELETE') {
                 try {
                     for(let r of dbRecords) await deleteDoc(doc(db, 'artifacts', appID, 'users', user.uid, 'transactions', r.id));
