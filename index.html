@@ -11,173 +11,254 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: { 
                 extend: { 
-                    fontFamily: { sans: ['Inter', 'Hind Siliguri', 'sans-serif'] },
-                    colors: { 
-                        primary: '#0ea5e9',
-                        brand: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' },
-                        darkbg: '#0f172a', 
-                        darkcard: '#1e293b' 
+                    fontFamily: { 
+                        sans: ['Inter', 'Hind Siliguri', 'sans-serif'] 
                     },
-                    minHeight: { 'screen-safe': '100dvh' }
+                    colors: { 
+                        brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 900: '#312e81' },
+                        darkbg: '#0b1121', 
+                        darkcard: '#151e32',
+                        darkborder: '#1f2937'
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 20px rgba(99, 102, 241, 0.15)'
+                    }
                 } 
             }
         }
     </script>
 
-    <!-- Custom CSS -->
+    <!-- Custom Enterprise CSS -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+        body { 
+            -webkit-tap-highlight-color: transparent; 
+            background-color: #f3f4f6; 
+            color: #111827;
+        }
+        body.dark { 
+            background-color: #0b1121; 
+            color: #f9fafb; 
+        }
         
-        body { transition: background-color 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent; }
-        body.light { background-color: #f8fafc; color: #0f172a; }
-        body.dark { background-color: #0f172a; color: #f8fafc; }
-        
+        /* Premium Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .dark ::-webkit-scrollbar-thumb { background: #334155; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .dark ::-webkit-scrollbar-thumb { background: #374151; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
 
-        .glass-panel { background: rgba(255, 255, 255, 0.98); border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
-        .dark .glass-panel { background: rgba(30, 41, 59, 0.95); border: 1px solid rgba(51, 65, 85, 0.8); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2); }
+        /* Enterprise Components */
+        .glass-card { 
+            background: #ffffff; 
+            border: 1px solid #e5e7eb; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02); 
+            border-radius: 1rem;
+        }
+        .dark .glass-card { 
+            background: #151e32; 
+            border: 1px solid #1f2937; 
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4); 
+        }
 
-        .input-base { transition: all 0.2s ease; border: 1px solid #e2e8f0; background: #f8fafc; outline: none; }
-        .input-base:focus { border-color: #0ea5e9; box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1); background: #ffffff; }
-        .dark .input-base { border-color: #334155; background: #0f172a; color: #f8fafc; }
-        .dark .input-base:focus { border-color: #0ea5e9; background: #1e293b; }
+        .input-pro { 
+            background: #f9fafb; 
+            border: 1px solid #d1d5db; 
+            color: #111827; 
+            transition: all 0.2s; 
+            outline: none;
+        }
+        .input-pro:focus { 
+            border-color: #6366f1; 
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15); 
+            background: #ffffff; 
+        }
+        .dark .input-pro { 
+            background: #0f172a; 
+            border-color: #334155; 
+            color: #f9fafb; 
+        }
+        .dark .input-pro:focus { 
+            border-color: #6366f1; 
+            background: #0b1121; 
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); 
+        }
 
-        .btn-primary { background: linear-gradient(to right, #0ea5e9, #0284c7); color: white; transition: all 0.2s; }
-        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3); }
-        .btn-primary:active { transform: translateY(0); }
+        .btn-brand { 
+            background: #6366f1; 
+            color: white; 
+            transition: all 0.2s; 
+        }
+        .btn-brand:hover { 
+            background: #4f46e5; 
+            transform: translateY(-1px); 
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); 
+        }
+        .btn-brand:active { transform: translateY(0); }
 
-        /* Sidebar Nav Item */
-        .sidebar-item { display: flex; items: center; padding: 0.75rem 1rem; border-radius: 0.5rem; color: #64748b; font-weight: 500; transition: all 0.2s; margin-bottom: 0.25rem; }
-        .sidebar-item:hover { background: #f1f5f9; color: #0f172a; }
-        .sidebar-item.active { background: #e0f2fe; color: #0284c7; font-weight: 600; }
-        .dark .sidebar-item:hover { background: #1e293b; color: #f8fafc; }
-        .dark .sidebar-item.active { background: #0c4a6e; color: #38bdf8; }
+        /* Sidebar Navigation */
+        .nav-link { 
+            display: flex; align-items: center; gap: 0.75rem; 
+            padding: 0.75rem 1rem; border-radius: 0.5rem; 
+            color: #4b5563; font-weight: 500; transition: all 0.2s; 
+        }
+        .nav-link:hover { background: #f3f4f6; color: #111827; }
+        .nav-link.active { background: #eef2ff; color: #4f46e5; font-weight: 600; }
+        
+        .dark .nav-link { color: #9ca3af; }
+        .dark .nav-link:hover { background: #1e293b; color: #f9fafb; }
+        .dark .nav-link.active { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
 
-        /* Skeleton Animation */
-        @keyframes pulse-bg { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
-        .skeleton { animation: pulse-bg 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; background-color: #e2e8f0; border-radius: 0.25rem; }
-        .dark .skeleton { background-color: #334155; }
+        /* Data Table Pro */
+        .table-pro { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .table-pro th { 
+            background: #f8fafc; color: #64748b; font-size: 0.75rem; 
+            text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; 
+            padding: 1rem; text-align: left; border-bottom: 1px solid #e2e8f0; 
+            position: sticky; top: 0; z-index: 10;
+        }
+        .table-pro td { padding: 1rem; border-bottom: 1px solid #f1f5f9; color: #334155; font-size: 0.875rem; }
+        .table-pro tr:hover td { background: #f8fafc; }
+        
+        .dark .table-pro th { background: #0f172a; color: #94a3b8; border-color: #1f2937; }
+        .dark .table-pro td { border-color: #1f2937; color: #cbd5e1; }
+        .dark .table-pro tr:hover td { background: #111827; }
 
-        /* Data Table */
-        .enterprise-table th { background-color: #f8fafc; color: #475569; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; padding: 1rem; text-align: left; border-bottom: 1px solid #e2e8f0; }
-        .enterprise-table td { padding: 1rem; border-bottom: 1px solid #f1f5f9; color: #334155; font-size: 0.875rem; }
-        .dark .enterprise-table th { background-color: #0f172a; color: #94a3b8; border-color: #334155; }
-        .dark .enterprise-table td { border-color: #1e293b; color: #cbd5e1; }
-        .enterprise-table tr:hover td { background-color: #f8fafc; }
-        .dark .enterprise-table tr:hover td { background-color: #1e293b; }
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade { animation: fadeIn 0.3s ease-out forwards; }
+        
+        @keyframes skeleton-loading { 0% { background-color: #e2e8f0; } 50% { background-color: #cbd5e1; } 100% { background-color: #e2e8f0; } }
+        .dark @keyframes skeleton-loading { 0% { background-color: #334155; } 50% { background-color: #475569; } 100% { background-color: #334155; } }
+        .skeleton { animation: skeleton-loading 1.5s infinite ease-in-out; border-radius: 0.25rem; }
 
-        /* PDF/Print Styles */
+        /* Dedicated Print Styles */
         @media print {
             body * { visibility: hidden; }
-            #printStatement, #printStatement * { visibility: visible; }
-            #printStatement { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 20px; background: white; color: black; }
-            .print-hide { display: none !important; }
-            .print-table th { background-color: #f1f5f9 !important; -webkit-print-color-adjust: exact; }
-            .print-table th, .print-table td { border: 1px solid #cbd5e1; padding: 8px; }
-            @page { size: A4; margin: 1cm; }
+            #printWrapper, #printWrapper * { visibility: visible; }
+            #printWrapper { 
+                position: absolute; left: 0; top: 0; width: 100%; 
+                background: white; color: black; padding: 20px; 
+            }
+            .print-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            .print-table th, .print-table td { border: 1px solid #ccc; padding: 8px; text-align: left; font-size: 12px; }
+            .print-table th { background-color: #f3f4f6 !important; -webkit-print-color-adjust: exact; }
+            @page { size: A4; margin: 15mm; }
         }
     </style>
 </head>
-<body class="flex h-screen overflow-hidden antialiased bg-slate-50 dark:bg-[#0b1120]">
+<body class="flex h-screen w-full overflow-hidden text-sm">
 
-    <!-- ================= AUTH SCREEN ================= -->
-    <div id="authScreen" class="flex h-screen w-full z-50 fixed inset-0 bg-white dark:bg-[#0b1120]">
-        <!-- Left Brand Panel -->
-        <div class="hidden lg:flex flex-col justify-center items-center w-1/2 bg-gradient-to-br from-brand-600 to-brand-900 text-white p-12 relative overflow-hidden">
-            <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
-            <div class="relative z-10 text-center max-w-lg">
-                <div class="w-24 h-24 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-8 backdrop-blur-sm border border-white/20">
-                    <i class="fa-solid fa-chart-pie text-5xl text-white"></i>
+    <!-- Global Full-Screen Loader -->
+    <div id="globalLoader" class="fixed inset-0 bg-white/90 dark:bg-[#0b1121]/90 backdrop-blur-md z-[9999] flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="w-16 h-16 border-4 border-brand-100 dark:border-brand-900 border-t-brand-500 rounded-full animate-spin mb-4"></div>
+        <h2 class="text-xl font-bold text-slate-800 dark:text-white tracking-tight">Enterprise Finance Pro</h2>
+        <p class="text-slate-500 text-xs font-medium mt-1">Initializing secure workspace...</p>
+    </div>
+
+    <!-- ================= 1. AUTHENTICATION MODULE ================= -->
+    <div id="authScreen" class="fixed inset-0 z-50 flex hidden bg-white dark:bg-[#0b1121]">
+        <!-- Brand Side (Desktop) -->
+        <div class="hidden lg:flex w-1/2 bg-gradient-to-br from-brand-600 to-brand-900 flex-col justify-center items-center p-12 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNmZmYiLz48L3N2Zz4=')]"></div>
+            <div class="relative z-10 max-w-lg text-center text-white">
+                <div class="w-20 h-20 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-6 backdrop-blur-sm border border-white/20">
+                    <i class="fa-solid fa-layer-group text-4xl text-white"></i>
                 </div>
-                <h1 class="text-4xl font-bold mb-4 font-['Inter']">Enterprise Finance Pro</h1>
-                <p class="text-lg text-brand-100 mb-8">স্মার্ট ফিন্যান্সিয়াল ম্যানেজমেন্ট সিস্টেম। আপনার আয়-ব্যয়ের সম্পূর্ণ নিয়ন্ত্রণ এখন আপনার হাতের মুঠোয়।</p>
-                <div class="flex items-center justify-center gap-4 text-sm font-medium">
-                    <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> 256-bit Secure</span>
-                    <span class="flex items-center gap-2"><i class="fa-solid fa-cloud"></i> Cloud Sync</span>
+                <h1 class="text-4xl font-bold mb-4">Finance Pro</h1>
+                <p class="text-lg text-brand-100 mb-8 leading-relaxed">Top-tier enterprise financial management system. Track, analyze, and optimize your transactions with absolute precision.</p>
+                <div class="flex justify-center gap-6 text-sm font-medium text-brand-200">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-lock"></i> Bank-grade Security</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-cloud"></i> Real-time Sync</span>
                 </div>
             </div>
         </div>
 
-        <!-- Right Login Panel -->
-        <div class="w-full lg:w-1/2 flex items-center justify-center p-8 relative">
-            <div class="max-w-md w-full">
-                <div class="lg:hidden text-center mb-8">
-                    <div class="w-16 h-16 bg-brand-500 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg text-white text-2xl">
-                        <i class="fa-solid fa-chart-pie"></i>
+        <!-- Login/Register Side -->
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-slate-50 dark:bg-[#0b1121] overflow-y-auto">
+            <div class="w-full max-w-md">
+                <!-- Mobile Logo -->
+                <div class="lg:hidden flex flex-col items-center mb-8">
+                    <div class="w-16 h-16 bg-brand-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg mb-3">
+                        <i class="fa-solid fa-layer-group"></i>
                     </div>
                     <h2 class="text-2xl font-bold text-slate-800 dark:text-white">Finance Pro</h2>
                 </div>
 
-                <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700">
-                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2" id="authTitle">অ্যাকাউন্টে প্রবেশ করুন</h3>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm mb-8">আপনার ক্রেডেনশিয়াল দিয়ে সিস্টেমে লগইন করুন।</p>
+                <div class="bg-white dark:bg-darkcard p-8 rounded-2xl shadow-soft border border-slate-200 dark:border-darkborder">
+                    <h3 id="authTitle" class="text-2xl font-bold text-slate-800 dark:text-white mb-2">Welcome Back</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Enter your credentials to access the workspace.</p>
 
-                    <div id="authMsg" class="hidden mb-4 p-3 rounded-lg text-sm font-medium text-center border bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-900/30 dark:border-rose-800 dark:text-rose-400"></div>
+                    <div id="authAlert" class="hidden mb-4 p-3 rounded-lg text-sm font-medium flex items-start gap-2 bg-rose-50 text-rose-600 border border-rose-200 dark:bg-rose-900/30 dark:border-rose-800/50">
+                        <i class="fa-solid fa-circle-exclamation mt-0.5"></i> <span id="authAlertText">Error message</span>
+                    </div>
 
                     <!-- Login Form -->
-                    <form id="loginForm" class="space-y-5">
+                    <form id="loginForm" class="space-y-4">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">ইমেইল এড্রেস</label>
+                            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Email Address</label>
                             <div class="relative">
-                                <i class="fa-regular fa-envelope absolute left-4 top-3 text-slate-400"></i>
-                                <input type="email" id="loginEmail" required class="w-full input-base rounded-xl py-2.5 pl-10 pr-4 text-sm" placeholder="admin@example.com">
+                                <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input type="email" id="loginEmail" required class="w-full input-pro rounded-xl py-3 pl-10 pr-4" placeholder="admin@enterprise.com">
                             </div>
                         </div>
                         <div>
-                            <div class="flex justify-between items-center mb-1">
-                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">পাসওয়ার্ড</label>
-                                <button type="button" onclick="window.toggleAuth('forgot')" class="text-xs text-brand-500 hover:text-brand-600 font-medium">পাসওয়ার্ড ভুলে গেছেন?</button>
+                            <div class="flex justify-between items-center mb-1.5">
+                                <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Password</label>
                             </div>
                             <div class="relative">
-                                <i class="fa-solid fa-lock absolute left-4 top-3 text-slate-400"></i>
-                                <input type="password" id="loginPassword" required class="w-full input-base rounded-xl py-2.5 pl-10 pr-4 text-sm" placeholder="••••••••">
+                                <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input type="password" id="loginPassword" required class="w-full input-pro rounded-xl py-3 pl-10 pr-4" placeholder="••••••••">
                             </div>
                         </div>
-                        <button type="submit" id="loginBtn" class="w-full btn-primary font-semibold rounded-xl py-3 flex justify-center items-center gap-2">
-                            লগইন করুন <i class="fa-solid fa-arrow-right"></i>
+                        <button type="submit" id="loginBtn" class="w-full btn-brand font-semibold rounded-xl py-3 flex justify-center items-center gap-2 mt-2">
+                            Secure Login <i class="fa-solid fa-arrow-right"></i>
                         </button>
                         <p class="text-center text-sm text-slate-500 dark:text-slate-400 mt-4">
-                            অ্যাকাউন্ট নেই? <button type="button" onclick="window.toggleAuth('register')" class="text-brand-500 font-semibold hover:underline">নতুন অ্যাকাউন্ট খুলুন</button>
+                            New to the platform? <button type="button" onclick="window.toggleAuth('register')" class="text-brand-500 font-semibold hover:text-brand-600">Create an account</button>
                         </p>
                     </form>
 
                     <!-- Register Form -->
-                    <form id="registerForm" class="space-y-5 hidden">
+                    <form id="registerForm" class="space-y-4 hidden">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">সম্পূর্ণ নাম</label>
+                            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Full Name</label>
                             <div class="relative">
-                                <i class="fa-regular fa-user absolute left-4 top-3 text-slate-400"></i>
-                                <input type="text" id="regName" required class="w-full input-base rounded-xl py-2.5 pl-10 pr-4 text-sm" placeholder="জনাব / বেগম">
+                                <i class="fa-regular fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input type="text" id="regName" required class="w-full input-pro rounded-xl py-3 pl-10 pr-4" placeholder="John Doe">
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">ইমেইল এড্রেস</label>
+                            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Email Address</label>
                             <div class="relative">
-                                <i class="fa-regular fa-envelope absolute left-4 top-3 text-slate-400"></i>
-                                <input type="email" id="regEmail" required class="w-full input-base rounded-xl py-2.5 pl-10 pr-4 text-sm" placeholder="example@email.com">
+                                <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input type="email" id="regEmail" required class="w-full input-pro rounded-xl py-3 pl-10 pr-4" placeholder="work@email.com">
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">নতুন পাসওয়ার্ড</label>
+                            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Secure Password</label>
                             <div class="relative">
-                                <i class="fa-solid fa-lock absolute left-4 top-3 text-slate-400"></i>
-                                <input type="password" id="regPassword" required minlength="6" class="w-full input-base rounded-xl py-2.5 pl-10 pr-4 text-sm" placeholder="৬ ক্যারেক্টারের বেশি">
+                                <i class="fa-solid fa-shield-halved absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input type="password" id="regPassword" required minlength="6" class="w-full input-pro rounded-xl py-3 pl-10 pr-4" placeholder="Min. 6 characters">
                             </div>
                         </div>
-                        <button type="submit" id="regBtn" class="w-full btn-primary font-semibold rounded-xl py-3 flex justify-center items-center gap-2">
-                            অ্যাকাউন্ট তৈরি করুন <i class="fa-solid fa-user-plus"></i>
+                        <button type="submit" id="regBtn" class="w-full btn-brand font-semibold rounded-xl py-3 flex justify-center items-center gap-2 mt-2">
+                            Initialize Account <i class="fa-solid fa-user-plus"></i>
                         </button>
                         <p class="text-center text-sm text-slate-500 dark:text-slate-400 mt-4">
-                            আগে থেকে অ্যাকাউন্ট আছে? <button type="button" onclick="window.toggleAuth('login')" class="text-brand-500 font-semibold hover:underline">লগইন করুন</button>
+                            Already registered? <button type="button" onclick="window.toggleAuth('login')" class="text-brand-500 font-semibold hover:text-brand-600">Return to login</button>
                         </p>
                     </form>
                 </div>
@@ -185,227 +266,251 @@
         </div>
     </div>
 
-    <!-- ================= MAIN APP LAYOUT ================= -->
-    <div id="mainApp" class="hidden flex-col md:flex-row h-full w-full">
+    <!-- ================= 2. ENTERPRISE APP SHELL ================= -->
+    <div id="appShell" class="flex h-screen w-full hidden overflow-hidden bg-[#f3f4f6] dark:bg-[#0b1121]">
         
-        <!-- Sidebar (Desktop) -->
-        <aside class="hidden md:flex flex-col w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 z-20">
-            <div class="p-6 flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white"><i class="fa-solid fa-chart-pie"></i></div>
+        <!-- Sidebar (Desktop Fixed) -->
+        <aside class="w-64 bg-white dark:bg-darkcard border-r border-slate-200 dark:border-darkborder hidden md:flex flex-col flex-shrink-0 z-20">
+            <div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-darkborder">
+                <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white mr-3 shadow-md">
+                    <i class="fa-solid fa-layer-group text-sm"></i>
+                </div>
                 <h1 class="text-lg font-bold text-slate-800 dark:text-white tracking-tight">Finance<span class="text-brand-500">Pro</span></h1>
             </div>
 
-            <div class="px-6 pb-6 border-b border-slate-100 dark:border-slate-800">
+            <!-- User Profile Snippet -->
+            <div class="p-5 border-b border-slate-100 dark:border-darkborder/50">
                 <div class="flex items-center gap-3">
-                    <img id="sideAvatar" src="https://ui-avatars.com/api/?name=User&background=0ea5e9&color=fff" class="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-700">
-                    <div>
-                        <p id="sideUserName" class="text-sm font-bold text-slate-800 dark:text-white leading-tight">Admin</p>
-                        <p class="text-xs text-slate-500">System User</p>
+                    <img id="userAvatar" src="" class="w-10 h-10 rounded-full bg-slate-200 border-2 border-white dark:border-slate-800 shadow-sm object-cover">
+                    <div class="overflow-hidden">
+                        <p id="userNameDisplay" class="text-sm font-bold text-slate-800 dark:text-white truncate">Administrator</p>
+                        <p class="text-xs text-brand-500 font-medium">Enterprise User</p>
                     </div>
                 </div>
             </div>
 
+            <!-- Navigation Links -->
             <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
-                <button onclick="window.switchView('dashboard')" class="w-full text-left sidebar-item active" data-view="dashboard">
-                    <i class="fa-solid fa-chart-line w-6 text-center"></i> ড্যাশবোর্ড
+                <p class="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Main Menu</p>
+                <button onclick="window.switchView('dashboard')" class="w-full nav-link active" data-view="dashboard">
+                    <i class="fa-solid fa-border-all w-5"></i> Dashboard
                 </button>
-                <button onclick="window.switchView('ledger')" class="w-full text-left sidebar-item" data-view="ledger">
-                    <i class="fa-solid fa-table-list w-6 text-center"></i> লেজার / রিপোর্ট
+                <button onclick="window.switchView('ledger')" class="w-full nav-link" data-view="ledger">
+                    <i class="fa-solid fa-table-list w-5"></i> General Ledger
                 </button>
-                <button onclick="window.switchView('analytics')" class="w-full text-left sidebar-item" data-view="analytics">
-                    <i class="fa-solid fa-chart-pie w-6 text-center"></i> অ্যানালিটিক্স
+                <button onclick="window.switchView('analytics')" class="w-full nav-link" data-view="analytics">
+                    <i class="fa-solid fa-chart-pie w-5"></i> Analytics
                 </button>
-                <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800">
-                    <button onclick="window.switchView('settings')" class="w-full text-left sidebar-item" data-view="settings">
-                        <i class="fa-solid fa-gear w-6 text-center"></i> সেটিংস
-                    </button>
-                </div>
+                
+                <p class="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-6 mb-2">System</p>
+                <button onclick="window.switchView('settings')" class="w-full nav-link" data-view="settings">
+                    <i class="fa-solid fa-sliders w-5"></i> Settings
+                </button>
             </nav>
 
-            <div class="p-4 border-t border-slate-200 dark:border-slate-800">
-                <button onclick="window.handleLogout()" class="w-full flex items-center justify-center gap-2 py-2 px-4 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 rounded-lg text-sm font-semibold hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-colors">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i> লগআউট
+            <div class="p-4 border-t border-slate-200 dark:border-darkborder">
+                <button onclick="window.handleLogout()" class="w-full flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-rose-50 hover:text-rose-600 dark:hover:bg-rose-900/20 dark:hover:text-rose-400 transition-colors">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
                 </button>
             </div>
         </aside>
 
         <!-- Main Content Area -->
-        <main class="flex-1 flex flex-col h-full overflow-hidden relative">
+        <main class="flex-1 flex flex-col min-w-0 relative h-full">
             
-            <!-- Top Header (Mobile & Desktop) -->
-            <header class="h-16 glass-panel border-b-0 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 sm:px-6 z-10 shrink-0">
+            <!-- Top Header -->
+            <header class="h-16 bg-white dark:bg-darkcard border-b border-slate-200 dark:border-darkborder flex items-center justify-between px-4 sm:px-6 flex-shrink-0 z-10 shadow-sm">
+                <!-- Mobile Brand -->
                 <div class="flex items-center gap-3 md:hidden">
-                    <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white"><i class="fa-solid fa-chart-pie"></i></div>
+                    <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white"><i class="fa-solid fa-layer-group text-sm"></i></div>
                     <h1 class="text-lg font-bold text-slate-800 dark:text-white">FinancePro</h1>
                 </div>
                 
-                <!-- Page Title Desktop -->
-                <h2 id="topbarTitle" class="hidden md:block text-xl font-semibold text-slate-800 dark:text-white">ড্যাশবোর্ড ওভারভিউ</h2>
+                <!-- Desktop Page Title -->
+                <h2 id="topbarTitle" class="hidden md:block text-xl font-bold text-slate-800 dark:text-white">Dashboard</h2>
 
                 <div class="flex items-center gap-3">
-                    <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-brand-500 transition-colors border border-slate-200 dark:border-slate-700">
                         <i class="fa-solid fa-moon dark:hidden"></i>
-                        <i class="fa-solid fa-sun hidden dark:block text-yellow-500"></i>
+                        <i class="fa-solid fa-sun hidden dark:block text-amber-500"></i>
                     </button>
-                    <button onclick="window.switchView('ledger'); setTimeout(()=>window.openAddModal(), 100);" class="btn-primary text-xs sm:text-sm px-4 py-2 rounded-full font-semibold flex items-center gap-2 shadow-sm">
-                        <i class="fa-solid fa-plus"></i> <span class="hidden sm:inline">নতুন এন্ট্রি</span>
+                    <button onclick="window.openEntryModal()" class="btn-brand px-4 py-2 rounded-lg font-medium text-sm shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> <span class="hidden sm:inline">New Record</span>
                     </button>
                 </div>
             </header>
 
-            <!-- Scrollable Views Container -->
-            <div class="flex-1 overflow-y-auto bg-slate-50/50 dark:bg-[#0b1120] p-4 sm:p-6 pb-24 md:pb-6 relative" id="viewsContainer">
+            <!-- Scrollable Viewport -->
+            <!-- Note: pb-20 on mobile prevents content from hiding behind bottom nav -->
+            <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 pb-20 md:pb-8 relative scroll-smooth" id="viewport">
                 
-                <!-- VIEW 1: DASHBOARD -->
-                <div id="view-dashboard" class="app-view block animate-fade">
+                <!-- VIEW: DASHBOARD -->
+                <div id="view-dashboard" class="app-view block animate-fade space-y-6 max-w-7xl mx-auto">
                     
-                    <!-- KPI Cards Row -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                        <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group">
-                            <div class="absolute right-0 top-0 h-full w-1 bg-brand-500"></div>
-                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">সর্বমোট ব্যালেন্স</p>
-                            <h3 class="text-3xl font-bold text-slate-800 dark:text-white"><span class="currencySymbol">৳</span> <span id="dashBalance">0</span></h3>
+                    <!-- KPI Metrics -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="glass-card p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Net Balance</p>
+                                <div class="w-8 h-8 rounded-full bg-brand-50 dark:bg-brand-900/20 text-brand-500 flex items-center justify-center"><i class="fa-solid fa-wallet"></i></div>
+                            </div>
+                            <h3 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-white truncate"><span class="currencySymbol">৳</span><span id="dashBal">0</span></h3>
                         </div>
-                        <div class="glass-panel p-5 rounded-2xl relative overflow-hidden">
-                            <div class="absolute right-0 top-0 h-full w-1 bg-emerald-500"></div>
-                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">মাসিক আয় (চলতি)</p>
-                            <h3 class="text-2xl font-bold text-slate-800 dark:text-white"><span class="currencySymbol">৳</span> <span id="dashIncome">0</span></h3>
+                        
+                        <div class="glass-card p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Monthly Income</p>
+                                <div class="w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-500 flex items-center justify-center"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                            </div>
+                            <h3 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-white truncate"><span class="currencySymbol">৳</span><span id="dashInc">0</span></h3>
                         </div>
-                        <div class="glass-panel p-5 rounded-2xl relative overflow-hidden">
-                            <div class="absolute right-0 top-0 h-full w-1 bg-rose-500"></div>
-                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">মাসিক ব্যয় (চলতি)</p>
-                            <h3 class="text-2xl font-bold text-slate-800 dark:text-white"><span class="currencySymbol">৳</span> <span id="dashExpense">0</span></h3>
+
+                        <div class="glass-card p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Monthly Expense</p>
+                                <div class="w-8 h-8 rounded-full bg-rose-50 dark:bg-rose-900/20 text-rose-500 flex items-center justify-center"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                            </div>
+                            <h3 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-white truncate"><span class="currencySymbol">৳</span><span id="dashExp">0</span></h3>
                         </div>
-                        <div class="glass-panel p-5 rounded-2xl relative overflow-hidden">
-                            <div class="absolute right-0 top-0 h-full w-1 bg-indigo-500"></div>
-                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">সেভিংস রেশিও</p>
-                            <h3 class="text-2xl font-bold text-slate-800 dark:text-white"><span id="dashSavings">0</span>%</h3>
+
+                        <div class="glass-card p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Savings Rate</p>
+                                <div class="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-900/20 text-indigo-500 flex items-center justify-center"><i class="fa-solid fa-piggy-bank"></i></div>
+                            </div>
+                            <h3 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-white"><span id="dashRate">0</span>%</h3>
+                            <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-3 overflow-hidden">
+                                <div id="dashRateBar" class="h-full bg-brand-500 rounded-full" style="width: 0%"></div>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Charts & Recent Split -->
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <!-- Chart Area -->
-                        <div class="lg:col-span-2 glass-panel rounded-2xl p-5">
-                            <div class="flex justify-between items-center mb-4">
-                                <h4 class="font-semibold text-slate-800 dark:text-white">আয় ও ব্যয় (বিগত ৬ মাস)</h4>
-                            </div>
-                            <div class="h-72 w-full relative">
-                                <canvas id="mainTrendChart"></canvas>
-                                <div id="chartSkeleton" class="absolute inset-0 flex items-end gap-2 p-4">
-                                    <div class="skeleton w-full h-1/3"></div><div class="skeleton w-full h-2/3"></div><div class="skeleton w-full h-1/2"></div><div class="skeleton w-full h-full"></div>
+                        <!-- Chart -->
+                        <div class="lg:col-span-2 glass-card p-5 sm:p-6 flex flex-col">
+                            <h4 class="font-bold text-slate-800 dark:text-white mb-4">Financial Cash Flow (6 Months)</h4>
+                            <div class="flex-1 w-full relative min-h-[250px]">
+                                <canvas id="mainChart"></canvas>
+                                <div id="chartLoading" class="absolute inset-0 flex items-end justify-between p-4 gap-2 opacity-50">
+                                    <div class="skeleton w-full h-1/4"></div><div class="skeleton w-full h-1/2"></div>
+                                    <div class="skeleton w-full h-3/4"></div><div class="skeleton w-full h-full"></div>
+                                    <div class="skeleton w-full h-2/3"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Recent Transactions -->
-                        <div class="glass-panel rounded-2xl p-0 flex flex-col h-[350px]">
-                            <div class="p-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                                <h4 class="font-semibold text-slate-800 dark:text-white">সাম্প্রতিক ট্রানজেকশন</h4>
-                                <button onclick="window.switchView('ledger')" class="text-xs text-brand-500 font-medium hover:underline">সব দেখুন</button>
+                        <!-- Recent -->
+                        <div class="glass-card flex flex-col h-[400px] overflow-hidden">
+                            <div class="p-5 border-b border-slate-100 dark:border-darkborder flex justify-between items-center">
+                                <h4 class="font-bold text-slate-800 dark:text-white">Recent Activity</h4>
+                                <button onclick="window.switchView('ledger')" class="text-xs font-semibold text-brand-500 hover:text-brand-700">View All</button>
                             </div>
-                            <div class="p-3 flex-1 overflow-y-auto" id="dashRecentList">
-                                <!-- Skeletons -->
-                                <div class="flex gap-3 mb-3 items-center"><div class="skeleton w-10 h-10 rounded-full"></div><div class="flex-1"><div class="skeleton w-24 h-3 mb-2"></div><div class="skeleton w-16 h-2"></div></div></div>
-                                <div class="flex gap-3 mb-3 items-center"><div class="skeleton w-10 h-10 rounded-full"></div><div class="flex-1"><div class="skeleton w-24 h-3 mb-2"></div><div class="skeleton w-16 h-2"></div></div></div>
+                            <div class="flex-1 overflow-y-auto p-3" id="dashRecentList">
+                                <!-- Populated via JS -->
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- VIEW 2: LEDGER / DATATABLE -->
-                <div id="view-ledger" class="app-view hidden animate-fade flex flex-col h-full">
-                    <div class="glass-panel rounded-2xl flex flex-col flex-1 overflow-hidden">
-                        
-                        <!-- Table Toolbar -->
-                        <div class="p-4 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 shrink-0">
-                            <div class="flex gap-3 w-full md:w-auto">
-                                <input type="month" id="filterMonth" class="input-base rounded-lg px-3 py-2 text-sm w-full md:w-40" onchange="window.renderLedger()">
-                                <select id="filterType" class="input-base rounded-lg px-3 py-2 text-sm w-full md:w-32" onchange="window.renderLedger()">
-                                    <option value="all">সব ধরন</option>
-                                    <option value="income">আয়</option>
-                                    <option value="expense">ব্যয়</option>
+                <!-- VIEW: LEDGER (DATATABLE) -->
+                <div id="view-ledger" class="app-view hidden animate-fade max-w-7xl mx-auto h-[calc(100vh-10rem)] flex flex-col">
+                    <div class="glass-card flex-1 flex flex-col overflow-hidden shadow-sm">
+                        <!-- Toolbar -->
+                        <div class="p-4 border-b border-slate-200 dark:border-darkborder bg-white dark:bg-darkcard flex flex-col sm:flex-row gap-3 justify-between shrink-0">
+                            <div class="flex gap-2">
+                                <input type="month" id="tableMonth" class="input-pro px-3 py-2 rounded-lg text-sm w-full sm:w-auto font-medium" onchange="window.renderTable()">
+                                <select id="tableType" class="input-pro px-3 py-2 rounded-lg text-sm w-full sm:w-auto font-medium" onchange="window.renderTable()">
+                                    <option value="all">All Types</option><option value="income">Income Only</option><option value="expense">Expense Only</option>
                                 </select>
                             </div>
-                            <div class="flex gap-2 w-full md:w-auto items-center">
-                                <div class="relative w-full md:w-64">
-                                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-sm"></i>
-                                    <input type="text" id="searchTable" placeholder="অনুসন্ধান করুন..." class="input-base rounded-lg pl-9 pr-3 py-2 text-sm w-full" onkeyup="window.renderLedger()">
+                            <div class="flex gap-2">
+                                <div class="relative w-full sm:w-64">
+                                    <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                    <input type="text" id="tableSearch" placeholder="Search records..." class="input-pro pl-8 pr-3 py-2 rounded-lg text-sm w-full" onkeyup="window.renderTable()">
                                 </div>
-                                <button onclick="window.generatePDFStatement()" class="bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-700 transition shadow-sm whitespace-nowrap" title="Download PDF">
-                                    <i class="fa-solid fa-file-pdf text-rose-400"></i> এক্সপোর্ট
+                                <button onclick="window.triggerPrint()" class="bg-slate-800 hover:bg-slate-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition shadow-sm whitespace-nowrap">
+                                    <i class="fa-solid fa-print"></i>
                                 </button>
                             </div>
                         </div>
 
-                        <!-- Table Wrapper -->
-                        <div class="flex-1 overflow-auto bg-white dark:bg-slate-900 relative">
-                            <table class="w-full text-left border-collapse enterprise-table min-w-[700px]">
-                                <thead class="sticky top-0 z-10">
+                        <!-- Table Wrapper (Horizontal Scroll for Mobile) -->
+                        <div class="flex-1 overflow-auto w-full bg-white dark:bg-darkcard relative">
+                            <table class="table-pro min-w-[700px]">
+                                <thead>
                                     <tr>
-                                        <th class="w-24">তারিখ</th>
-                                        <th>বিবরণ / খাত</th>
-                                        <th class="w-24 text-center">ধরন</th>
-                                        <th>নোট</th>
-                                        <th class="text-right w-32">পরিমাণ</th>
-                                        <th class="w-20 text-center">অ্যাকশন</th>
+                                        <th class="w-32">Date</th>
+                                        <th>Category</th>
+                                        <th class="w-24 text-center">Type</th>
+                                        <th class="w-1/3">Particulars / Note</th>
+                                        <th class="w-32 text-right">Amount</th>
+                                        <th class="w-24 text-center">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="ledgerTbody">
-                                    <tr><td colspan="6" class="text-center py-10"><div class="skeleton h-4 w-1/2 mx-auto mb-2"></div><div class="skeleton h-4 w-1/3 mx-auto"></div></td></tr>
+                                <tbody id="tableBody">
+                                    <!-- Rendered via JS -->
                                 </tbody>
                             </table>
-                            <div id="ledgerEmpty" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-white dark:bg-slate-900 z-0">
-                                <i class="fa-solid fa-folder-open text-4xl text-slate-300 mb-3"></i>
-                                <p class="text-slate-500 font-medium">কোনো ডেটা পাওয়া যায়নি</p>
+                            <div id="tableEmpty" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-white/90 dark:bg-darkcard/90 z-[5]">
+                                <i class="fa-solid fa-inbox text-4xl text-slate-300 dark:text-slate-600 mb-3"></i>
+                                <p class="text-slate-500 dark:text-slate-400 font-medium">No records found for this filter.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- VIEW 3: ANALYTICS -->
-                <div id="view-analytics" class="app-view hidden animate-fade">
+                <!-- VIEW: ANALYTICS -->
+                <div id="view-analytics" class="app-view hidden animate-fade max-w-7xl mx-auto space-y-6">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div class="glass-panel p-6 rounded-2xl">
-                            <h4 class="font-semibold text-slate-800 dark:text-white mb-4">ব্যয়ের খাত (ডোনাট চার্ট)</h4>
-                            <div class="h-64 w-full relative">
-                                <canvas id="expenseCatChart"></canvas>
-                            </div>
+                        <div class="glass-card p-6">
+                            <h4 class="font-bold text-slate-800 dark:text-white mb-6 flex items-center justify-between">
+                                Expense Distribution <i class="fa-solid fa-chart-pie text-rose-500 opacity-50 text-xl"></i>
+                            </h4>
+                            <div class="h-64 relative"><canvas id="pieExp"></canvas></div>
                         </div>
-                        <div class="glass-panel p-6 rounded-2xl">
-                            <h4 class="font-semibold text-slate-800 dark:text-white mb-4">আয়ের খাত (ডোনাট চার্ট)</h4>
-                            <div class="h-64 w-full relative">
-                                <canvas id="incomeCatChart"></canvas>
-                            </div>
+                        <div class="glass-card p-6">
+                            <h4 class="font-bold text-slate-800 dark:text-white mb-6 flex items-center justify-between">
+                                Income Sources <i class="fa-solid fa-chart-pie text-emerald-500 opacity-50 text-xl"></i>
+                            </h4>
+                            <div class="h-64 relative"><canvas id="pieInc"></canvas></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- VIEW 4: SETTINGS -->
-                <div id="view-settings" class="app-view hidden animate-fade max-w-2xl mx-auto space-y-6">
-                    <div class="glass-panel p-6 rounded-2xl">
-                        <h4 class="font-bold text-lg text-slate-800 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">জেনারেল সেটিংস</h4>
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center">
-                                <div><p class="font-medium text-slate-800 dark:text-white">মুদ্রা (Currency)</p><p class="text-xs text-slate-500">সিস্টেমের ডিফল্ট মুদ্রা</p></div>
-                                <select id="setCurrency" class="input-base rounded-lg px-4 py-2 font-bold" onchange="window.saveSettings()">
-                                    <option value="৳">৳ BDT</option>
-                                    <option value="$">$ USD</option>
-                                    <option value="€">€ EUR</option>
-                                    <option value="₹">₹ INR</option>
+                <!-- VIEW: SETTINGS -->
+                <div id="view-settings" class="app-view hidden animate-fade max-w-3xl mx-auto space-y-6">
+                    <div class="glass-card p-6 sm:p-8">
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-white border-b border-slate-100 dark:border-darkborder pb-4 mb-6">System Preferences</h4>
+                        <div class="space-y-6">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+                                <div>
+                                    <p class="font-bold text-slate-800 dark:text-white text-sm">Base Currency</p>
+                                    <p class="text-xs text-slate-500">Determines the symbol used across the app</p>
+                                </div>
+                                <select id="prefCurrency" class="input-pro rounded-lg px-4 py-2.5 font-bold w-full sm:w-40" onchange="window.savePrefs()">
+                                    <option value="৳">৳ BDT</option><option value="$">$ USD</option><option value="€">€ EUR</option><option value="₹">₹ INR</option>
                                 </select>
                             </div>
-                            <div class="flex justify-between items-center">
-                                <div><p class="font-medium text-slate-800 dark:text-white">মাসিক বাজেট লিমিট</p><p class="text-xs text-slate-500">বাজেট অতিক্রম করলে অ্যালার্ট পাবেন</p></div>
-                                <input type="number" id="setBudget" class="input-base rounded-lg px-4 py-2 w-32 text-right font-bold" placeholder="0" onblur="window.saveSettings()">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 pt-6 border-t border-slate-50 dark:border-darkborder/50">
+                                <div>
+                                    <p class="font-bold text-slate-800 dark:text-white text-sm">Monthly Budget Threshold</p>
+                                    <p class="text-xs text-slate-500">Set a target to monitor expense limits</p>
+                                </div>
+                                <div class="relative w-full sm:w-40">
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400 currencySymbol">৳</span>
+                                    <input type="number" id="prefBudget" class="input-pro rounded-lg pl-8 pr-4 py-2.5 font-bold text-right w-full" placeholder="0" onblur="window.savePrefs()">
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="glass-panel p-6 rounded-2xl border-rose-200 dark:border-rose-900/50">
-                        <h4 class="font-bold text-lg text-rose-600 border-b border-rose-100 dark:border-rose-900/50 pb-3 mb-4">ডেঞ্জার জোন</h4>
-                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">এই সেকশনের কাজ অপরিবর্তনযোগ্য। সাবধানে ব্যবহার করুন।</p>
-                        <button onclick="window.handleResetData()" class="w-full py-3 bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400 font-bold rounded-xl hover:bg-rose-100 dark:hover:bg-rose-900/40 transition">
-                            <i class="fa-solid fa-triangle-exclamation"></i> সম্পূর্ণ ডেটাবেস মুছুন
+                    <div class="glass-card p-6 sm:p-8 border-rose-200 dark:border-rose-900/30 relative overflow-hidden">
+                        <div class="absolute right-0 top-0 w-32 h-32 bg-rose-500/5 rounded-bl-full pointer-events-none"></div>
+                        <h4 class="text-lg font-bold text-rose-600 border-b border-rose-100 dark:border-rose-900/50 pb-4 mb-6">Danger Zone</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">This action is irreversible. It will permanently delete your account, settings, and all transaction history from our secure servers.</p>
+                        <button onclick="window.factoryReset()" class="w-full sm:w-auto px-6 py-3 bg-rose-50 hover:bg-rose-100 text-rose-600 dark:bg-rose-900/20 dark:hover:bg-rose-900/40 dark:text-rose-400 font-bold rounded-xl transition-colors shadow-sm">
+                            <i class="fa-solid fa-triangle-exclamation mr-2"></i> Erase Database & Account
                         </button>
                     </div>
                 </div>
@@ -413,75 +518,85 @@
             </div>
         </main>
 
-        <!-- Mobile Bottom Nav -->
-        <nav class="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 z-40 flex justify-around p-2 pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
-            <button onclick="window.switchView('dashboard')" class="flex flex-col items-center p-2 text-slate-400 sidebar-item w-full" data-view="dashboard">
-                <i class="fa-solid fa-chart-line text-lg mb-1"></i><span class="text-[10px] font-bold">হোম</span>
+        <!-- Mobile Bottom Navigation (Fixed at bottom, visible only on small screens) -->
+        <nav class="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-darkcard border-t border-slate-200 dark:border-darkborder z-40 flex justify-around items-end pb-safe shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+            <button onclick="window.switchView('dashboard')" class="nav-link flex flex-col items-center justify-center p-3 w-full rounded-none" data-view="dashboard">
+                <i class="fa-solid fa-border-all text-xl mb-1"></i><span class="text-[10px] font-bold tracking-wide">Home</span>
             </button>
-            <button onclick="window.switchView('ledger')" class="flex flex-col items-center p-2 text-slate-400 sidebar-item w-full" data-view="ledger">
-                <i class="fa-solid fa-table-list text-lg mb-1"></i><span class="text-[10px] font-bold">লেজার</span>
+            <button onclick="window.switchView('ledger')" class="nav-link flex flex-col items-center justify-center p-3 w-full rounded-none" data-view="ledger">
+                <i class="fa-solid fa-table-list text-xl mb-1"></i><span class="text-[10px] font-bold tracking-wide">Ledger</span>
             </button>
-            <button onclick="window.openAddModal()" class="flex flex-col items-center justify-center p-0 text-white w-full max-w-[60px]">
-                <div class="w-12 h-12 bg-brand-500 rounded-full flex items-center justify-center shadow-lg -mt-6 border-4 border-white dark:border-slate-900"><i class="fa-solid fa-plus text-xl"></i></div>
+            
+            <!-- Floating Add Button -->
+            <div class="relative w-full flex justify-center -mt-6">
+                <button onclick="window.openEntryModal()" class="w-14 h-14 bg-brand-500 rounded-full flex items-center justify-center text-white shadow-lg border-4 border-[#f3f4f6] dark:border-[#0b1121] active:scale-95 transition-transform">
+                    <i class="fa-solid fa-plus text-2xl"></i>
+                </button>
+            </div>
+
+            <button onclick="window.switchView('analytics')" class="nav-link flex flex-col items-center justify-center p-3 w-full rounded-none" data-view="analytics">
+                <i class="fa-solid fa-chart-pie text-xl mb-1"></i><span class="text-[10px] font-bold tracking-wide">Charts</span>
             </button>
-            <button onclick="window.switchView('analytics')" class="flex flex-col items-center p-2 text-slate-400 sidebar-item w-full" data-view="analytics">
-                <i class="fa-solid fa-chart-pie text-lg mb-1"></i><span class="text-[10px] font-bold">চার্ট</span>
-            </button>
-            <button onclick="window.switchView('settings')" class="flex flex-col items-center p-2 text-slate-400 sidebar-item w-full" data-view="settings">
-                <i class="fa-solid fa-gear text-lg mb-1"></i><span class="text-[10px] font-bold">সেটিংস</span>
+            <button onclick="window.switchView('settings')" class="nav-link flex flex-col items-center justify-center p-3 w-full rounded-none" data-view="settings">
+                <i class="fa-solid fa-sliders text-xl mb-1"></i><span class="text-[10px] font-bold tracking-wide">Settings</span>
             </button>
         </nav>
     </div>
 
-    <!-- ================= ADD/EDIT MODAL ================= -->
-    <div id="entryModal" class="hidden fixed inset-0 z-[100] bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 animate-fade">
-        <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-700 animate-slide-up">
-            <div class="p-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900">
-                <h3 class="font-bold text-lg text-slate-800 dark:text-white" id="modalTitle">নতুন এন্ট্রি</h3>
-                <button onclick="window.closeAddModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500"><i class="fa-solid fa-xmark"></i></button>
+    <!-- ================= 3. ENTRY MODAL ================= -->
+    <div id="entryModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade">
+        <div class="bg-white dark:bg-darkcard w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-slate-200 dark:border-darkborder relative" onclick="event.stopPropagation()">
+            <!-- Header -->
+            <div class="px-6 py-4 border-b border-slate-100 dark:border-darkborder flex justify-between items-center bg-slate-50/50 dark:bg-darkcard">
+                <h3 class="font-bold text-lg text-slate-800 dark:text-white" id="modalTitle">New Entry</h3>
+                <button onclick="window.closeEntryModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition-colors"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div class="p-5">
-                <form id="entryForm" class="space-y-4">
+            
+            <!-- Form Body -->
+            <div class="p-6">
+                <form id="entryForm" class="space-y-5">
                     <input type="hidden" id="entryId" value="">
                     
-                    <div class="flex p-1 bg-slate-100 dark:bg-slate-900 rounded-lg">
+                    <!-- Toggle Type -->
+                    <div class="flex p-1 bg-slate-100 dark:bg-slate-800/50 rounded-xl">
                         <label class="flex-1 text-center cursor-pointer">
-                            <input type="radio" name="entryType" value="income" class="peer sr-only" onchange="window.populateCategories()">
-                            <div class="py-2 text-sm font-bold text-slate-500 rounded-md peer-checked:bg-white peer-checked:text-emerald-600 peer-checked:shadow-sm dark:peer-checked:bg-slate-700 dark:peer-checked:text-emerald-400 transition-all">আয় (+)</div>
+                            <input type="radio" name="entryType" value="income" class="peer sr-only" onchange="window.loadCategories()">
+                            <div class="py-2.5 text-sm font-bold text-slate-500 rounded-lg peer-checked:bg-white peer-checked:text-emerald-600 peer-checked:shadow-sm dark:peer-checked:bg-slate-700 dark:peer-checked:text-emerald-400 transition-all">Income (+)</div>
                         </label>
                         <label class="flex-1 text-center cursor-pointer">
-                            <input type="radio" name="entryType" value="expense" class="peer sr-only" checked onchange="window.populateCategories()">
-                            <div class="py-2 text-sm font-bold text-slate-500 rounded-md peer-checked:bg-white peer-checked:text-rose-600 peer-checked:shadow-sm dark:peer-checked:bg-slate-700 dark:peer-checked:text-rose-400 transition-all">ব্যয় (-)</div>
+                            <input type="radio" name="entryType" value="expense" class="peer sr-only" checked onchange="window.loadCategories()">
+                            <div class="py-2.5 text-sm font-bold text-slate-500 rounded-lg peer-checked:bg-white peer-checked:text-rose-600 peer-checked:shadow-sm dark:peer-checked:bg-slate-700 dark:peer-checked:text-rose-400 transition-all">Expense (-)</div>
                         </label>
                     </div>
 
+                    <!-- Amount -->
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">পরিমাণ</label>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Amount</label>
                         <div class="relative">
-                            <span class="absolute left-4 top-3 font-bold text-slate-400 currencySymbol">৳</span>
-                            <input type="number" id="entryAmount" required min="1" class="w-full input-base rounded-lg py-3 pl-10 pr-4 text-xl font-bold font-mono" placeholder="0.00">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 text-lg currencySymbol">৳</span>
+                            <input type="number" id="entryAmount" required min="1" step="0.01" class="w-full input-pro rounded-xl py-3 pl-10 pr-4 text-xl font-bold font-mono" placeholder="0.00">
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">তারিখ</label>
-                            <input type="date" id="entryDate" required class="w-full input-base rounded-lg px-3 py-2.5 text-sm font-medium dark:[color-scheme:dark]">
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Date</label>
+                            <input type="date" id="entryDate" required class="w-full input-pro rounded-xl px-4 py-3 text-sm font-medium dark:[color-scheme:dark]">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">খাত</label>
-                            <select id="entryCategory" required class="w-full input-base rounded-lg px-3 py-2.5 text-sm font-medium"></select>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Category</label>
+                            <select id="entryCategory" required class="w-full input-pro rounded-xl px-4 py-3 text-sm font-medium"></select>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">নোট (ঐচ্ছিক)</label>
-                        <input type="text" id="entryNote" class="w-full input-base rounded-lg px-4 py-2.5 text-sm" placeholder="বিস্তারিত বিবরণ...">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Particulars / Note</label>
+                        <input type="text" id="entryNote" class="w-full input-pro rounded-xl px-4 py-3 text-sm" placeholder="Detailed description...">
                     </div>
 
                     <div class="pt-2">
-                        <button type="submit" id="entrySubmitBtn" class="w-full btn-primary font-bold py-3 rounded-lg flex justify-center items-center gap-2">
-                            <i class="fa-solid fa-check"></i> সেভ করুন
+                        <button type="submit" id="entrySubmit" class="w-full btn-brand font-bold py-3.5 rounded-xl flex justify-center items-center gap-2 text-sm">
+                            <i class="fa-solid fa-check"></i> Save Record
                         </button>
                     </div>
                 </form>
@@ -489,51 +604,60 @@
         </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed top-4 right-4 transform translate-y-[-150%] opacity-0 transition-all duration-300 ease-out bg-slate-800 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 z-[9999] pointer-events-none min-w-[250px] font-medium text-sm border border-slate-700">
-        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
-        <span id="toastMsg">Message saved</span>
+    <!-- Toast Component -->
+    <div id="toast" class="fixed top-4 right-4 sm:top-6 sm:right-6 transform translate-y-[-150%] opacity-0 transition-all duration-400 ease-out bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 z-[9999] min-w-[280px] text-sm font-medium border border-slate-700 pointer-events-none">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-lg shrink-0"></i>
+        <span id="toastMsg" class="flex-1">Notification</span>
     </div>
 
-    <!-- ================= PRINTABLE STATEMENT (HIDDEN FROM UI) ================= -->
-    <div id="printStatement" class="print-hide">
-        <div style="text-align: center; margin-bottom: 20px;">
-            <h1 style="font-size: 24px; font-weight: bold; margin: 0; font-family: sans-serif;">Finance Pro - Account Statement</h1>
-            <p style="color: #666; margin: 5px 0;" id="printDateRange"></p>
-            <p style="color: #666; margin: 5px 0;" id="printUserInfo"></p>
+    <!-- ================= 4. DEDICATED PRINT/PDF WRAPPER ================= -->
+    <div id="printWrapper" class="hidden">
+        <div style="text-align: center; border-bottom: 2px solid #334155; padding-bottom: 20px; margin-bottom: 20px;">
+            <h1 style="font-size: 28px; font-weight: bold; margin: 0; color: #0f172a; font-family: sans-serif;">Enterprise Finance Pro</h1>
+            <h2 style="font-size: 16px; font-weight: normal; margin: 5px 0 0 0; color: #475569;">Official Account Statement</h2>
         </div>
         
-        <div style="display: flex; justify-content: space-between; margin-bottom: 20px; padding: 15px; background: #f8fafc; border: 1px solid #e2e8f0;">
-            <div><strong>Total Income: </strong> <span id="printInc" style="color: green;">0</span></div>
-            <div><strong>Total Expense: </strong> <span id="printExp" style="color: red;">0</span></div>
-            <div><strong>Net Balance: </strong> <span id="printBal">0</span></div>
+        <table style="width: 100%; margin-bottom: 20px; font-family: sans-serif; font-size: 14px;">
+            <tr>
+                <td><strong>Period:</strong> <span id="printPeriod">All Time</span></td>
+                <td style="text-align: right;"><strong>Generated By:</strong> <span id="printUser">Admin</span></td>
+            </tr>
+            <tr>
+                <td><strong>Print Date:</strong> <span id="printToday"></span></td>
+            </tr>
+        </table>
+
+        <div style="display: flex; background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; margin-bottom: 20px; font-family: sans-serif; border-radius: 4px;">
+            <div style="flex: 1;"><strong>Total Credits (Inc):</strong> <br><span id="printTotInc" style="color: #059669; font-size: 18px; font-weight: bold;">0</span></div>
+            <div style="flex: 1;"><strong>Total Debits (Exp):</strong> <br><span id="printTotExp" style="color: #e11d48; font-size: 18px; font-weight: bold;">0</span></div>
+            <div style="flex: 1; text-align: right;"><strong>Net Closing Balance:</strong> <br><span id="printTotBal" style="font-size: 18px; font-weight: bold; color: #0f172a;">0</span></div>
         </div>
 
-        <table class="print-table" style="width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 12px; text-align: left;">
+        <table class="print-table">
             <thead>
                 <tr>
-                    <th style="width: 15%;">Date</th>
-                    <th style="width: 25%;">Category</th>
-                    <th style="width: 10%;">Type</th>
-                    <th style="width: 35%;">Note / Particulars</th>
+                    <th style="width: 15%">Date</th>
+                    <th style="width: 25%">Category</th>
+                    <th style="width: 10%">Type</th>
+                    <th style="width: 35%">Particulars</th>
                     <th style="width: 15%; text-align: right;">Amount</th>
                 </tr>
             </thead>
-            <tbody id="printTbody"></tbody>
+            <tbody id="printTableBody"></tbody>
         </table>
         
-        <div style="margin-top: 30px; font-size: 10px; color: #888; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
-            Generated by Enterprise Finance Pro - Automated System
+        <div style="margin-top: 40px; text-align: center; font-size: 11px; color: #64748b; font-family: sans-serif; padding-top: 10px; border-top: 1px dashed #cbd5e1;">
+            This is an auto-generated statement by Enterprise Finance Pro. Signatures are not required.
         </div>
     </div>
 
-    <!-- ================= FIREBASE & JS LOGIC ================= -->
+    <!-- ================= FIREBASE & APP LOGIC ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, updateProfile, deleteUser } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, deleteUser } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Provided Firebase Config
+        // CONFIG (Replace with valid keys if needed, kept from user prompt)
         const firebaseConfig = {
             apiKey: "AIzaSyC8HXjrfuZO3ACmJZk5EDLphhK2ciMd_gM",
             authDomain: "expense-tracker-492a1.firebaseapp.com",
@@ -542,392 +666,396 @@
             messagingSenderId: "965575833961",
             appId: "1:965575833961:web:4b3eb91d435180564c25f8"
         };
+        
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appID = "finance-pro-v7"; 
+        const appID = "finance-pro-v8-enterprise"; 
 
-        // State Variables
-        let currentUser = null, transactions = [], unsubscribeTxns = null;
-        let userSettings = { currency: '৳', budget: 0 };
-        let charts = { main: null, expDoughnut: null, incDoughnut: null };
+        // State
+        let user = null, dbRecords = [], subTxn = null;
+        let prefs = { currency: '৳', budget: 0 };
+        let chartInsts = { main: null, pExp: null, pInc: null };
 
-        // Categories Map
-        const CATEGORIES = {
-            income: { salary: 'বেতন (Salary)', business: 'ব্যবসা (Business)', freelance: 'ফ্রিল্যান্স (Freelance)', other: 'অন্যান্য (Other)' },
-            expense: { food: 'খাবার (Food)', rent: 'ভাড়া (Rent)', bills: 'বিল/ইউটিলিটি (Bills)', transport: 'যাতায়াত (Transport)', health: 'চিকিৎসা (Health)', shopping: 'শপিং (Shopping)', other: 'অন্যান্য (Other)' }
+        // Dictionaries
+        const CATS = {
+            income: { salary: 'Salary (বেতন)', business: 'Business (ব্যবসা)', invest: 'Investment (বিনিয়োগ)', other: 'Other (অন্যান্য)' },
+            expense: { food: 'Food & Dining', rent: 'Rent/Housing', utility: 'Utilities & Bills', travel: 'Transport', medical: 'Healthcare', shop: 'Shopping', other: 'Other (অন্যান্য)' }
         };
 
-        // DOM Helpers
-        const $ = id => document.getElementById(id);
-        const formatMoney = num => new Intl.NumberFormat('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(num);
+        // Utility
+        const el = id => document.getElementById(id);
+        const fmtMoney = n => new Intl.NumberFormat('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(n);
 
-        // Core Functions
-        window.showToast = (msg, type = 'success') => {
-            const t = $('toast'); const icon = $('toastIcon');
-            $('toastMsg').textContent = msg;
-            icon.className = type === 'error' ? 'fa-solid fa-circle-exclamation text-rose-400 text-lg' : 'fa-solid fa-circle-check text-emerald-400 text-lg';
+        window.toast = (msg, isErr = false) => {
+            const t = el('toast'); const i = el('toastIcon');
+            el('toastMsg').textContent = msg;
+            i.className = isErr ? 'fa-solid fa-circle-exclamation text-rose-400 text-lg shrink-0' : 'fa-solid fa-circle-check text-emerald-400 text-lg shrink-0';
             t.classList.remove('translate-y-[-150%]', 'opacity-0');
-            setTimeout(() => t.classList.add('translate-y-[-150%]', 'opacity-0'), 3000);
+            setTimeout(() => t.classList.add('translate-y-[-150%]', 'opacity-0'), 3500);
         };
 
         window.toggleTheme = () => {
             document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-            renderCharts(); // Re-render charts for theme colors
+            drawCharts(); // redraw for color change
         };
 
-        // Auth Routing
-        window.toggleAuth = (view) => {
-            $('loginForm').classList.toggle('hidden', view !== 'login');
-            $('registerForm').classList.toggle('hidden', view !== 'register');
-            $('authTitle').textContent = view === 'login' ? 'অ্যাকাউন্টে প্রবেশ করুন' : 'নতুন অ্যাকাউন্ট খুলুন';
-            $('authMsg').classList.add('hidden');
+        // Routing / Auth UI
+        window.toggleAuth = mode => {
+            el('loginForm').classList.toggle('hidden', mode !== 'login');
+            el('registerForm').classList.toggle('hidden', mode !== 'register');
+            el('authTitle').textContent = mode === 'login' ? 'Welcome Back' : 'Create Account';
+            el('authAlert').classList.add('hidden');
         };
 
-        const showAuthError = msg => { $('authMsg').textContent = msg; $('authMsg').classList.remove('hidden'); };
+        const authErr = msg => { el('authAlertText').textContent = msg; el('authAlert').classList.remove('hidden'); };
 
-        $('loginForm').addEventListener('submit', async e => {
+        el('loginForm').addEventListener('submit', async e => {
             e.preventDefault();
-            const btn = $('loginBtn'); btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-            try { await signInWithEmailAndPassword(auth, $('loginEmail').value, $('loginPassword').value); }
-            catch (err) { showAuthError("ইমেইল বা পাসওয়ার্ড ভুল হয়েছে।"); btn.disabled = false; btn.innerHTML = 'লগইন করুন <i class="fa-solid fa-arrow-right"></i>'; }
+            const b = el('loginBtn'); b.disabled = true; b.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            try { await signInWithEmailAndPassword(auth, el('loginEmail').value, el('loginPassword').value); }
+            catch (err) { authErr("Invalid credentials."); b.disabled = false; b.innerHTML = 'Secure Login <i class="fa-solid fa-arrow-right"></i>'; }
         });
 
-        $('registerForm').addEventListener('submit', async e => {
+        el('registerForm').addEventListener('submit', async e => {
             e.preventDefault();
-            const btn = $('regBtn'); btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            const b = el('regBtn'); b.disabled = true; b.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
             try { 
-                const cred = await createUserWithEmailAndPassword(auth, $('regEmail').value, $('regPassword').value);
-                await updateProfile(cred.user, { displayName: $('regName').value });
-            } catch (err) { showAuthError("রেজিস্ট্রেশন ব্যর্থ। ইমেইলটি ব্যবহৃত হতে পারে।"); btn.disabled = false; btn.innerHTML = 'অ্যাকাউন্ট তৈরি করুন <i class="fa-solid fa-user-plus"></i>'; }
+                const cred = await createUserWithEmailAndPassword(auth, el('regEmail').value, el('regPassword').value);
+                await updateProfile(cred.user, { displayName: el('regName').value });
+            } catch (err) { authErr("Email might be in use."); b.disabled = false; b.innerHTML = 'Initialize Account <i class="fa-solid fa-user-plus"></i>'; }
         });
 
         window.handleLogout = () => signOut(auth);
 
-        // Firebase Auth Observer
-        onAuthStateChanged(auth, async user => {
-            currentUser = user;
-            const loader = $('globalLoader');
-            if (user) {
-                $('authScreen').classList.add('hidden');
-                $('mainApp').classList.remove('hidden');
-                $('mainApp').classList.add('flex');
+        // Auth Listener
+        onAuthStateChanged(auth, async u => {
+            user = u;
+            const loader = el('globalLoader');
+            if (u) {
+                el('authScreen').classList.add('hidden');
+                el('appShell').classList.remove('hidden');
                 
-                // Set UI info
-                const name = user.displayName || user.email.split('@')[0];
-                $('sideUserName').textContent = name;
-                if($('userGreeting')) $('userGreeting').textContent = `হ্যালো, ${name}`;
-                $('sideAvatar').src = `https://ui-avatars.com/api/?name=${name}&background=0ea5e9&color=fff&bold=true`;
+                const n = u.displayName || u.email.split('@')[0];
+                el('userNameDisplay').textContent = n;
+                el('userAvatar').src = `https://ui-avatars.com/api/?name=${n}&background=6366f1&color=fff&bold=true`;
                 
-                // Init Defaults
+                // Set default month to current
                 const d = new Date();
-                const m = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-                $('filterMonth').value = m;
-                $('entryDate').value = `${m}-${String(d.getDate()).padStart(2, '0')}`;
+                const curM = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+                el('tableMonth').value = curM;
+                el('entryDate').value = `${curM}-${String(d.getDate()).padStart(2, '0')}`;
 
-                await fetchSettings();
-                fetchTransactions();
-                setTimeout(() => { if(loader) { loader.style.opacity = '0'; setTimeout(()=> loader.style.display = 'none', 400); } }, 500);
+                await loadPrefs();
+                syncData();
+                setTimeout(() => { if(loader) { loader.style.opacity = '0'; setTimeout(()=> loader.classList.add('hidden'), 500); } }, 600);
             } else {
-                $('mainApp').classList.add('hidden'); $('mainApp').classList.remove('flex');
-                $('authScreen').classList.remove('hidden');
-                if (unsubscribeTxns) { unsubscribeTxns(); unsubscribeTxns = null; }
-                transactions = [];
-                $('loginForm').reset(); $('registerForm').reset();
-                setTimeout(() => { if(loader) { loader.style.opacity = '0'; setTimeout(()=> loader.style.display = 'none', 400); } }, 500);
+                el('appShell').classList.add('hidden');
+                el('authScreen').classList.remove('hidden');
+                if (subTxn) { subTxn(); subTxn = null; }
+                dbRecords = [];
+                el('loginForm').reset(); el('registerForm').reset();
+                setTimeout(() => { if(loader) { loader.style.opacity = '0'; setTimeout(()=> loader.classList.add('hidden'), 500); } }, 600);
             }
         });
 
         // App Navigation
-        window.switchView = (viewId) => {
+        window.switchView = (vid) => {
             document.querySelectorAll('.app-view').forEach(v => { v.classList.remove('block', 'flex'); v.classList.add('hidden'); });
-            const target = $(`view-${viewId}`);
-            if(target) { target.classList.remove('hidden'); target.classList.add(viewId==='ledger'?'flex':'block'); }
+            const target = $(`view-${vid}`);
+            if(target) { target.classList.remove('hidden'); target.classList.add(vid==='ledger'?'flex':'block'); }
             
-            document.querySelectorAll('.sidebar-item').forEach(btn => {
-                if(btn.dataset.view === viewId) btn.classList.add('active');
-                else btn.classList.remove('active');
+            document.querySelectorAll('.nav-link').forEach(btn => {
+                if(btn.dataset.view === vid) btn.classList.add('active'); else btn.classList.remove('active');
             });
             
-            const titles = { dashboard: 'ড্যাশবোর্ড ওভারভিউ', ledger: 'লেজার ও রিপোর্ট', analytics: 'অ্যানালিটিক্স', settings: 'সিস্টেম সেটিংস' };
-            if($('topbarTitle')) $('topbarTitle').textContent = titles[viewId] || '';
+            const titles = { dashboard: 'Dashboard', ledger: 'General Ledger', analytics: 'Analytics', settings: 'System Preferences' };
+            if(el('topbarTitle')) el('topbarTitle').textContent = titles[vid] || '';
             
-            if(viewId === 'ledger') window.renderLedger();
-            if(viewId === 'analytics') renderCharts();
+            // Re-render specifics based on view
+            if(vid === 'ledger') window.renderTable();
+            if(vid === 'analytics') drawCharts();
+            
+            // Scroll to top
+            el('viewport').scrollTo({top: 0, behavior: 'smooth'});
         };
 
-        // Data Fetching & Settings
-        async function fetchSettings() {
+        // Data Management
+        async function loadPrefs() {
             try {
-                const docSnap = await getDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'settings', 'profile'));
-                if(docSnap.exists()) userSettings = { ...userSettings, ...docSnap.data() };
-                $('setCurrency').value = userSettings.currency;
-                $('setBudget').value = userSettings.budget || '';
-                updateCurrencySymbols();
+                const docSnap = await getDoc(doc(db, 'artifacts', appID, 'users', user.uid, 'settings', 'config'));
+                if(docSnap.exists()) prefs = { ...prefs, ...docSnap.data() };
+                el('prefCurrency').value = prefs.currency;
+                el('prefBudget').value = prefs.budget || '';
+                updateSymbol();
             } catch(e) {}
         }
 
-        window.saveSettings = async () => {
-            userSettings.currency = $('setCurrency').value;
-            userSettings.budget = parseFloat($('setBudget').value) || 0;
+        window.savePrefs = async () => {
+            prefs.currency = el('prefCurrency').value;
+            prefs.budget = parseFloat(el('prefBudget').value) || 0;
             try {
-                await setDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'settings', 'profile'), userSettings, {merge: true});
-                updateCurrencySymbols(); updateDashboard();
-                window.showToast('সেটিংস সেভ হয়েছে');
-            } catch(e) { window.showToast('সেভ ব্যর্থ', 'error'); }
+                await setDoc(doc(db, 'artifacts', appID, 'users', user.uid, 'settings', 'config'), prefs, {merge: true});
+                updateSymbol(); buildDashboard();
+                toast('Preferences saved');
+            } catch(e) { toast('Save failed', true); }
         };
 
-        function updateCurrencySymbols() { document.querySelectorAll('.currencySymbol').forEach(el => el.textContent = userSettings.currency); }
+        function updateSymbol() { document.querySelectorAll('.currencySymbol').forEach(x => x.textContent = prefs.currency); }
 
-        function fetchTransactions() {
-            $('chartSkeleton').classList.remove('hidden');
-            const txnsRef = collection(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions');
-            unsubscribeTxns = onSnapshot(txnsRef, (snap) => {
-                transactions = [];
-                snap.forEach(doc => transactions.push({ id: doc.id, ...doc.data() }));
-                transactions.sort((a,b) => new Date(b.date) - new Date(a.date) || new Date(b.timestamp) - new Date(a.timestamp));
+        function syncData() {
+            el('chartLoading').classList.remove('hidden');
+            const ref = collection(db, 'artifacts', appID, 'users', user.uid, 'transactions');
+            subTxn = onSnapshot(ref, (snap) => {
+                dbRecords = [];
+                snap.forEach(d => dbRecords.push({ id: d.id, ...d.data() }));
+                dbRecords.sort((a,b) => new Date(b.date) - new Date(a.date) || new Date(b.timestamp) - new Date(a.timestamp));
                 
-                $('chartSkeleton').classList.add('hidden');
-                updateDashboard();
-                const activeView = document.querySelector('.sidebar-item.active');
-                if(activeView && activeView.dataset.view === 'ledger') window.renderLedger();
-                if(activeView && activeView.dataset.view === 'analytics') renderCharts();
-            }, (error) => { console.error(error); window.showToast('ডেটা সিঙ্ক ত্রুটি', 'error'); });
+                el('chartLoading').classList.add('hidden');
+                buildDashboard();
+                
+                const active = document.querySelector('.nav-link.active');
+                if(active && active.dataset.view === 'ledger') window.renderTable();
+                if(active && active.dataset.view === 'analytics') drawCharts();
+            }, (err) => { toast('Sync Error', true); });
         }
 
-        // Modal Logic
-        window.populateCategories = () => {
-            const type = document.querySelector('input[name="entryType"]:checked').value;
-            const sel = $('entryCategory'); sel.innerHTML = '';
-            for(let key in CATEGORIES[type]) { sel.add(new Option(CATEGORIES[type][key], key)); }
+        // Modal Form logic
+        window.loadCategories = () => {
+            const t = document.querySelector('input[name="entryType"]:checked').value;
+            const sel = el('entryCategory'); sel.innerHTML = '';
+            for(let k in CATS[t]) sel.add(new Option(CATS[t][k], k));
         };
 
-        window.openAddModal = (id = null) => {
-            const m = $('entryModal'); m.classList.remove('hidden'); m.classList.add('flex');
+        window.openEntryModal = (id = null) => {
+            const m = el('entryModal'); m.classList.remove('hidden'); m.classList.add('flex');
+            
+            // Add click listener to modal background to close
+            m.onclick = (e) => { if(e.target === m) window.closeEntryModal(); };
+
             if(id) {
-                const t = transactions.find(x => x.id === id);
-                if(!t) return;
-                $('modalTitle').textContent = 'এডিট এন্ট্রি';
-                $('entryId').value = t.id;
-                document.querySelector(`input[name="entryType"][value="${t.type}"]`).checked = true;
-                window.populateCategories();
-                $('entryAmount').value = t.amount; $('entryDate').value = t.date;
-                $('entryCategory').value = t.category; $('entryNote').value = t.note || '';
+                const rec = dbRecords.find(x => x.id === id); if(!rec) return;
+                el('modalTitle').textContent = 'Edit Record';
+                el('entryId').value = rec.id;
+                document.querySelector(`input[name="entryType"][value="${rec.type}"]`).checked = true;
+                window.loadCategories();
+                el('entryAmount').value = rec.amount; el('entryDate').value = rec.date;
+                el('entryCategory').value = rec.category; el('entryNote').value = rec.note || '';
             } else {
-                $('modalTitle').textContent = 'নতুন এন্ট্রি';
-                $('entryForm').reset(); $('entryId').value = '';
+                el('modalTitle').textContent = 'New Record';
+                el('entryForm').reset(); el('entryId').value = '';
                 document.querySelector('input[name="entryType"][value="expense"]').checked = true;
-                window.populateCategories();
-                const d = new Date(); $('entryDate').value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                window.loadCategories();
+                const d = new Date(); el('entryDate').value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
             }
         };
-        window.closeAddModal = () => { $('entryModal').classList.add('hidden'); $('entryModal').classList.remove('flex'); };
+        window.closeEntryModal = () => { el('entryModal').classList.add('hidden'); el('entryModal').classList.remove('flex'); };
 
-        $('entryForm').addEventListener('submit', async e => {
+        el('entryForm').addEventListener('submit', async e => {
             e.preventDefault();
-            if (!currentUser) return;
-            const id = $('entryId').value;
+            if (!user) return;
+            const id = el('entryId').value;
             const data = {
                 type: document.querySelector('input[name="entryType"]:checked').value,
-                amount: parseFloat($('entryAmount').value),
-                date: $('entryDate').value,
-                category: $('entryCategory').value,
-                note: $('entryNote').value,
+                amount: parseFloat(el('entryAmount').value),
+                date: el('entryDate').value,
+                category: el('entryCategory').value,
+                note: el('entryNote').value.trim(),
                 timestamp: new Date().toISOString()
             };
             
-            const btn = $('entrySubmitBtn'); btn.disabled = true; btn.innerHTML = 'সেভ হচ্ছে...';
+            const btn = el('entrySubmit'); btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
             try {
-                if(id) await updateDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions', id), data);
-                else await addDoc(collection(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions'), data);
-                window.closeAddModal(); window.showToast('সফলভাবে সংরক্ষিত');
-            } catch (err) { window.showToast('ব্যর্থ', 'error'); } 
-            finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> সেভ করুন'; }
+                if(id) await updateDoc(doc(db, 'artifacts', appID, 'users', user.uid, 'transactions', id), data);
+                else await addDoc(collection(db, 'artifacts', appID, 'users', user.uid, 'transactions'), data);
+                window.closeEntryModal(); toast('Record saved successfully');
+            } catch (err) { toast('Operation failed', true); } 
+            finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> Save Record'; }
         });
 
-        window.deleteTransaction = async (id) => {
-            if(!currentUser || !confirm('মুছে ফেলতে চান?')) return;
-            try { await deleteDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions', id)); window.showToast('মুছে ফেলা হয়েছে'); }
-            catch(e) { window.showToast('ত্রুটি', 'error'); }
+        window.delRec = async (id) => {
+            if(!user || !confirm('Permanently delete this record?')) return;
+            try { await deleteDoc(doc(db, 'artifacts', appID, 'users', user.uid, 'transactions', id)); toast('Record deleted'); }
+            catch(e) { toast('Delete failed', true); }
         };
 
-        // Render Logic
-        function updateDashboard() {
-            let totalInc = 0, totalExp = 0, monthInc = 0, monthExp = 0;
-            const currentMonth = new Date().toISOString().substring(0,7);
+        // Dash Builder
+        function buildDashboard() {
+            let tI = 0, tE = 0, mI = 0, mE = 0;
+            const curM = new Date().toISOString().substring(0,7);
             
-            transactions.forEach(t => {
-                if(t.type === 'income') { totalInc += t.amount; if(t.date.startsWith(currentMonth)) monthInc += t.amount; }
-                else { totalExp += t.amount; if(t.date.startsWith(currentMonth)) monthExp += t.amount; }
+            dbRecords.forEach(r => {
+                if(r.type === 'income') { tI += r.amount; if(r.date.startsWith(curM)) mI += r.amount; }
+                else { tE += r.amount; if(r.date.startsWith(curM)) mE += r.amount; }
             });
 
-            $('dashBalance').textContent = formatMoney(totalInc - totalExp);
-            $('dashIncome').textContent = formatMoney(monthInc);
-            $('dashExpense').textContent = formatMoney(monthExp);
+            el('dashBal').textContent = fmtMoney(tI - tE);
+            el('dashInc').textContent = fmtMoney(mI);
+            el('dashExp').textContent = fmtMoney(mE);
             
-            const savings = monthInc > 0 ? ((monthInc - monthExp) / monthInc) * 100 : 0;
-            const savingsEl = $('dashSavings');
-            savingsEl.textContent = savings > 0 ? savings.toFixed(1) : 0;
-            savingsEl.className = savings > 20 ? 'text-emerald-500' : (savings > 0 ? 'text-amber-500' : 'text-rose-500');
+            const rate = mI > 0 ? ((mI - mE) / mI) * 100 : 0;
+            el('dashRate').textContent = rate > 0 ? rate.toFixed(1) : 0;
+            el('dashRateBar').style.width = `${Math.min(Math.max(rate, 0), 100)}%`;
+            el('dashRateBar').className = `h-full rounded-full transition-all duration-1000 ${rate > 20 ? 'bg-emerald-500' : (rate > 0 ? 'bg-amber-500' : 'bg-rose-500')}`;
 
-            // Render Recent
-            const list = $('dashRecentList'); list.innerHTML = '';
-            transactions.slice(0, 5).forEach(t => {
-                const isInc = t.type === 'income';
-                const catName = CATEGORIES[t.type][t.category] || t.category;
+            // Recent List
+            const list = el('dashRecentList'); list.innerHTML = '';
+            dbRecords.slice(0, 6).forEach(r => {
+                const isI = r.type === 'income';
+                const cName = CATS[r.type][r.category] || r.category;
                 list.innerHTML += `
-                    <div class="flex justify-between items-center p-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg cursor-pointer transition border border-transparent hover:border-slate-100 dark:hover:border-slate-700" onclick="window.openAddModal('${t.id}')">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center bg-${isInc?'emerald':'rose'}-100 text-${isInc?'emerald':'rose'}-600 dark:bg-${isInc?'emerald':'rose'}-900/30">
-                                <i class="fa-solid ${isInc?'fa-arrow-down':'fa-arrow-up'}"></i>
+                    <div class="flex justify-between items-center p-3 mb-2 hover:bg-slate-50 dark:hover:bg-darkborder/50 rounded-xl cursor-pointer transition border border-transparent hover:border-slate-200 dark:hover:border-slate-700" onclick="window.openEntryModal('${r.id}')">
+                        <div class="flex items-center gap-3 overflow-hidden">
+                            <div class="w-10 h-10 shrink-0 rounded-full flex items-center justify-center bg-${isI?'emerald':'rose'}-50 text-${isI?'emerald':'rose'}-600 dark:bg-${isI?'emerald':'rose'}-900/20">
+                                <i class="fa-solid ${isI?'fa-arrow-down':'fa-arrow-up'}"></i>
                             </div>
-                            <div>
-                                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">${catName}</p>
-                                <p class="text-xs text-slate-500">${t.date}</p>
+                            <div class="truncate">
+                                <p class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">${cName}</p>
+                                <p class="text-[11px] text-slate-500">${r.date}</p>
                             </div>
                         </div>
-                        <span class="font-bold text-sm ${isInc?'text-emerald-500':'text-rose-500'}">${isInc?'+':'-'}${userSettings.currency}${formatMoney(t.amount)}</span>
+                        <span class="font-bold text-sm shrink-0 ml-2 ${isI?'text-emerald-500':'text-rose-500'}">${isI?'+':'-'}${prefs.currency}${fmtMoney(r.amount)}</span>
                     </div>
                 `;
             });
-            if(transactions.length===0) list.innerHTML = '<div class="text-center text-slate-400 py-6 text-sm">কোনো ডেটা নেই</div>';
+            if(!dbRecords.length) list.innerHTML = '<div class="text-center text-slate-400 py-10 font-medium"><i class="fa-solid fa-inbox text-2xl mb-2 block"></i> No recent activity</div>';
             
-            renderCharts();
+            drawCharts();
         }
 
-        window.renderLedger = () => {
-            const tbody = $('ledgerTbody'); tbody.innerHTML = '';
-            const m = $('filterMonth').value;
-            const tType = $('filterType').value;
-            const q = $('searchTable').value.toLowerCase();
+        // Table Builder
+        window.renderTable = () => {
+            const tb = el('tableBody'); tb.innerHTML = '';
+            const m = el('tableMonth').value;
+            const typ = el('tableType').value;
+            const sq = el('tableSearch').value.toLowerCase();
 
-            let filtered = transactions;
-            if(m) filtered = filtered.filter(t => t.date.startsWith(m));
-            if(tType !== 'all') filtered = filtered.filter(t => t.type === tType);
-            if(q) filtered = filtered.filter(t => {
-                const cat = (CATEGORIES[t.type][t.category] || '').toLowerCase();
-                return cat.includes(q) || (t.note||'').toLowerCase().includes(q) || t.amount.toString().includes(q);
+            let flt = dbRecords;
+            if(m) flt = flt.filter(r => r.date.startsWith(m));
+            if(typ !== 'all') flt = flt.filter(r => r.type === typ);
+            if(sq) flt = flt.filter(r => {
+                const c = (CATS[r.type][r.category] || '').toLowerCase();
+                return c.includes(sq) || (r.note||'').toLowerCase().includes(sq) || r.amount.toString().includes(sq);
             });
 
-            if(filtered.length === 0) { $('ledgerEmpty').classList.remove('hidden'); } 
-            else { $('ledgerEmpty').classList.add('hidden'); }
+            if(!flt.length) el('tableEmpty').classList.remove('hidden'); 
+            else el('tableEmpty').classList.add('hidden');
 
-            filtered.forEach(t => {
-                const isInc = t.type === 'income';
-                const catName = CATEGORIES[t.type][t.category] || t.category;
+            flt.forEach(r => {
+                const isI = r.type === 'income';
+                const cName = CATS[r.type][r.category] || r.category;
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td class="whitespace-nowrap"><i class="fa-regular fa-calendar mr-2 text-slate-400"></i>${t.date}</td>
-                    <td class="font-medium">${catName}</td>
-                    <td class="text-center"><span class="px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${isInc?'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400':'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'}">${isInc?'Income':'Expense'}</span></td>
-                    <td class="max-w-[200px] truncate" title="${t.note}">${t.note||'-'}</td>
-                    <td class="text-right font-bold ${isInc?'text-emerald-600 dark:text-emerald-400':'text-rose-600 dark:text-rose-400'}">${userSettings.currency}${formatMoney(t.amount)}</td>
+                    <td class="whitespace-nowrap"><span class="text-slate-500 dark:text-slate-400 font-medium">${r.date}</span></td>
+                    <td class="font-bold text-slate-800 dark:text-slate-200">${cName}</td>
+                    <td class="text-center"><span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${isI?'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400':'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'}">${isI?'Income':'Expense'}</span></td>
+                    <td class="text-slate-600 dark:text-slate-400"><div class="line-clamp-2" title="${r.note}">${r.note||'-'}</div></td>
+                    <td class="text-right font-bold text-base ${isI?'text-emerald-600 dark:text-emerald-400':'text-rose-600 dark:text-rose-400'}">${prefs.currency}${fmtMoney(r.amount)}</td>
                     <td class="text-center">
                         <div class="flex gap-2 justify-center">
-                            <button onclick="window.openAddModal('${t.id}')" class="text-brand-500 hover:text-brand-700 bg-brand-50 dark:bg-brand-900/30 p-1.5 rounded"><i class="fa-solid fa-pen text-xs"></i></button>
-                            <button onclick="window.deleteTransaction('${t.id}')" class="text-rose-500 hover:text-rose-700 bg-rose-50 dark:bg-rose-900/30 p-1.5 rounded"><i class="fa-solid fa-trash text-xs"></i></button>
+                            <button onclick="window.openEntryModal('${r.id}')" class="text-brand-500 hover:bg-brand-50 dark:hover:bg-brand-900/30 p-2 rounded-lg transition"><i class="fa-solid fa-pen text-xs"></i></button>
+                            <button onclick="window.delRec('${r.id}')" class="text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30 p-2 rounded-lg transition"><i class="fa-solid fa-trash text-xs"></i></button>
                         </div>
                     </td>
                 `;
-                tbody.appendChild(tr);
+                tb.appendChild(tr);
             });
         };
 
         // Charts
-        function renderCharts() {
-            if(!transactions.length) return;
-            const isDark = document.documentElement.classList.contains('dark');
-            const gridColor = isDark ? '#1e293b' : '#f1f5f9';
-            const textColor = isDark ? '#94a3b8' : '#475569';
-            Chart.defaults.color = textColor;
+        function drawCharts() {
+            if(!dbRecords.length) return;
+            const isD = document.documentElement.classList.contains('dark');
+            Chart.defaults.color = isD ? '#9ca3af' : '#4b5563';
             Chart.defaults.font.family = "'Inter', sans-serif";
 
-            // Main Trend
-            const trendData = {};
-            transactions.forEach(t => {
-                const m = t.date.substring(0,7);
-                if(!trendData[m]) trendData[m] = { i:0, e:0 };
-                if(t.type==='income') trendData[m].i += t.amount; else trendData[m].e += t.amount;
+            // Main Bar
+            const td = {};
+            dbRecords.forEach(r => {
+                const m = r.date.substring(0,7);
+                if(!td[m]) td[m] = { i:0, e:0 };
+                if(r.type==='income') td[m].i += r.amount; else td[m].e += r.amount;
             });
-            const months = Object.keys(trendData).sort().slice(-6);
-            if($('mainTrendChart')) {
-                if(charts.main) charts.main.destroy();
-                charts.main = new Chart($('mainTrendChart').getContext('2d'), {
+            const mns = Object.keys(td).sort().slice(-6);
+            if(el('mainChart')) {
+                if(chartInsts.main) chartInsts.main.destroy();
+                chartInsts.main = new Chart(el('mainChart').getContext('2d'), {
                     type: 'bar',
-                    data: { labels: months, datasets: [{ label: 'Income', data: months.map(m=>trendData[m].i), backgroundColor: '#10b981', borderRadius: 4 }, { label: 'Expense', data: months.map(m=>trendData[m].e), backgroundColor: '#f43f5e', borderRadius: 4 }] },
-                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: gridColor }, beginAtZero: true }, x: { grid: { display: false } } }, plugins: { legend: { position: 'top' } } }
+                    data: { labels: mns, datasets: [{ label: 'Income', data: mns.map(m=>td[m].i), backgroundColor: '#10b981', borderRadius: 4 }, { label: 'Expense', data: mns.map(m=>td[m].e), backgroundColor: '#f43f5e', borderRadius: 4 }] },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: isD?'#1f2937':'#e5e7eb' }, border: {dash: [4, 4]} }, x: { grid: { display: false } } }, plugins: { legend: { position: 'top', labels:{usePointStyle:true, boxWidth:8} } }, interaction: { mode: 'index', intersect: false } }
                 });
             }
 
-            // Doughnuts
-            const mFilter = $('filterMonth').value || new Date().toISOString().substring(0,7);
-            const curTxns = transactions.filter(t => t.date.startsWith(mFilter));
-            const catExp={}, catInc={};
-            curTxns.forEach(t => {
-                const cName = CATEGORIES[t.type][t.category] || t.category;
-                if(t.type==='expense') catExp[cName] = (catExp[cName]||0) + t.amount;
-                else catInc[cName] = (catInc[cName]||0) + t.amount;
+            // Pies
+            const mF = el('tableMonth').value || new Date().toISOString().substring(0,7);
+            const cT = dbRecords.filter(r => r.date.startsWith(mF));
+            const cE={}, cI={};
+            cT.forEach(r => {
+                const n = CATS[r.type][r.category] || r.category;
+                if(r.type==='expense') cE[n] = (cE[n]||0) + r.amount; else cI[n] = (cI[n]||0) + r.amount;
             });
 
-            const drawDoughnut = (id, dataObj, colorArr, chartRefKey) => {
-                const el = $(id); if(!el) return;
-                if(charts[chartRefKey]) charts[chartRefKey].destroy();
-                charts[chartRefKey] = new Chart(el.getContext('2d'), {
+            const drawPie = (id, dat, cols, key) => {
+                const c = el(id); if(!c) return;
+                if(chartInsts[key]) chartInsts[key].destroy();
+                chartInsts[key] = new Chart(c.getContext('2d'), {
                     type: 'doughnut',
-                    data: { labels: Object.keys(dataObj), datasets: [{ data: Object.values(dataObj), backgroundColor: colorArr, borderWidth: isDark?0:2, borderColor: isDark?'#0f172a':'#fff' }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } }, cutout: '70%' }
+                    data: { labels: Object.keys(dat), datasets: [{ data: Object.values(dat), backgroundColor: cols, borderWidth: isD?0:2, borderColor: isD?'transparent':'#fff' }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels:{usePointStyle:true, boxWidth:8} } }, cutout: '75%' }
                 });
             };
 
-            drawDoughnut('expenseCatChart', catExp, ['#f43f5e','#f97316','#eab308','#3b82f6','#8b5cf6','#ec4899','#64748b'], 'expDoughnut');
-            drawDoughnut('incomeCatChart', catInc, ['#10b981','#0ea5e9','#6366f1','#14b8a6'], 'incDoughnut');
+            drawPie('pieExp', cE, ['#f43f5e','#f97316','#eab308','#3b82f6','#8b5cf6','#ec4899','#64748b'], 'pExp');
+            drawPie('pieInc', cI, ['#10b981','#0ea5e9','#6366f1','#14b8a6'], 'pInc');
         }
 
-        // PDF Generation via Print
-        window.generatePDFStatement = () => {
-            const m = $('filterMonth').value;
-            const filtered = m ? transactions.filter(t => t.date.startsWith(m)) : transactions;
+        // Dedicated PDF Logic
+        window.triggerPrint = () => {
+            const m = el('tableMonth').value;
+            const f = m ? dbRecords.filter(r => r.date.startsWith(m)) : dbRecords;
             
-            if(filtered.length === 0) return window.showToast('এক্সপোর্ট করার মত ডেটা নেই', 'error');
+            if(!f.length) return toast('No data to print', true);
 
-            let ti=0, te=0;
-            const tbody = $('printTbody'); tbody.innerHTML = '';
-            filtered.forEach(t => {
-                if(t.type==='income') ti+=t.amount; else te+=t.amount;
+            let i=0, e=0;
+            const tb = el('printTableBody'); tb.innerHTML = '';
+            f.forEach(r => {
+                if(r.type==='income') i+=r.amount; else e+=r.amount;
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${t.date}</td>
-                    <td>${CATEGORIES[t.type][t.category] || t.category}</td>
-                    <td>${t.type==='income'?'Income':'Expense'}</td>
-                    <td>${t.note||'-'}</td>
-                    <td style="text-align: right;">${t.amount.toLocaleString('en-IN')}</td>
+                    <td>${r.date}</td>
+                    <td>${CATS[r.type][r.category] || r.category}</td>
+                    <td>${r.type==='income'?'INC':'EXP'}</td>
+                    <td>${r.note||'-'}</td>
+                    <td style="text-align: right;">${fmtMoney(r.amount)}</td>
                 `;
-                tbody.appendChild(tr);
+                tb.appendChild(tr);
             });
 
-            $('printDateRange').textContent = `Period: ${m || 'All Time'}`;
-            $('printUserInfo').textContent = `Account: ${currentUser?.email}`;
-            $('printInc').textContent = `${userSettings.currency}${ti.toLocaleString('en-IN')}`;
-            $('printExp').textContent = `${userSettings.currency}${te.toLocaleString('en-IN')}`;
-            $('printBal').textContent = `${userSettings.currency}${(ti-te).toLocaleString('en-IN')}`;
+            el('printPeriod').textContent = m || 'All Time Record';
+            el('printUser').textContent = user?.email || 'Admin';
+            el('printToday').textContent = new Date().toLocaleDateString();
+            el('printTotInc').textContent = `${prefs.currency}${fmtMoney(i)}`;
+            el('printTotExp').textContent = `${prefs.currency}${fmtMoney(e)}`;
+            el('printTotBal').textContent = `${prefs.currency}${fmtMoney(i-e)}`;
 
             window.print();
         };
 
-        window.handleResetData = async () => {
-            if(prompt("সব ডেটা ও একাউন্ট মুছতে চাইলে 'DELETE' লিখুন:") === 'DELETE') {
+        window.factoryReset = async () => {
+            if(prompt("To permanently erase all data, type 'DELETE':") === 'DELETE') {
                 try {
-                    for(let t of transactions) await deleteDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions', t.id));
-                    await deleteUser(currentUser);
-                } catch(e) { alert("নিরাপত্তার স্বার্থে পুনরায় লগইন করে আবার চেষ্টা করুন।"); }
+                    for(let r of dbRecords) await deleteDoc(doc(db, 'artifacts', appID, 'users', user.uid, 'transactions', r.id));
+                    await deleteUser(user);
+                } catch(e) { alert("Security block. Please re-login and try again."); }
             }
         };
 
-        // Init Theme
+        // Theme Init
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
     </script>
 </body>
 </html>
+
 
 
