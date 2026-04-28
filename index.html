@@ -1,10 +1,10 @@
-
+```html
 <!DOCTYPE html>
 <html lang="bn" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>স্মার্ট ফিন্যান্স আলট্রা প্রো</title>
+    <title>ফিন্যান্স প্রো ম্যাক্স</title>
     
     <!-- External Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,7 +19,7 @@
                 extend: { 
                     fontFamily: { sans: ['Hind Siliguri', 'sans-serif'] },
                     colors: {
-                        primary: '#0ea5e9', // Sky Blue
+                        primary: '#0ea5e9',
                         darkbg: '#0f172a',
                         darkcard: '#1e293b'
                     }
@@ -36,56 +36,67 @@
         body.light { background-color: #f8fafc; background-image: radial-gradient(#e2e8f0 1px, transparent 1px); background-size: 24px 24px; }
         body.dark { background-color: #0f172a; background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 24px 24px; color: #f8fafc; }
         
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .dark ::-webkit-scrollbar-thumb { background: #334155; }
 
-        /* Premium Glassmorphism */
         .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.7); box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05); }
         .dark .glass-card { background: rgba(30, 41, 59, 0.75); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3); }
 
-        /* Inputs */
         .input-box { transition: all 0.3s ease; }
         .input-box:focus-within { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(14, 165, 233, 0.15); border-color: #0ea5e9; }
 
-        /* Animations */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .animate-fade { animation: fadeIn 0.4s ease forwards; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-slide-up { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-        /* Loader */
         .loader { border: 3px solid #e2e8f0; border-top: 3px solid #0ea5e9; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
         .dark .loader { border: 3px solid #334155; border-top: 3px solid #0ea5e9; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Full Screen Loader */
         #globalLoader { position: fixed; inset: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.4s; }
         .dark #globalLoader { background: rgba(15,23,42,0.95); }
 
-        /* Bottom Nav Mobile */
         .nav-item.active { color: #0ea5e9; font-weight: bold; }
         .nav-item.active .nav-icon { transform: translateY(-4px); color: #0ea5e9; }
         .nav-icon { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
-        /* Background Blobs */
         .bg-blob { position: absolute; border-radius: 50%; filter: blur(80px); z-index: -1; opacity: 0.5; animation: float 10s infinite ease-in-out; }
         .dark .bg-blob { opacity: 0.15; }
         @keyframes float { 0% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.05); } 100% { transform: translateY(0) scale(1); } }
 
-        /* Hide elements on print */
+        /* Premium Ad Container Styles */
+        .premium-ad-container {
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(248,250,252,0.6));
+            border: 1px solid rgba(226,232,240,0.8); border-radius: 24px; overflow: hidden; position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04); display: flex; justify-content: center; align-items: center; padding: 12px;
+            width: 100%; overflow-x: auto;
+        }
+        .dark .premium-ad-container {
+            background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,23,42,0.6));
+            border: 1px solid rgba(51,65,85,0.8); box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .ad-badge {
+            position: absolute; top: 0; right: 16px; background: #cbd5e1; color: #475569; font-size: 9px; font-weight: 800;
+            padding: 3px 10px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; letter-spacing: 1px; z-index: 10;
+        }
+        .dark .ad-badge { background: #334155; color: #94a3b8; }
+        
+        /* Hide scrollbar for ad container */
+        .premium-ad-container::-webkit-scrollbar { display: none; }
+        .premium-ad-container { -ms-overflow-style: none; scrollbar-width: none; }
+
         @media print {
             body { background: white !important; color: black !important; }
-            .no-print, nav, #mobileNav { display: none !important; }
+            .no-print, nav, #mobileNav, .premium-ad-container, #fabBtn { display: none !important; }
             .glass-card { box-shadow: none !important; border: 1px solid #ccc !important; break-inside: avoid; }
         }
     </style>
 </head>
 <body class="antialiased flex flex-col min-h-screen">
 
-    <!-- Global Screen Loader -->
     <div id="globalLoader">
         <div class="relative w-20 h-20 mb-6">
             <div class="absolute inset-0 border-4 border-sky-100 dark:border-slate-800 rounded-full"></div>
@@ -96,13 +107,11 @@
         <p class="text-gray-500 text-sm font-bold mt-1 uppercase tracking-widest">আলট্রা সিকিউর সিস্টেম</p>
     </div>
 
-    <!-- Background Blobs -->
     <div class="bg-blob bg-sky-300 w-96 h-96 top-0 left-0"></div>
     <div class="bg-blob bg-indigo-300 w-96 h-96 bottom-0 right-0" style="animation-delay: -5s;"></div>
 
     <!-- ================= 1. AUTHENTICATION SCREEN ================= -->
     <div id="authScreen" class="hidden flex-1 items-center justify-center p-4 relative z-10">
-        
         <div class="glass-card rounded-[2.5rem] p-8 sm:p-10 max-w-[420px] w-full animate-slide-up">
             
             <div class="text-center mb-8">
@@ -112,7 +121,6 @@
                 <h2 class="text-3xl font-black text-gray-800 dark:text-white tracking-tight">স্বাগতম</h2>
             </div>
 
-            <!-- Custom Tabs -->
             <div class="flex bg-gray-100 dark:bg-slate-800/80 p-1.5 rounded-2xl mb-6 relative">
                 <div id="authTabIndicator" class="absolute left-1.5 top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-white dark:bg-slate-700 rounded-[12px] shadow-sm transition-transform duration-300 ease-out border border-gray-200 dark:border-slate-600"></div>
                 <button onclick="window.switchAuth('login')" class="flex-1 py-3 text-sm font-bold text-sky-600 dark:text-sky-400 relative z-10">লগইন</button>
@@ -121,7 +129,6 @@
 
             <div id="authMsg" class="hidden mb-4 p-3 rounded-xl text-sm font-bold text-center border animate-fade"></div>
 
-            <!-- Login Form -->
             <form id="loginForm" class="space-y-4">
                 <div class="input-box relative bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl">
                     <i class="fa-regular fa-envelope absolute left-5 top-4 text-gray-400"></i>
@@ -139,7 +146,6 @@
                 </button>
             </form>
 
-            <!-- Register Form -->
             <form id="registerForm" class="space-y-4 hidden animate-fade">
                 <div class="input-box relative bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl">
                     <i class="fa-regular fa-user absolute left-5 top-4 text-gray-400"></i>
@@ -158,7 +164,6 @@
                 </button>
             </form>
 
-            <!-- Forgot Pass Form -->
             <form id="forgotPassForm" class="space-y-4 hidden animate-fade mt-4 pt-4 border-t border-gray-200 dark:border-slate-700">
                 <p class="text-sm font-bold text-gray-800 dark:text-white mb-2 text-center">পাসওয়ার্ড রিসেট করুন</p>
                 <div class="input-box relative bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl">
@@ -175,7 +180,7 @@
 
 
     <!-- ================= 2. MAIN APPLICATION ================= -->
-    <div id="mainApp" class="hidden flex-col min-h-screen relative z-10 pb-20 md:pb-8">
+    <div id="mainApp" class="hidden flex-col min-h-screen relative z-10 pb-24 md:pb-8">
         
         <!-- Top Navbar -->
         <nav class="sticky top-0 z-40 bg-white/70 dark:bg-[#0f172a]/70 backdrop-blur-xl border-b border-gray-200/50 dark:border-slate-800/50">
@@ -188,28 +193,43 @@
                 </div>
                 
                 <div class="flex items-center gap-3">
-                    <div class="bg-gray-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
-                        <i class="fa-regular fa-calendar-days text-sky-500 text-sm"></i>
-                        <input type="month" id="monthFilter" class="bg-transparent border-none text-gray-700 dark:text-gray-200 font-bold outline-none cursor-pointer text-sm" onchange="window.updateUI()">
+                    <div class="flex flex-col text-right hidden md:block mr-2">
+                        <span id="timeGreeting" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">শুভ দিন</span>
+                        <span id="userGreeting" class="text-sm font-bold text-gray-800 dark:text-white leading-tight">হ্যালো, ইউজার</span>
                     </div>
-
+                    
                     <button onclick="window.toggleTheme()" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-slate-800 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors border border-gray-200 dark:border-slate-700">
                         <i class="fa-solid fa-moon dark:hidden"></i>
                         <i class="fa-solid fa-sun hidden dark:block text-yellow-500"></i>
                     </button>
                     
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 p-0.5 cursor-pointer shadow-md" onclick="window.switchTab('settings')" title="প্রোফাইল">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 p-0.5 cursor-pointer shadow-md hover:scale-105 transition-transform" onclick="window.switchTab('settings')" title="প্রোফাইল">
                         <img id="navAvatar" src="" class="w-full h-full rounded-[10px] object-cover border-2 border-white dark:border-slate-900">
                     </div>
                 </div>
             </div>
         </nav>
 
+        <!-- Floating Action Button (Mobile Only) -->
+        <button id="fabBtn" onclick="window.openQuickAdd()" class="md:hidden fixed bottom-20 right-5 w-14 h-14 bg-gradient-to-tr from-sky-500 to-indigo-600 rounded-full shadow-lg shadow-sky-500/40 text-white flex items-center justify-center text-2xl z-50 hover:scale-105 active:scale-95 transition-all">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow">
 
             <!-- TAB 1: DASHBOARD -->
             <div id="tab-dashboard" class="app-tab animate-fade block">
                 
+                <!-- AD PLACEMENT 1: Leaderboard Banner -->
+                <div class="premium-ad-container mb-6">
+                    <div class="ad-badge">SPONSORED</div>
+                    <!-- 728x90 Ad -->
+                    <script type="text/javascript">
+                        atOptions = { 'key' : '1e087770c61f970569f062a26fc2dc82', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+                    </script>
+                    <script type="text/javascript" src="https://momrollback.com/1e087770c61f970569f062a26fc2dc82/invoke.js"></script>
+                </div>
+
                 <!-- Smart Message Alert -->
                 <div id="smartMessage" class="hidden mb-6 p-4 rounded-2xl flex items-center gap-4 animate-slide-up shadow-sm border"></div>
 
@@ -222,9 +242,14 @@
                             <i class="fa-brands fa-apple text-9xl"></i>
                         </div>
                         <div class="relative z-10 flex flex-col h-full justify-between">
-                            <div>
-                                <p class="text-gray-400 text-xs font-bold tracking-widest uppercase mb-2">সর্বমোট ব্যালেন্স</p>
-                                <h2 class="text-5xl sm:text-6xl font-black tracking-tighter"><span class="currencySymbol">৳</span> <span id="totalBalance">0</span></h2>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-gray-400 text-xs font-bold tracking-widest uppercase mb-2">সর্বমোট ব্যালেন্স</p>
+                                    <h2 class="text-4xl sm:text-5xl font-black tracking-tighter"><span class="currencySymbol">৳</span> <span id="totalBalance">0</span></h2>
+                                </div>
+                                <div class="bg-white/10 px-3 py-1.5 rounded-lg flex items-center gap-2">
+                                    <input type="month" id="monthFilter" class="bg-transparent border-none text-white font-bold outline-none cursor-pointer text-sm" onchange="window.updateUI()">
+                                </div>
                             </div>
                             
                             <!-- Budget Progress -->
@@ -266,7 +291,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     <!-- Quick Add Form -->
                     <div class="lg:col-span-5 space-y-6">
-                        <div class="glass-card rounded-[2rem] p-6 sm:p-8 shadow-xl relative overflow-hidden">
+                        <div id="transactionFormCard" class="glass-card rounded-[2rem] p-6 sm:p-8 shadow-xl relative overflow-hidden">
                             <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-sky-400 to-indigo-400"></div>
                             
                             <div class="flex justify-between items-center mb-6">
@@ -278,7 +303,6 @@
                             </div>
                             
                             <form id="transactionForm" class="space-y-4">
-                                <!-- Error Prevention: Hidden field for ID -->
                                 <input type="hidden" id="editModeId" value="">
                                 
                                 <div class="flex p-1.5 bg-gray-100 dark:bg-slate-800/80 rounded-2xl relative shadow-inner border border-gray-200 dark:border-slate-700">
@@ -304,12 +328,12 @@
                                     </div>
                                     <div class="input-box bg-gray-50 dark:bg-slate-900/80 border border-gray-200 dark:border-slate-700 rounded-2xl relative">
                                         <select id="category" required class="w-full px-4 py-3.5 bg-transparent outline-none text-sm dark:text-white font-bold appearance-none cursor-pointer"></select>
-                                        <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                                        <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs pointer-events-none"></i>
                                     </div>
                                 </div>
 
                                 <div class="input-box bg-gray-50 dark:bg-slate-900/80 border border-gray-200 dark:border-slate-700 rounded-2xl">
-                                    <textarea id="note" rows="2" placeholder="নোট / বিবরণ (ঐচ্ছিক)" class="w-full px-5 py-3.5 bg-transparent outline-none dark:text-white text-sm font-medium resize-none"></textarea>
+                                    <textarea id="note" rows="2" placeholder="নোট / বিবরণ (ঐচ্ছিক)" class="w-full px-5 py-3.5 bg-transparent outline-none resize-none dark:text-white text-sm transition-all font-medium"></textarea>
                                 </div>
 
                                 <button id="submitBtn" type="submit" class="w-full bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-extrabold rounded-2xl py-4 hover:shadow-lg hover:shadow-sky-500/30 active:scale-[0.98] transition-all flex justify-center items-center gap-2 text-lg tracking-wide border border-transparent">
@@ -317,38 +341,47 @@
                                 </button>
                             </form>
                         </div>
+                        
+                        <!-- AD PLACEMENT 2: Square Banner -->
+                        <div class="premium-ad-container min-h-[260px] w-full">
+                            <div class="ad-badge">ADVERTISEMENT</div>
+                            <!-- 300x250 Ad -->
+                            <script type="text/javascript">
+                                atOptions = { 'key' : 'e8d156b2876798842923e2f7475b7419', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+                            </script>
+                            <script type="text/javascript" src="https://momrollback.com/e8d156b2876798842923e2f7475b7419/invoke.js"></script>
+                        </div>
                     </div>
 
                     <!-- Right Column: Recent Transactions Mini & Chart -->
                     <div class="lg:col-span-7 flex flex-col gap-6">
                         
-                        <div class="glass-card rounded-[2rem] p-6 shadow-lg flex flex-col flex-1 max-h-[420px]">
+                        <div class="glass-card rounded-[2rem] p-6 shadow-lg flex flex-col flex-1 max-h-[450px]">
                             <div class="flex justify-between items-center mb-4 border-b border-gray-100 dark:border-slate-800 pb-3">
                                 <h3 class="text-sm font-black text-gray-800 dark:text-white uppercase tracking-widest"><i class="fa-solid fa-clock-rotate-left text-sky-500 mr-2"></i> সাম্প্রতিক লেনদেন</h3>
-                                <button onclick="window.switchTab('transactions')" class="text-xs font-bold text-sky-500 hover:text-sky-600 bg-sky-50 dark:bg-sky-900/30 px-3 py-1.5 rounded-lg border border-sky-100 dark:border-sky-800">সব দেখুন <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                                <button onclick="window.switchTab('transactions')" class="text-xs font-bold text-sky-500 hover:text-sky-600 bg-sky-50 dark:bg-sky-900/30 px-3 py-1.5 rounded-lg border border-sky-100 dark:border-sky-800 transition-colors">সব দেখুন <i class="fa-solid fa-arrow-right ml-1"></i></button>
                             </div>
                             
-                            <!-- Safe fallback for empty list -->
                             <div id="recentTransactionList" class="space-y-3 flex-1 overflow-y-auto pr-2 custom-scrollbar">
                                 <div class="flex flex-col items-center justify-center py-10 text-gray-400">
-                                    <i class="fa-solid fa-receipt text-3xl mb-2 opacity-50"></i>
+                                    <div class="loader !border-gray-300 !border-t-sky-500 mb-2"></div>
                                     <p class="text-xs font-bold uppercase tracking-widest">ডেটা লোড হচ্ছে...</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Mini Chart -->
-                        <div class="glass-card rounded-[2rem] p-6 shadow-lg h-56 flex gap-4 items-center">
-                            <div class="flex-1 h-full relative">
+                        <div class="glass-card rounded-[2rem] p-6 shadow-lg h-60 flex flex-col sm:flex-row gap-4 items-center">
+                            <div class="flex-1 h-full relative w-full">
                                 <canvas id="expenseChart"></canvas>
                                 <div id="noChartData" class="absolute inset-0 flex flex-col items-center justify-center text-gray-400 hidden">
                                     <i class="fa-solid fa-chart-pie text-2xl opacity-30 mb-2"></i>
                                     <span class="text-[10px] font-bold uppercase tracking-widest">পর্যাপ্ত ডেটা নেই</span>
                                 </div>
                             </div>
-                            <div class="w-1/3 h-full flex flex-col justify-center">
+                            <div class="w-full sm:w-1/3 h-full flex flex-col justify-center text-center sm:text-left">
                                 <h4 class="text-xs font-black text-gray-800 dark:text-white uppercase tracking-widest mb-1">ব্যয়ের ওভারভিউ</h4>
-                                <p class="text-[10px] text-gray-500 dark:text-gray-400 leading-tight">ডোনাট চার্টে আপনার বর্তমান মাসের খরচের ডিস্ট্রিবিউশন দেখানো হচ্ছে।</p>
+                                <p class="text-[10px] text-gray-500 dark:text-gray-400 leading-tight">ডোনাট চার্টে আপনার বর্তমান মাসের খরচের চিত্র দেখানো হচ্ছে।</p>
                             </div>
                         </div>
 
@@ -365,15 +398,24 @@
                     <div class="flex items-center gap-3 w-full md:w-auto">
                         <div class="bg-gray-100 dark:bg-slate-800/80 px-4 py-3 rounded-xl flex items-center gap-2 flex-1 sm:flex-none border border-gray-200 dark:border-slate-700 shadow-inner">
                             <i class="fa-regular fa-calendar-check text-sky-500"></i>
-                            <!-- Safe ID mapping -->
                             <input type="month" id="histMonthFilter" class="bg-transparent border-none text-sm font-bold text-gray-800 dark:text-white outline-none w-full cursor-pointer" onchange="window.syncMonthsAndRender()">
                         </div>
                     </div>
                     
                     <div class="relative w-full md:w-96 input-box bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl">
                         <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400 text-sm"></i>
-                        <input type="text" id="searchInput" placeholder="যেকোনো কিছু খুঁজুন (যেমন: বাজার, ৫০০)..." class="w-full pl-10 pr-4 py-3 bg-transparent outline-none text-sm dark:text-white font-medium" onkeyup="window.renderHistory()">
+                        <input type="text" id="searchInput" placeholder="যেকোনো কিছু খুঁজুন (খাত, নোট)..." class="w-full pl-10 pr-4 py-3 bg-transparent outline-none text-sm dark:text-white font-medium" onkeyup="window.renderHistory()">
                     </div>
+                </div>
+
+                <!-- AD PLACEMENT 3: Report Banner -->
+                <div class="premium-ad-container mb-6">
+                    <div class="ad-badge">SPONSORED</div>
+                    <!-- 728x90 Ad -->
+                    <script type="text/javascript">
+                        atOptions = { 'key' : '1e087770c61f970569f062a26fc2dc82', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+                    </script>
+                    <script type="text/javascript" src="https://momrollback.com/1e087770c61f970569f062a26fc2dc82/invoke.js"></script>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
@@ -419,7 +461,7 @@
                             <i class="fa-solid fa-box-open"></i>
                         </div>
                         <h4 class="text-xl font-black text-gray-700 dark:text-gray-300">কোনো রেকর্ড নেই</h4>
-                        <p class="text-sm text-gray-500 font-medium mt-1">আপনার সার্চ বা ফিল্টার অনুযায়ী কিছু পাওয়া যায়নি।</p>
+                        <p class="text-sm text-gray-500 font-medium mt-1">আপনার ফিল্টার অনুযায়ী কিছু পাওয়া যায়নি।</p>
                     </div>
                 </div>
 
@@ -474,9 +516,8 @@
                             </div>
                             <div class="relative w-full sm:w-40 input-box">
                                 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-black currencySymbol">৳</span>
-                                <input type="number" id="setBudget" placeholder="0" class="w-full pl-8 pr-4 py-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl outline-none dark:text-white text-base font-black transition-all text-right">
+                                <input type="number" id="setBudget" placeholder="0" class="w-full pl-8 pr-4 py-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl outline-none dark:text-white text-base font-black transition-all text-right" onblur="window.saveSettings()">
                             </div>
-                            <!-- Save trigger logic added to input blur/enter -->
                         </div>
 
                         <div class="flex justify-between items-center bg-gray-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-gray-100 dark:border-slate-800">
@@ -488,10 +529,6 @@
                                 <div class="w-6 h-6 bg-white rounded-full absolute top-1 left-1 dark:translate-x-6 transition-transform duration-300 shadow-md"></div>
                             </button>
                         </div>
-                    </div>
-                    <!-- Separate Save Button for Budget -->
-                    <div class="mt-4 flex justify-end">
-                        <button onclick="window.saveSettings()" class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-bold px-5 py-2.5 rounded-xl hover:opacity-90 transition-all shadow-md">সেটিংস সেভ করুন</button>
                     </div>
                 </div>
 
@@ -523,17 +560,15 @@
     </div>
 
     <!-- Mobile Bottom Navigation -->
-    <nav id="mobileNav" class="md:hidden fixed bottom-0 left-0 w-full bg-white/90 dark:bg-[#0f172a]/95 backdrop-blur-2xl border-t border-gray-200 dark:border-slate-800 z-50 pb-safe shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+    <nav id="mobileNav" class="md:hidden fixed bottom-0 left-0 w-full bg-white/90 dark:bg-[#0f172a]/95 backdrop-blur-2xl border-t border-gray-200 dark:border-slate-800 z-40 pb-safe shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
         <div class="flex justify-around items-center h-16 px-4">
             <button onclick="window.switchTab('dashboard')" class="nav-item active flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-slate-500 transition-all relative group" data-target="tab-dashboard">
                 <i class="fa-solid fa-house nav-icon text-xl mb-1 group-active:scale-90"></i>
                 <span class="text-[10px] font-bold tracking-wide">হোম</span>
             </button>
             <button onclick="window.switchTab('transactions')" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-slate-500 transition-all relative group" data-target="tab-transactions">
-                <div class="absolute -top-5 w-12 h-12 bg-gray-900 dark:bg-sky-500 text-white rounded-full flex items-center justify-center shadow-lg border-4 border-white dark:border-[#0f172a] transform group-active:scale-90 transition-transform">
-                    <i class="fa-solid fa-chart-pie text-lg"></i>
-                </div>
-                <span class="text-[10px] font-bold tracking-wide mt-7">রিপোর্ট</span>
+                <i class="fa-solid fa-chart-pie nav-icon text-xl mb-1 group-active:scale-90"></i>
+                <span class="text-[10px] font-bold tracking-wide">রিপোর্ট</span>
             </button>
             <button onclick="window.switchTab('settings')" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-slate-500 transition-all relative group" data-target="tab-settings">
                 <i class="fa-solid fa-gear nav-icon text-xl mb-1 group-active:scale-90"></i>
@@ -543,8 +578,8 @@
     </nav>
 
     <!-- Ultra Premium Toast -->
-    <div id="toast" class="fixed top-6 right-6 transform translate-y-[-150%] opacity-0 transition-all duration-500 ease-out bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-2xl flex items-start gap-4 z-[9999] pointer-events-none min-w-[280px] max-w-sm border border-gray-100 dark:border-slate-700">
-        <div id="toastIconBg" class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5"><i id="toastIcon" class="text-white text-xs"></i></div>
+    <div id="toast" class="fixed top-6 right-6 transform translate-y-[-150%] opacity-0 transition-all duration-400 ease-out bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-2xl flex items-center gap-4 z-[9999] pointer-events-none min-w-[280px] max-w-sm border border-gray-100 dark:border-slate-700">
+        <div id="toastIconBg" class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5 shadow-inner"><i id="toastIcon" class="text-white text-xs"></i></div>
         <div class="flex-1">
             <h4 id="toastTitle" class="text-gray-900 dark:text-white font-black text-sm tracking-tight">Title</h4>
             <p id="toastMsg" class="text-gray-500 dark:text-gray-400 text-xs mt-0.5 font-bold leading-snug">Message</p>
@@ -557,7 +592,7 @@
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, updateProfile, deleteUser } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // 1. Firebase Config (User provided)
+        // 1. Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyC8HXjrfuZO3ACmJZk5EDLphhK2ciMd_gM",
             authDomain: "expense-tracker-492a1.firebaseapp.com",
@@ -569,16 +604,13 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        
-        // System Prompt Rule: MUST use '/artifacts/{appId}/users/{userId}/{collectionName}'
-        const appID = "finance-pro-v5"; 
+        const appID = "finance-pro-max"; 
 
-        // 2. DOM Helper Functions (Prevents null errors)
+        // 2. Safe DOM Helpers
         const getEl = (id) => document.getElementById(id);
         const getVal = (id) => { const el = getEl(id); return el ? el.value : ''; };
         const setVal = (id, val) => { const el = getEl(id); if (el) el.value = val; };
         const setText = (id, text) => { const el = getEl(id); if (el) el.textContent = text; };
-        const setHtml = (id, html) => { const el = getEl(id); if (el) el.innerHTML = html; };
         const showEl = (id) => { const el = getEl(id); if(el) { el.classList.remove('hidden'); el.classList.add('flex'); } };
         const hideEl = (id) => { const el = getEl(id); if(el) { el.classList.add('hidden'); el.classList.remove('flex'); } };
 
@@ -603,17 +635,14 @@
             ]
         };
 
-        let currentUser = null;
-        let transactions = [];
-        let unsubscribeTxns = null;
-        let userSettings = { currency: '৳', budget: 0 };
+        let currentUser = null, transactions = [], unsubscribeTxns = null, userSettings = { currency: '৳', budget: 0 };
         let catChartInst = null, trendChartInst = null, expenseChartInstance = null;
 
         // 4. Global Window Methods
         window.toggleTheme = () => {
             const isDark = document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            if(expenseChartInstance) window.updateUI(); // Redraw charts for theme
+            if(expenseChartInstance) window.updateUI();
         };
 
         window.formatNumber = num => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(num);
@@ -628,8 +657,7 @@
             
             const select = getEl('category');
             if(select) {
-                select.innerHTML = '';
-                bdCategories[type].forEach(c => select.add(new Option(c.name, c.id)));
+                select.innerHTML = ''; bdCategories[type].forEach(c => select.add(new Option(c.name, c.id)));
             }
         };
 
@@ -646,7 +674,30 @@
             if(tabId === 'transactions') window.renderHistory();
         };
 
-        // Auth Navigation
+        window.openQuickAdd = () => {
+            window.switchTab('dashboard');
+            const formCard = getEl('transactionFormCard');
+            if(formCard) {
+                window.scrollTo({ top: formCard.offsetTop - 80, behavior: 'smooth' });
+                const amountInput = getEl('amount');
+                if(amountInput) setTimeout(()=> amountInput.focus(), 500);
+            }
+        };
+
+        window.showToast = (title, msg, type = 'success') => {
+            const toast = getEl('toast');
+            setText('toastTitle', title); setText('toastMsg', msg);
+            const iconBg = getEl('toastIconBg'); const icon = getEl('toastIcon');
+            
+            if(type === 'error') { iconBg.className = 'w-8 h-8 rounded-full bg-rose-500 flex items-center justify-center shrink-0 shadow-md shadow-rose-500/40'; icon.className = 'fa-solid fa-xmark text-white text-xs'; }
+            else if(type === 'warning') { iconBg.className = 'w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center shrink-0 shadow-md shadow-amber-500/40'; icon.className = 'fa-solid fa-exclamation text-white text-xs'; }
+            else { iconBg.className = 'w-8 h-8 rounded-full bg-green-500 flex items-center justify-center shrink-0 shadow-md shadow-green-500/40'; icon.className = 'fa-solid fa-check text-white text-xs'; }
+            
+            toast.classList.remove('translate-y-[-150%]', 'opacity-0'); toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => { toast.classList.remove('translate-y-0', 'opacity-100'); toast.classList.add('translate-y-[-150%]', 'opacity-0'); }, 3000);
+        };
+
+        // Auth Logic
         window.switchAuth = (mode) => {
             const ind = getEl('authTabIndicator');
             hideEl('authMsg');
@@ -664,13 +715,9 @@
         
         function showAuthErr(msg) {
             const div = getEl('authMsg');
-            if(div) {
-                div.className = 'mb-6 p-4 rounded-2xl text-sm font-bold text-center border animate-fade bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-900/30 dark:border-rose-900/50 dark:text-rose-400 block';
-                div.textContent = msg;
-            }
+            if(div) { div.className = 'mb-6 p-4 rounded-xl text-sm font-bold text-center border animate-fade bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-900/30 dark:border-rose-900/50 dark:text-rose-400 block'; div.textContent = msg; }
         }
 
-        // Auth Submits
         const loginForm = getEl('loginForm');
         if(loginForm) loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -703,14 +750,9 @@
             finally { btn.innerHTML = orig; btn.disabled = false; }
         });
 
-        window.handleLogout = async () => { 
-            if(confirm("লগআউট করতে চান?")) { 
-                const gl = getEl('globalLoader'); if(gl) { gl.style.opacity = '1'; gl.style.display = 'flex'; }
-                await signOut(auth); 
-            } 
-        };
+        window.handleLogout = async () => { if(confirm("লগআউট করতে চান?")) { const gl = getEl('globalLoader'); if(gl) { gl.style.opacity = '1'; gl.style.display = 'flex'; } await signOut(auth); } };
 
-        // Profile Update
+        // Profile & Settings Setup
         const setUserName = getEl('setUserName');
         if(setUserName) setUserName.addEventListener('input', () => showEl('saveProfileBtn'));
         
@@ -718,14 +760,27 @@
             const btn = getEl('saveProfileBtn'); if(btn) btn.textContent = 'হচ্ছে...';
             try {
                 await updateProfile(currentUser, { displayName: getVal('setUserName') });
-                setText('userGreeting', `হ্যালো, ${currentUser.displayName}`);
+                window.updateGreeting();
                 window.showToast('প্রোফাইল আপডেট', 'নাম সেভ হয়েছে।');
                 hideEl('saveProfileBtn');
             } catch(e) { window.showToast('ত্রুটি', 'নাম সেভ হয়নি', 'error'); }
-            if(btn) btn.textContent = 'নাম আপডেট করুন';
+            if(btn) btn.textContent = 'নাম সেভ করুন';
         };
 
-        // Firebase Auth Observer
+        window.updateGreeting = () => {
+            if(!currentUser) return;
+            const name = currentUser.displayName || currentUser.email.split('@')[0];
+            const hour = new Date().getHours();
+            let greeting = 'শুভ দিন';
+            if (hour >= 5 && hour < 12) greeting = 'শুভ সকাল';
+            else if (hour >= 12 && hour < 18) greeting = 'শুভ বিকেল';
+            else if (hour >= 18 && hour < 22) greeting = 'শুভ সন্ধ্যা';
+            else greeting = 'শুভ রাত্রি';
+            
+            setText('timeGreeting', greeting);
+            setText('userGreeting', `${name}`);
+        };
+
         onAuthStateChanged(auth, async (user) => {
             currentUser = user;
             const loader = getEl('globalLoader');
@@ -734,7 +789,8 @@
                 hideEl('authScreen'); showEl('mainApp');
                 
                 const name = user.displayName || user.email.split('@')[0];
-                setText('userGreeting', `হ্যালো, ${name}`);
+                window.updateGreeting();
+                
                 const avatarUrl = `https://ui-avatars.com/api/?name=${name}&background=0ea5e9&color=fff&bold=true`;
                 const navAv = getEl('navAvatar'); if(navAv) navAv.src = avatarUrl;
                 const setAv = getEl('setAvatar'); if(setAv) setAv.src = `https://ui-avatars.com/api/?name=${name}&background=0ea5e9&color=fff&bold=true&size=150`;
@@ -756,7 +812,7 @@
             }
         });
 
-        // Settings Logic
+        // Cloud Settings Logic
         async function fetchSettings() {
             try {
                 const docSnap = await getDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'settings', 'profile'));
@@ -779,9 +835,7 @@
             } catch(e) { window.showToast('ত্রুটি', 'সেভ হয়নি', 'error'); }
         };
 
-        function updateCurrencySymbols() {
-            document.querySelectorAll('.currencySymbol').forEach(el => el.textContent = userSettings.currency);
-        }
+        function updateCurrencySymbols() { document.querySelectorAll('.currencySymbol').forEach(el => el.textContent = userSettings.currency); }
 
         // Transactions CRUD
         function fetchTransactions() {
@@ -815,13 +869,10 @@
             if (amount <= 0 || !date) return;
 
             const btn = getEl('submitBtn'); const orig = btn.innerHTML;
-            btn.innerHTML = '<div class="loader !w-6 !h-6 !border-4 !border-t-4 mr-2 !border-gray-500 !border-t-white"></div> সেভ হচ্ছে...'; btn.disabled = true;
+            btn.innerHTML = '<div class="loader !w-5 !h-5 !border-2 !border-t-2 mr-2 !border-gray-400 !border-t-white"></div> সেভ হচ্ছে...'; btn.disabled = true;
 
             let timestamp = new Date().toISOString();
-            if(editId) {
-                const oldTxn = transactions.find(t=>t.id===editId);
-                if(oldTxn) timestamp = oldTxn.timestamp || timestamp;
-            }
+            if(editId) { const oldTxn = transactions.find(t=>t.id===editId); if(oldTxn) timestamp = oldTxn.timestamp || timestamp; }
             const data = { type, amount, date, category: cat, note, timestamp };
 
             try {
@@ -841,21 +892,15 @@
             const txn = transactions.find(t => t.id === id);
             if(!txn) return;
             setVal('editModeId', txn.id);
-            
-            const radio = document.querySelector(`input[name="type"][value="${txn.type}"]`);
-            if(radio) radio.checked = true;
+            const radio = document.querySelector(`input[name="type"][value="${txn.type}"]`); if(radio) radio.checked = true;
             window.updateCategories();
             
-            setVal('amount', txn.amount);
-            setVal('date', txn.date);
-            setVal('category', txn.category);
-            setVal('note', txn.note);
+            setVal('amount', txn.amount); setVal('date', txn.date); setVal('category', txn.category); setVal('note', txn.note);
             
             setText('formTitle', 'হিসাব পরিবর্তন');
-            const btn = getEl('submitBtn');
-            if(btn) btn.innerHTML = '<i class="fa-solid fa-arrows-rotate text-xl"></i> <span>আপডেট করুন</span>';
+            const btn = getEl('submitBtnText'); if(btn) btn.textContent = 'আপডেট করুন';
             showEl('cancelEditBtn');
-            window.switchTab('dashboard');
+            window.openQuickAdd();
         };
 
         window.cancelEdit = () => {
@@ -863,62 +908,42 @@
             const form = getEl('transactionForm'); if(form) form.reset();
             const d = new Date(); setVal('date', `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`);
             setText('formTitle', 'নতুন লেনদেন');
-            const btn = getEl('submitBtn');
-            if(btn) btn.innerHTML = '<i class="fa-solid fa-paper-plane text-xl"></i> <span>ডেটা সংরক্ষণ করুন</span>';
+            const btn = getEl('submitBtnText'); if(btn) btn.textContent = 'ডেটা সেভ করুন';
             hideEl('cancelEditBtn');
         };
 
         window.deleteTransaction = async (id) => {
             if(!currentUser) return;
             if(confirm('স্থায়ীভাবে মুছে ফেলতে চান?')) {
-                try { 
-                    await deleteDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions', id)); 
-                    window.showToast('মুছে ফেলা হয়েছে', '', 'warning'); 
-                }
+                try { await deleteDoc(doc(db, 'artifacts', appID, 'users', currentUser.uid, 'transactions', id)); window.showToast('মুছে ফেলা হয়েছে', '', 'warning'); }
                 catch(e) { window.showToast('ত্রুটি', '', 'error'); }
             }
         };
 
-        // Sync Months correctly
-        window.syncMonthsAndRender = () => {
-            const histMonth = getVal('histMonthFilter');
-            if(histMonth) setVal('monthFilter', histMonth);
-            window.updateUI();
-            window.renderHistory();
-        };
+        window.syncMonthsAndRender = () => { const histMonth = getVal('histMonthFilter'); if(histMonth) setVal('monthFilter', histMonth); window.updateUI(); window.renderHistory(); };
 
-        // UI Updates
+        // Data Processing & UI Update
         window.updateUI = () => {
             let mFilter = getVal('monthFilter');
-            if(!mFilter) {
-                const d = new Date(); mFilter = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-                setVal('monthFilter', mFilter); setVal('histMonthFilter', mFilter);
-            }
+            if(!mFilter) { const d = new Date(); mFilter = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; setVal('monthFilter', mFilter); setVal('histMonthFilter', mFilter); }
             
             const currentMonthTxns = transactions.filter(t => t.date.startsWith(mFilter));
-
             let inc=0, exp=0, globalInc=0, globalExp=0;
             transactions.forEach(t => { if(t.type==='income') globalInc += t.amount; else globalExp += t.amount; });
             currentMonthTxns.forEach(t => { if(t.type==='income') inc += t.amount; else exp += t.amount; });
 
             setText('totalBalance', window.formatNumber(globalInc - globalExp));
-            setText('totalIncomeLife', window.formatNumber(globalInc));
-            setText('totalExpenseLife', window.formatNumber(globalExp));
-            setText('monthlyIncome', window.formatNumber(inc));
-            setText('monthlyExpense', window.formatNumber(exp));
+            setText('totalIncomeLife', window.formatNumber(globalInc)); setText('totalExpenseLife', window.formatNumber(globalExp));
+            setText('monthlyIncome', window.formatNumber(inc)); setText('monthlyExpense', window.formatNumber(exp));
             setText('monthlyExpText', window.formatNumber(exp));
 
-            // Budget & Smart Msg logic
+            // Budget System
             const budget = userSettings.budget;
-            const prog = getEl('expenseProgressBar');
-            const perc = getEl('expensePercentage');
-            const statText = getEl('budgetStatusText');
-            const smartMsg = getEl('smartMessage');
+            const prog = getEl('expenseProgressBar'); const perc = getEl('expensePercentage'); const statText = getEl('budgetStatusText'); const smartMsg = getEl('smartMessage');
 
             if(budget > 0 && prog && perc && statText && smartMsg) {
                 let ratio = (exp / budget) * 100;
-                prog.style.width = `${Math.min(ratio, 100)}%`;
-                perc.textContent = `${Math.round(ratio)}%`;
+                prog.style.width = `${Math.min(ratio, 100)}%`; perc.textContent = `${Math.round(ratio)}%`;
                 
                 if(ratio < 50) {
                     prog.className = 'h-full rounded-full transition-all duration-1000 ease-out bg-sky-500 relative';
@@ -944,16 +969,6 @@
                 if(statText) { statText.innerHTML = `বাজেট সেট করা নেই`; }
             }
 
-            // Daily Avg
-            const selectedDate = new Date(mFilter + '-01');
-            const today = new Date();
-            let daysInMonth = 1;
-            if(selectedDate.getFullYear() === today.getFullYear() && selectedDate.getMonth() === today.getMonth()) daysInMonth = today.getDate() || 1;
-            else daysInMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
-            const avg = exp / daysInMonth;
-            const avgEl = getEl('dailyAvg');
-            if(avgEl) { avgEl.classList.remove('hidden'); avgEl.textContent = `দৈনিক গড়: ${userSettings.currency}${window.formatNumber(Math.round(avg))}`; }
-
             // Recent List Mini
             const miniList = getEl('recentTransactionList');
             if(miniList) {
@@ -976,6 +991,7 @@
                     `;
                     miniList.appendChild(el);
                 });
+                if(transactions.length===0) miniList.innerHTML = '<div class="text-center py-10"><i class="fa-solid fa-receipt text-3xl text-gray-300 mb-2"></i><p class="text-xs text-gray-400 font-bold uppercase">কোনো ডেটা নেই</p></div>';
             }
 
             renderMiniChart(currentMonthTxns);
@@ -1021,9 +1037,9 @@
                     </div>
                     <div class="flex flex-row sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto shrink-0 gap-3 sm:gap-1.5 pt-3 sm:pt-0 border-t sm:border-t-0 border-gray-100 dark:border-slate-700">
                         <span class="font-black ${isInc?'text-green-500':'text-rose-500'} text-lg">${isInc?'+':'-'}${userSettings.currency}${window.formatNumber(t.amount)}</span>
-                        <div class="flex flex-col gap-1 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button onclick="window.editTransaction('${t.id}')" class="text-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/30 px-3 py-1 rounded-lg text-[10px] font-bold border border-transparent hover:border-sky-200 dark:hover:border-sky-800"><i class="fa-solid fa-pen mr-1"></i> এডিট</button>
-                            <button onclick="window.deleteTransaction('${t.id}')" class="text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30 px-3 py-1 rounded-lg text-[10px] font-bold border border-transparent hover:border-rose-200 dark:hover:border-rose-800"><i class="fa-solid fa-trash mr-1"></i> ডিলিট</button>
+                        <div class="flex gap-2">
+                            <button onclick="window.editTransaction('${t.id}')" class="text-sky-500 bg-sky-50 dark:bg-sky-900/30 px-3 py-1.5 rounded-lg text-xs font-bold border border-sky-100 dark:border-transparent hover:bg-sky-500 hover:text-white transition-colors flex items-center gap-1.5"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="window.deleteTransaction('${t.id}')" class="text-rose-500 bg-rose-50 dark:bg-rose-900/30 px-3 py-1.5 rounded-lg text-xs font-bold border border-rose-100 dark:border-transparent hover:bg-rose-500 hover:text-white transition-colors flex items-center gap-1.5"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
                 `;
@@ -1032,7 +1048,7 @@
             renderBigCharts(catMap);
         };
 
-        // Charts Logic
+        // Charts
         function renderMiniChart(txns) {
             const canvas = getEl('expenseChart');
             const noData = getEl('noChartData');
@@ -1121,7 +1137,7 @@
             }
         };
 
-        // System Init
+        // Init App
         document.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
             const d = new Date(); 
@@ -1135,3 +1151,4 @@
 </body>
 </html>
 
+```
